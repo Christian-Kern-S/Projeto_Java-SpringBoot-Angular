@@ -1,0 +1,191 @@
+/* Importa a fonte Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.home-page {
+  background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+  min-height: 100vh;
+}
+
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #004b9b;
+  color: white;
+  padding: 20px;
+}
+
+.cabecalho h2 {
+  margin: 0; 
+  font-size: 24px; /* Aumenta o tamanho da fonte do título */
+}
+
+.container {
+  width: 100%;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.add-cliente{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-cliente button{
+  font-size: 16px;
+  font-weight: 600;
+  width: 230px;
+  height: 40px;
+  margin-bottom: 20px;
+  transition: 0.3s ease-in-out;
+}
+.add-cliente button:hover{
+  font-size: 110%;
+  background-color: #004b9b;
+  border: none;
+}
+
+.pesquisa {
+  width: auto;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.pesquisa .pesquisa-conteudo {
+  display: flex;
+  align-items: center; 
+}
+
+.pesquisa-conteudo input[type="text"], 
+.pesquisa-conteudo button {
+  font-size: 14px;
+  margin-left: 10px;
+  height: 38px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  transition: 0.3s ease-in-out;
+}
+
+.pesquisa-conteudo input[type="text"] {
+  flex-grow: 1;
+  width: 320px;
+  padding-left: 15px;
+}
+
+.pesquisa-conteudo button{
+  width: 100px;
+  font-weight: 600;
+}
+
+.pesquisa-conteudo button:hover{
+  font-size: 100%;
+  background-color: white;
+  color: #004b9b;
+  border: none;
+}
+
+/* Remove o background da lista de clientes */
+.listaCliente {
+  width: 100%;
+  background-color: #f0f0f0; /* Fundo transparente */
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.listaCliente h2 {
+  margin-bottom: 10px;
+}
+
+.table {
+  border-collapse: separate; /* Importante para que o border-radius funcione */
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Botão "Ver Mais" */
+.table button {
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100px;
+  height: 30px;
+  font-weight: 600;
+  transition: 0.3s ease-in-out;
+}
+
+.table button:hover{
+  font-size: 100%;
+  background-color: #004b9b;
+  border: none;
+}
+
+/* Modal Cliente */
+
+.modal-fade {
+  display:center;
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  min-height: calc(100vh - 2rem); /* Garante a centralização em telas maiores */
+}
+
+.modal-content {
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+}
+
+.modal-header {
+  background-color: #004b9b; 
+  color: white; 
+  border-top-left-radius: 8px; 
+  border-top-right-radius: 8px;
+  display: flex; /* Para alinhar o título e o botão */
+  align-items: center; /* Alinha verticalmente */
+  justify-content: space-between; /* Distribui o espaço entre o título e o botão */
+}
+
+.modal-title {
+  font-size: 1.2rem; /* Título um pouco maior */
+  margin-bottom: 0; /* Remove a margem inferior padrão */
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-footer {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  display: flex; /* Para alinhar os botões */
+  justify-content: flex-end; /* Alinha os botões à direita */
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+/* Espaçamento entre os botões */
+.modal-footer .btn + .btn {
+  margin-left: 10px; 
+}
