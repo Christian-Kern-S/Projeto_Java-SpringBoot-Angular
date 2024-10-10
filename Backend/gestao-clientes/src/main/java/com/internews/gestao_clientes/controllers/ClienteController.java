@@ -4,8 +4,12 @@ import com.internews.gestao_clientes.dtos.ClienteRecordDto;
 import com.internews.gestao_clientes.models.ClienteModel;
 import com.internews.gestao_clientes.repositories.ClienteRepository;
 import jakarta.validation.Valid;
+
+import org.hibernate.query.Page;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,15 +18,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-
 @RestController
 public class ClienteController {
     @Autowired
     ClienteRepository clienteRepository;
 
-    @PostMapping("/clientes")
+    @PostMapping("/cliente")
     public ResponseEntity<ClienteModel> salvarCliente(@RequestBody @Valid ClienteRecordDto clienteRecordDto )
     {
         var clienteModel = new ClienteModel();
@@ -31,35 +32,40 @@ public class ClienteController {
     }
 
     @GetMapping("/clientes")
-    public ResponseEntity<List<ClienteModel>> listarTodosClientes()
-    {
-        List<ClienteModel> clienteList = clienteRepository.findAll();
-        if(!clienteList.isEmpty())
-        {
-            for(ClienteModel cliente : clienteList)
-            {
-                String cpf = cliente.getCpf();
-                cliente.add(linkTo(methodOn(ClienteController.class).listarClienteCpf(cpf)).withSelfRel());
+    public ResponseEntity<List<ClienteModel>> listarTodosClientes(@RequestParam(value = "") String value) {
+        List<ClienteModel> clienteList = null;
+
+        // Verifica se o valor passado é um UUID válido
+        if (!value.isEmpty()) {
+            try {
+                // Se for um UUID válido, busca pelo ID
+                UUID idCliente = UUID.fromString(value);
+                clienteList = clienteRepository.findByIdCliente(idCliente);
+            } catch (IllegalArgumentException e) {
+                // Se não for um UUID válido, busca pelo nome
+                clienteList = clienteRepository.findByNomeContaining(value);
             }
+        } else {
+            clienteList = clienteRepository.findAll();
         }
-        return ResponseEntity.status(HttpStatus.OK).body(clienteList);
+
+        return ResponseEntity.ok(clienteList);
     }
 
-    @GetMapping("/clientes/{cpf}")
-    public ResponseEntity<Object> listarClienteCpf(@PathVariable(value="cpf") String cpf)
+    @GetMapping("/cliente/{id}")
+    public ResponseEntity<Object> listarClientePorId(@PathVariable(value="id") UUID id)
     {
-        Optional<ClienteModel> cliente0 = clienteRepository.findByCpf(cpf);
-        if (cliente0.isEmpty()){
+        Optional<ClienteModel> cliente0 = clienteRepository.findById(id);
+        if (cliente0.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
         }
-        cliente0.get().add(linkTo(methodOn(ClienteController.class).listarTodosClientes()).withSelfRel());
-        return ResponseEntity.status(HttpStatus.OK).body(cliente0.get());
+        return ResponseEntity.status(HttpStatus.OK).body(cliente0);
     }
 
-    @PutMapping("/clientes/{cpf}")
-    public ResponseEntity<Object> atualizarCliente(@PathVariable(value = "cpf") String cpf, @RequestBody @Valid ClienteRecordDto clienteRecordDto)
+    @PutMapping("/cliente/{id}")
+    public ResponseEntity<Object> atualizarCliente(@PathVariable(value = "id") UUID id, @RequestBody @Valid ClienteRecordDto clienteRecordDto)
     {
-        Optional<ClienteModel> cliente0 = clienteRepository.findByCpf(cpf);
+        Optional<ClienteModel> cliente0 = clienteRepository.findById(id);
         if (cliente0.isEmpty())
         {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
@@ -69,10 +75,10 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.OK).body(clienteRepository.save(clienteModel));
     }
 
-    @DeleteMapping("/clientes/{cpf}")
-    public ResponseEntity<Object> deletarCliente(@PathVariable(value = "cpf") String cpf)
+    @DeleteMapping("/cliente/{id}")
+    public ResponseEntity<Object> deletarCliente(@PathVariable(value = "id") UUID id)
     {
-        Optional<ClienteModel> cliente0 = clienteRepository.findByCpf(cpf);
+        Optional<ClienteModel> cliente0 = clienteRepository.findById(id);
         if (cliente0.isEmpty())
         {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
