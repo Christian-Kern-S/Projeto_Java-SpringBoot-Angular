@@ -1,0 +1,93 @@
+<div class="home-page">
+    <div class="cabecalho">
+      <h2>Detalhes do Cliente</h2>
+      <button class="btn btn-primary" routerLink="home">Voltar</button>
+    </div>
+    @if (cliente) {
+    <div class="container">
+      <div class="cliente-info">
+        <h2>{{ cliente.nome }}</h2>
+        <h4>ID - Cliente: {{ cliente.idCliente }}</h4>
+        <div class="pessoal-info">
+          <h3>Informação pessoal</h3>
+          <ul class="list-group list-group">
+            <li class="list-group-item"><p>CPF: {{ cliente.cpf | mask: '000.000.000-00' }}</p></li>
+            <li class="list-group-item"><p>Email: {{ cliente.email }} </p></li>
+            <li class="list-group-item"><p>Telefone: {{ cliente.telefone }}</p></li>
+          </ul>
+        </div>
+        <div class="endereco-info">
+          <h3>Endereço</h3>
+          <ul class="list-group list-group">
+            <li class="list-group-item"><p>Logradouro: {{ cliente.logradouro }}</p></li>
+            <li class="list-group-item"><p>Número: {{ cliente.numero }}</p></li>
+            <li class="list-group-item"><p>Complemento: {{ cliente.complemento }}</p></li>
+            <li class="list-group-item"><p>Bairro: {{ cliente.bairro }}</p></li>
+            <li class="list-group-item"><p>Cidade: {{ cliente.cidade }}</p></li>
+            <li class="list-group-item"><p>UF: {{ cliente.uf }}</p></li>
+            <li class="list-group-item"><p>CEP: {{ cliente.cep }}</p></li>
+          </ul>
+        </div>
+      </div>
+  
+      <div class="dependentes">
+        <div class="add-dependente">
+          <h3>Dependentes</h3>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#adicionarDependenteModal">
+            Adicionar Dependente
+          </button>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">Telefone</th>
+              <th scope="col">Parentesco</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dependente 1</td>
+              <td>2000-01-01</td>
+              <td>Filho(a)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+    <div class="modal fade" id="adicionarDependenteModal" tabindex="-1" role="dialog" aria-labelledby="adicionarDependenteModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="adicionarDependenteModalLabel">Adicionar Dependente</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" class="form-control" id="nome">
+              </div>
+              <div class="form-group">
+                <label for="telefone">Telefone:</label>
+                <input type="text" class="form-control" id="telefone">
+              </div>
+              <div class="form-group">
+                <label for="parentesco">Parentesco:</label>
+                <input type="text" class="form-control" id="parentesco">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="btn btn-primary">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>
