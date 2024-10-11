@@ -24,8 +24,7 @@ public class ClienteController {
     ClienteRepository clienteRepository;
 
     @PostMapping("/cliente")
-    public ResponseEntity<ClienteModel> salvarCliente(@RequestBody @Valid ClienteRecordDto clienteRecordDto )
-    {
+    public ResponseEntity<ClienteModel> salvarCliente(@RequestBody @Valid ClienteRecordDto clienteRecordDto) {
         var clienteModel = new ClienteModel();
         BeanUtils.copyProperties(clienteRecordDto, clienteModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteRepository.save(clienteModel));
@@ -53,8 +52,7 @@ public class ClienteController {
     }
 
     @GetMapping("/cliente/{id}")
-    public ResponseEntity<Object> listarClientePorId(@PathVariable(value="id") UUID id)
-    {
+    public ResponseEntity<Object> listarClientePorId(@PathVariable(value = "id") UUID id) {
         Optional<ClienteModel> cliente0 = clienteRepository.findById(id);
         if (cliente0.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
@@ -63,11 +61,10 @@ public class ClienteController {
     }
 
     @PutMapping("/cliente/{id}")
-    public ResponseEntity<Object> atualizarCliente(@PathVariable(value = "id") UUID id, @RequestBody @Valid ClienteRecordDto clienteRecordDto)
-    {
+    public ResponseEntity<Object> atualizarCliente(@PathVariable(value = "id") UUID id,
+            @RequestBody @Valid ClienteRecordDto clienteRecordDto) {
         Optional<ClienteModel> cliente0 = clienteRepository.findById(id);
-        if (cliente0.isEmpty())
-        {
+        if (cliente0.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
         }
         var clienteModel = cliente0.get();
@@ -76,11 +73,9 @@ public class ClienteController {
     }
 
     @DeleteMapping("/cliente/{id}")
-    public ResponseEntity<Object> deletarCliente(@PathVariable(value = "id") UUID id)
-    {
+    public ResponseEntity<Object> deletarCliente(@PathVariable(value = "id") UUID id) {
         Optional<ClienteModel> cliente0 = clienteRepository.findById(id);
-        if (cliente0.isEmpty())
-        {
+        if (cliente0.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
         }
         clienteRepository.delete(cliente0.get());

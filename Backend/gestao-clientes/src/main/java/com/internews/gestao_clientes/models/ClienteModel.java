@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "TB_CLIENTES")
-public class ClienteModel extends RepresentationModel<ClienteModel> implements Serializable{
+public class ClienteModel extends RepresentationModel<ClienteModel> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -21,19 +21,18 @@ public class ClienteModel extends RepresentationModel<ClienteModel> implements S
     private String bairro;
     private String cidade;
     private String uf;
-    @Column(nullable = false, unique = true, length = 11)
     private String cep;
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
     private String email;
     private String telefone;
 
-
-    /* INICIO DOS GETTERS E SETTERS*/
+    /* INICIO DOS GETTERS E SETTERS */
 
     public UUID getIdCliente() {
         return idCliente;
     }
+
     public void setIdCliente(UUID idCliente) {
         this.idCliente = idCliente;
     }
@@ -41,6 +40,7 @@ public class ClienteModel extends RepresentationModel<ClienteModel> implements S
     public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -48,6 +48,7 @@ public class ClienteModel extends RepresentationModel<ClienteModel> implements S
     public String getLogradouro() {
         return logradouro;
     }
+
     public void setLogradouro(String logradouro) {
         this.logradouro = logradouro;
     }
@@ -55,6 +56,7 @@ public class ClienteModel extends RepresentationModel<ClienteModel> implements S
     public String getNumero() {
         return numero;
     }
+
     public void setNumero(String numero) {
         this.numero = numero;
     }
@@ -62,6 +64,7 @@ public class ClienteModel extends RepresentationModel<ClienteModel> implements S
     public String getComplemento() {
         return complemento;
     }
+
     public void setComplemento(String complemento) {
         this.complemento = complemento;
     }
@@ -69,6 +72,7 @@ public class ClienteModel extends RepresentationModel<ClienteModel> implements S
     public String getBairro() {
         return bairro;
     }
+
     public void setBairro(String bairro) {
         this.bairro = bairro;
     }
@@ -76,6 +80,7 @@ public class ClienteModel extends RepresentationModel<ClienteModel> implements S
     public String getCidade() {
         return cidade;
     }
+
     public void setCidade(String cidade) {
         this.cidade = cidade;
     }
@@ -83,6 +88,7 @@ public class ClienteModel extends RepresentationModel<ClienteModel> implements S
     public String getUf() {
         return uf;
     }
+
     public void setUf(String uf) {
         this.uf = uf;
     }
@@ -90,16 +96,23 @@ public class ClienteModel extends RepresentationModel<ClienteModel> implements S
     public String getCep() {
         return cep;
     }
+
     public void setCep(String cep) {
         this.cep = cep;
     }
 
-    public String getCpf() { return cpf; }
-    public void setCpf(String cpf) { this.cpf = cpf; }
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -107,6 +120,7 @@ public class ClienteModel extends RepresentationModel<ClienteModel> implements S
     public String getTelefone() {
         return telefone;
     }
+
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
