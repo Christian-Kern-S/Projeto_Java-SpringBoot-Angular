@@ -7,18 +7,18 @@
   font-family: 'Montserrat', sans-serif;
 }
 
-.home-page {
+.cliente-page {
   background: linear-gradient(to right, #e2e2e2, #c9d6ff);
   min-height: 100vh;
 }
 
-.add-dependente{
+.add-dependente {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.add-dependente button{
+.add-dependente button {
   font-size: 16px;
   font-weight: 600;
   width: 230px;
@@ -26,20 +26,26 @@
   margin-bottom: 20px;
   transition: 0.3s ease-in-out;
 }
-.add-dependente button:hover{
+
+.add-dependente button:hover {
   font-size: 110%;
   background-color: #004b9b;
   border: none;
 }
 
-.cabecalho .btn-primary{
-  width: 100px;
-  height: 30px;
-  font-weight: 600;
+.cabecalho .btn-primary {
+  font-size: 15px;
+  margin-left: 10px;
+  height: 38px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
   transition: 0.3s ease-in-out;
+  width: 100px;
+  font-weight: 600;
 }
 
-.cabecalho .btn-primary:hover{
+.cabecalho .btn-primary:hover {
   font-size: 110%;
   background-color: white;
   color: #004b9b;
@@ -67,50 +73,102 @@
 }
 
 .cliente-info {
+
   margin-bottom: 20px;
-  display:grid;
+  
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .cliente-info h3 {
   margin-bottom: 10px;
 }
 
-.cliente-info {
-  /* Adiciona um espaçamento interno para dar uma "respirada" */
-  padding: 20px;
-  /* Arredonda os cantos do container para um visual mais suave */
-  border-radius: 10px;
-  /* Adiciona uma sombra sutil para dar profundidade */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+.botoes-acao {
+  display: flex;
+  justify-content: flex-end;
+  /* Alinha os botões à direita */
+  gap: 10px;
 }
 
-.pessoal-info, 
+.botoes-acao .btn-primary {
+  /* Botão de editar (lápis) */
+  background-color: #007bff;
+  min-width: 50px;
+  height: 50px;
+  max-height: 50px;
+  border-radius: 40px;
+  border: none;
+  margin-left: 15px;
+  transition: 0.3s ease-in-out;
+  /* Azul */
+}
+
+.botoes-acao .trash {
+  /* Botão de excluir (lixeira) */
+  background-color: #dc3545;
+  /* Vermelho */
+}
+
+.botoes-acao .btn-primary:hover{
+  background-color: white;
+  color:#007bff;
+  font-size: 23px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.botoes-acao .trash:hover{
+  color: #dc3545;
+}
+
+.cliente-info .cabecalho-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pessoal-info,
 .endereco-info {
   margin-top: 25px;
-  margin-bottom: 20px; /* Aumenta o espaçamento entre as seções */
+  margin-bottom: 20px;
+  /* Aumenta o espaçamento entre as seções */
 }
 
-.pessoal-info h3, 
+.pessoal-info h3,
 .endereco-info h3 {
-  font-size: 20px; /* Aumenta um pouco o tamanho do título */
-  margin-bottom: 15px; /* Adiciona espaço entre o título e a lista */
+  font-size: 20px;
+  /* Aumenta um pouco o tamanho do título */
+  margin-bottom: 15px;
+  /* Adiciona espaço entre o título e a lista */
+}
+
+.pessoal-info .list-group-item,
+.endereco-info .list-group-item{
+  max-width: 65%;
 }
 
 .list-group-item {
-  border: none; /* Remove a borda padrão da lista */
-  padding: 15px 20px; /* Aumenta o espaçamento interno dos itens */
-  border-bottom: 1px solid #eee; /* Adiciona uma linha sutil entre os itens */
+  border: none;
+  /* Remove a borda padrão da lista */
+  padding: 15px 20px;
+  /* Aumenta o espaçamento interno dos itens */
+  border-bottom: 1px solid #eee;
+  /* Adiciona uma linha sutil entre os itens */
 }
 
 .list-group-item p {
-  font-size: 16px; /* Aumenta um pouco o tamanho da fonte */
-  margin-bottom: 0; /* Remove a margem inferior padrão do parágrafo */
+  font-size: 16px;
+  /* Aumenta um pouco o tamanho da fonte */
+  margin-bottom: 0;
+  /* Remove a margem inferior padrão do parágrafo */
 }
 
 .list-group-item:last-child {
-  border-bottom: none; /* Remove a linha do último item */
+  border-bottom: none;
+  /* Remove a linha do último item */
 }
 
 .dependentes {
