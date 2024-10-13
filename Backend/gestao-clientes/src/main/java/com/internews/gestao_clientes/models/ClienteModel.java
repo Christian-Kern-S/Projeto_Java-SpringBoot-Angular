@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -22,10 +25,16 @@ public class ClienteModel extends RepresentationModel<ClienteModel> implements S
     private String cidade;
     private String uf;
     private String cep;
+    
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
     private String email;
     private String telefone;
+    private BigDecimal rendaMensal;
+    private LocalDate dataCadastro;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DependenteModel> dependentes;
 
     /* INICIO DOS GETTERS E SETTERS */
 
@@ -123,5 +132,27 @@ public class ClienteModel extends RepresentationModel<ClienteModel> implements S
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public List<DependenteModel> getDependentes() {
+        return dependentes;
+    }
+
+    public void setDependentes(List<DependenteModel> dependentes) {
+        this.dependentes = dependentes;
+    }
+
+    public BigDecimal getRendaMensal() {
+        return rendaMensal;
+    }
+    public void setRendaMensal(BigDecimal rendaMensal) {
+        this.rendaMensal = rendaMensal;
+    }
+
+    public LocalDate getDataCadastro() {
+        return dataCadastro;
+    }
+    public void setDataCadastro(LocalDate dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 }
