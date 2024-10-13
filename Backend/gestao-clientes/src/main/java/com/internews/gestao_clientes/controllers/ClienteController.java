@@ -8,8 +8,6 @@ import jakarta.validation.Valid;
 import org.hibernate.query.Page;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -62,7 +60,7 @@ public class ClienteController {
 
     @PutMapping("/cliente/{id}")
     public ResponseEntity<Object> atualizarCliente(@PathVariable(value = "id") UUID id,
-            @RequestBody @Valid ClienteRecordDto clienteRecordDto) {
+                                                   @RequestBody @Valid ClienteRecordDto clienteRecordDto) {
         Optional<ClienteModel> cliente0 = clienteRepository.findById(id);
         if (cliente0.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
@@ -79,6 +77,6 @@ public class ClienteController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado");
         }
         clienteRepository.delete(cliente0.get());
-        return ResponseEntity.status(HttpStatus.OK).body("Produto deletado com sucesso");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cliente deletado com sucesso");
     }
 }
