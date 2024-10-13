@@ -11,4 +11,6 @@ export interface ClienteModel {
   cpf: string
   email: string
   telefone: string
+  rendaMensal: number 
+  dataCadastro: string
 }
