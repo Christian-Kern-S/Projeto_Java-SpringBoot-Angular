@@ -1,3 +1,4 @@
+<!--TELA HOME-->
 <div class="home-page">
   <div class="cabecalho">
     <h2>Sistema de gestão</h2>
@@ -43,6 +44,8 @@
     </div>
   </div>
 </div>
+
+<!--MODAL PARA ADICIONAR UM CLIENTE-->
 <div class="modal fade" id="adicionarClienteModal" tabindex="-1" role="dialog" aria-labelledby="adicionarClienteModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
     <div class="modal-content">
@@ -108,11 +111,16 @@
             <label for="cep">CEP:</label>
             <input type="text" class="form-control" id="cep" formControlName="cep">
           </div>
+
+          <div class="form-group">
+            <label for="rendaMensal">Renda Mensal:</label>
+            <input type="number" class="form-control" id="rendaMensal" formControlName="rendaMensal">
+          </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="onCancel()">Fechar</button>
-        <button type="button" class="btn btn-primary" (click)="onSend()">Salvar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="onSend()" data-dismiss="modal">Salvar</button>
       </div>
     </div>
   </div>
