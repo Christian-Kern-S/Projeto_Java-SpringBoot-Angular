@@ -25,23 +25,23 @@
         <div class="pessoal-info">
           <h3>Informação pessoal</h3>
           <ul class="list-group list-group">
-            <li class="list-group-item"><p>CPF: {{ cliente.cpf | mask: '000.000.000-00' }}</p></li>
-            <li class="list-group-item"><p>Email: {{ cliente.email }} </p></li>
-            <li class="list-group-item"><p>Telefone: {{ cliente.telefone | mask: '(00) 00000-0000' }}</p></li>
-            <li class="list-group-item"><p>Renda Mensal: {{ cliente.rendaMensal }}</p></li>
-            <li class="list-group-item"><p>Data de Cadastro: {{ cliente.dataCadastro | date: 'dd/MM/yyyy' }}</p></li>
+            <li class="list-group-item"><p><strong>CPF:</strong> {{ cliente.cpf | mask: '000.000.000-00' }}</p></li>
+            <li class="list-group-item"><p><strong>Email:</strong> {{ cliente.email }} </p></li>
+            <li class="list-group-item"><p><strong>Telefone:</strong> {{ cliente.telefone | mask: '(00) 00000-0000' }}</p></li>
+            <li class="list-group-item"><p><strong>Renda Mensal:</strong> {{ cliente.rendaMensal }}</p></li>
+            <li class="list-group-item"><p><strong>Data de Cadastro:</strong> {{ cliente.dataCadastro | date: 'dd/MM/yyyy' }}</p></li>
           </ul>
         </div>
         <div class="endereco-info">
           <h3>Endereço</h3>
           <ul class="list-group list-group">
-            <li class="list-group-item"><p>Logradouro: {{ cliente.logradouro }}</p></li>
-            <li class="list-group-item"><p>Número: {{ cliente.numero }}</p></li>
-            <li class="list-group-item"><p>Complemento: {{ cliente.complemento }}</p></li>
-            <li class="list-group-item"><p>Bairro: {{ cliente.bairro }}</p></li>
-            <li class="list-group-item"><p>Cidade: {{ cliente.cidade }}</p></li>
-            <li class="list-group-item"><p>UF: {{ cliente.uf }}</p></li>
-            <li class="list-group-item"><p>CEP: {{ cliente.cep }}</p></li>
+            <li class="list-group-item"><p><strong>Logradouro:</strong> {{ cliente.logradouro }}</p></li>
+            <li class="list-group-item"><p><strong>Número:</strong> {{ cliente.numero }}</p></li>
+            <li class="list-group-item"><p><strong>Complemento:</strong> {{ cliente.complemento }}</p></li>
+            <li class="list-group-item"><p><strong>Bairro:</strong> {{ cliente.bairro }}</p></li>
+            <li class="list-group-item"><p><strong>Cidade:</strong> {{ cliente.cidade }}</p></li>
+            <li class="list-group-item"><p><strong>UF:</strong> {{ cliente.uf }}</p></li>
+            <li class="list-group-item"><p><strong>CEP:</strong> {{ cliente.cep }}</p></li>
           </ul>
         </div>
       </div>
@@ -53,7 +53,38 @@
             Adicionar Dependente
           </button>
         </div>
-        <table class="table table-striped">
+        <p-table [value]="dependentes" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }"
+          [rowsPerPageOptions]="[5, 10, 20]">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Id - Dependente</th>
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>Parentesco</th>
+              <th>Ações</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-customer>
+            <tr class="py-2">
+              <th scope="row">{{ customer.idDependente }}</th>
+              <td class="py-2">{{ customer.nome }}</td>
+              <td class="py-2">{{ customer.telefone | mask: '(00)0000-0000||(00)00000-0000' }}</td>
+              <td class="py-2">{{ customer.parentesco }}</td>
+              <td class="py-2">
+                <div class="buttons">
+                  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#EditarDependenteModal" (click)="definirDependente(customer)">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+
+                  <button type="button" class="trash btn btn-primary btn-lg" data-toggle="modal" data-target="#ExcluirDependenteModal" (click)="definirDependente(customer)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <!-- <table class="table table-striped">
           <thead>
             <tr>
               <th scope="col">Id - Dependente</th>
@@ -70,19 +101,21 @@
               <td>{{dependente.nome}} </td>
               <td>{{dependente.telefone}}</td>
               <td>{{dependente.parentesco}}</td>
-              <div>
-                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#EditarDependenteModal" (click)="definirDependente(dependente.idDependente)">
-                  <i class="bi bi-pencil"></i>
-                </button>
-                
-                <button type="button" class="trash btn btn-primary btn-lg" data-toggle="modal" data-target="#ExcluirDependenteModal" (click)="definirDependente(dependente.idDependente)">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </div>
+              <td>
+                <div class="buttons">
+                  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#EditarDependenteModal" (click)="definirDependente(dependente.idDependente)">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  
+                  <button type="button" class="trash btn btn-primary btn-lg" data-toggle="modal" data-target="#ExcluirDependenteModal" (click)="definirDependente(dependente.idDependente)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </td>
             </tr>
             }
           </tbody>
-        </table>
+        </table> -->
       </div>
     </div>
   
@@ -92,9 +125,6 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="adicionarDependenteModalLabel">Adicionar Dependente</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-              <span aria-hidden="true">&times;</span>
-            </button>
           </div>
           <div class="modal-body">
             <form [formGroup]="formDependente">
@@ -104,7 +134,7 @@
               </div>
               <div class="form-group">
                 <label for="telefone">Telefone:</label>
-                <input type="text" class="form-control" id="telefone" formControlName="telefone">
+                <input type="text" class="form-control" id="telefone" mask="(00)0000-0000||(00)00000-0000" formControlName="telefone">
               </div>
               <div class="form-group">
                 <label for="parentesco">Parentesco:</label>
@@ -128,9 +158,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="EditarClienteModalLabel">Editar Cliente</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
         <form [formGroup]="formCliente">
@@ -141,7 +168,7 @@
 
           <div class="form-group">
             <label for="cpf">CPF:</label>
-            <input type="text" class="form-control" id="cpf" formControlName="cpf">
+            <input type="text" class="form-control" mask="000.000.000-00" id="cpf" formControlName="cpf">
           </div>
           
           <div class="form-group">
@@ -151,7 +178,7 @@
 
           <div class="form-group">
             <label for="telefone">Telefone:</label>
-            <input type="text" class="form-control" id="telefone" formControlName="telefone">
+            <input type="text" class="form-control" id="telefone" mask="(00)0000-0000||(00)00000-0000" formControlName="telefone">
           </div>
 
           <div class="form-group">
@@ -209,7 +236,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="ExcluirClienteModalLabel">Excluir cliente</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         Tem certeza que deseja excluir este cliente?
@@ -228,7 +254,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="ExcluirDependenteModalLabel">Excluir Dependente</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         Tem certeza que deseja excluir este dependente?
@@ -247,9 +272,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="EditarDependenteModalLabel">Editar Dependente</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
         <form [formGroup]="formDependente">
@@ -259,7 +281,7 @@
           </div>
           <div class="form-group">
             <label for="telefone">Telefone:</label>
-            <input type="text" class="form-control" id="telefone" formControlName="telefone">
+            <input type="text" class="form-control" id="telefone" mask="(00)0000-0000||(00)00000-0000" formControlName="telefone">
           </div>
           <div class="form-group">
             <label for="parentesco">Parentesco:</label>

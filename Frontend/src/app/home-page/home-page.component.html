@@ -2,10 +2,10 @@
 <div class="home-page">
   <div class="cabecalho">
     <h2>Sistema de gestão</h2>
-      <form class="pesquisa-conteudo" [formGroup]="form" (submit)="onSubmit()">
-        <input type="text" formControlName="value" class="cliente" placeholder="Insira o código ou o nome do cliente">
-        <button class="btn btn-primary" type="submit">Pesquisar</button>
-      </form>
+    <form class="pesquisa-conteudo" [formGroup]="form" (submit)="onSubmit()">
+      <input type="text" formControlName="value" class="cliente" placeholder="Insira o código ou o nome do cliente">
+      <button class="btn btn-primary" type="submit">Pesquisar</button>
+    </form>
   </div>
 
   <div class="container">
@@ -16,7 +16,30 @@
           Adicionar Cliente
         </button>
       </div>
-      <table class="table table-striped">
+      <p-table [value]="clientes" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th >ID - Cliente</th>
+            <th >Nome</th>
+            <th >CPF</th>
+            <th >Email</th>
+            <th >Ações</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer>
+          <tr class="py-2">
+            <th scope="row">{{ customer.idCliente }}</th>
+            <td class="py-2"> {{ customer.nome }} </td>
+            <td class="py-2">{{ customer.cpf | mask: '000.000.000-00' }}</td>
+            <td class="py-2">{{ customer.email }}</td>
+            <td class="py-2">
+              <button (click)="verMais(customer)" class="btn btn-primary">Ver Mais</button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <!-- <table class="table table-striped">
         <thead>
         <tr>
           <th scope="col">ID - Cliente</th>
@@ -40,20 +63,18 @@
             </tr>
           }
         </tbody>
-      </table>
+      </table> -->
     </div>
   </div>
 </div>
 
 <!--MODAL PARA ADICIONAR UM CLIENTE-->
-<div class="modal fade" id="adicionarClienteModal" tabindex="-1" role="dialog" aria-labelledby="adicionarClienteModalLabel" aria-hidden="true">
+<div class="modal fade" id="adicionarClienteModal" tabindex="-1" role="dialog"
+  aria-labelledby="adicionarClienteModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="adicionarClienteModalLabel">Adicionar Cliente</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
         <form [formGroup]="formCliente">
@@ -64,9 +85,9 @@
 
           <div class="form-group">
             <label for="cpf">CPF:</label>
-            <input type="text" class="form-control" id="cpf" formControlName="cpf">
+            <input type="text" class="form-control" mask="000.000.000-00" id="cpf" formControlName="cpf">
           </div>
-          
+
           <div class="form-group">
             <label for="email">Email:</label>
             <input type="text" class="form-control" id="email" formControlName="email">
@@ -74,7 +95,7 @@
 
           <div class="form-group">
             <label for="telefone">Telefone:</label>
-            <input type="text" class="form-control" id="telefone" formControlName="telefone">
+            <input type="text" class="form-control" id="telefone" mask="(00)0000-0000||(00)00000-0000" formControlName="telefone">
           </div>
 
           <div class="form-group">
