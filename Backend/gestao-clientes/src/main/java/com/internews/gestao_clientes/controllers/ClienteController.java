@@ -4,8 +4,6 @@ import com.internews.gestao_clientes.dtos.ClienteRecordDto;
 import com.internews.gestao_clientes.models.ClienteModel;
 import com.internews.gestao_clientes.repositories.ClienteRepository;
 import jakarta.validation.Valid;
-
-import org.hibernate.query.Page;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
