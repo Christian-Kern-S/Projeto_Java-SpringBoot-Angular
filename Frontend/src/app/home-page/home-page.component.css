@@ -105,10 +105,18 @@
 }
 
 .table {
-  border-collapse: separate; /* Importante para que o border-radius funcione */
-  border-radius: 20px;
-  overflow: hidden;
+  width: 100%;
+  border-collapse: collapse;
+  
 }
+
+.table th,
+.table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #dee2e6;
+}
+
 
 /* Botão "Ver Mais" */
 .table button {

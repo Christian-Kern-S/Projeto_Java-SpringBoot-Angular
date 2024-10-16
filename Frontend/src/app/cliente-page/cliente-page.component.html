@@ -27,7 +27,7 @@
           <ul class="list-group list-group">
             <li class="list-group-item"><p><strong>CPF:</strong> {{ cliente.cpf | mask: '000.000.000-00' }}</p></li>
             <li class="list-group-item"><p><strong>Email:</strong> {{ cliente.email }} </p></li>
-            <li class="list-group-item"><p><strong>Telefone:</strong> {{ cliente.telefone | mask: '(00) 00000-0000' }}</p></li>
+            <li class="list-group-item"><p><strong>Telefone:</strong> {{ cliente.telefone | mask: '(00)0000-0000||(00)00000-0000' }}</p></li>
             <li class="list-group-item"><p><strong>Renda Mensal:</strong> {{ cliente.rendaMensal }}</p></li>
             <li class="list-group-item"><p><strong>Data de Cadastro:</strong> {{ cliente.dataCadastro | date: 'dd/MM/yyyy' }}</p></li>
           </ul>
@@ -53,7 +53,7 @@
             Adicionar Dependente
           </button>
         </div>
-        <p-table [value]="dependentes" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }"
+        <p-table class="table table-striped" [value]="dependentes" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }"
           [rowsPerPageOptions]="[5, 10, 20]">
           <ng-template pTemplate="header">
             <tr>
@@ -84,38 +84,6 @@
             </tr>
           </ng-template>
         </p-table>
-        <!-- <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">Id - Dependente</th>
-              <th scope="col">Nome</th>
-              <th scope="col">Telefone</th>
-              <th scope="col">Parentesco</th>
-              <th scope="col">Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for(dependente of dependentes; track dependente.idDependente) {
-            <tr>
-              <td>{{dependente.idDependente}}</td>
-              <td>{{dependente.nome}} </td>
-              <td>{{dependente.telefone}}</td>
-              <td>{{dependente.parentesco}}</td>
-              <td>
-                <div class="buttons">
-                  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#EditarDependenteModal" (click)="definirDependente(dependente.idDependente)">
-                    <i class="bi bi-pencil"></i>
-                  </button>
-                  
-                  <button type="button" class="trash btn btn-primary btn-lg" data-toggle="modal" data-target="#ExcluirDependenteModal" (click)="definirDependente(dependente.idDependente)">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table> -->
       </div>
     </div>
   
@@ -169,6 +137,9 @@
           <div class="form-group">
             <label for="cpf">CPF:</label>
             <input type="text" class="form-control" mask="000.000.000-00" id="cpf" formControlName="cpf">
+            <div  *ngIf="formCliente.get('cpf')?.hasError('minlength') && formCliente.get('cpf')?.touched" class="text-danger">
+               O cpf deve ter no mínimo 11 caracteres.
+             </div>
           </div>
           
           <div class="form-group">

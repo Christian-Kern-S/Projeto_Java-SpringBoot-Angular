@@ -37,7 +37,7 @@ export class HomePageComponent {
       cidade: new FormControl<string | null>(null),
       uf: new FormControl<string | null>(null),
       cep: new FormControl<string | null>(null),
-      cpf: new FormControl<string | null>(null, {nonNullable: true}),
+      cpf: new FormControl<string | null>(null, [Validators.required, Validators.minLength(11)]),
       email: new FormControl<string | null>(null, {nonNullable: true}),
       telefone: new FormControl<string | null>(null, {nonNullable: true}),
       rendaMensal: new FormControl<number | null>(null),

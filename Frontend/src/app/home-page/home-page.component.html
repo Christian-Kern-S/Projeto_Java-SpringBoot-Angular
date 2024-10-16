@@ -16,7 +16,7 @@
           Adicionar Cliente
         </button>
       </div>
-      <p-table [value]="clientes" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }"
+      <p-table class="table table-striped" [value]="clientes" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }"
         [rowsPerPageOptions]="[5, 10, 20]">
         <ng-template pTemplate="header">
           <tr>
@@ -39,31 +39,6 @@
           </tr>
         </ng-template>
       </p-table>
-      <!-- <table class="table table-striped">
-        <thead>
-        <tr>
-          <th scope="col">ID - Cliente</th>
-          <th scope="col">Nome</th>
-          <th scope="col">CPF</th>
-          <th scope="col">Email</th>
-          <th scope="col">Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-          @for(cliente of clientes; track cliente.idCliente) {
-
-            <tr>
-              <th scope="row">{{ cliente.idCliente }}</th>
-              <td> {{ cliente.nome }} </td>
-              <td>{{ cliente.cpf | mask: '000.000.000-00' }}</td>
-              <td>{{ cliente.email }}</td>
-              <td>
-                <button (click)="verMais(cliente)" class="btn btn-primary">Ver Mais</button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table> -->
     </div>
   </div>
 </div>
@@ -86,6 +61,9 @@
           <div class="form-group">
             <label for="cpf">CPF:</label>
             <input type="text" class="form-control" mask="000.000.000-00" id="cpf" formControlName="cpf">
+            <div  *ngIf="formCliente.get('cpf')?.hasError('minlength') && formCliente.get('cpf')?.touched" class="text-danger">
+              O cpf deve ter no mínimo 11 caracteres.
+            </div>
           </div>
 
           <div class="form-group">

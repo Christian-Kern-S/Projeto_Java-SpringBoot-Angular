@@ -45,7 +45,7 @@ export class ClientePageComponent implements OnInit {
       cidade: new FormControl<string | null>(null),
       uf: new FormControl<string | null>(null),
       cep: new FormControl<string | null>(null),
-      cpf: new FormControl<string | null>(null, {nonNullable: true}),
+      cpf: new FormControl<string | null>(null, [Validators.required, Validators.minLength(11)]),
       email: new FormControl<string | null>(null, {nonNullable: true}),
       telefone: new FormControl<string | null>(null, {nonNullable: true}),
       rendaMensal: new FormControl<number | null>(null),
@@ -98,7 +98,6 @@ export class ClientePageComponent implements OnInit {
       next: () => {
         this.onSuccess();
         this.loadCliente(this.cliente!.idCliente) // Recarrega o cliente
-        this.exibirModal = false; // Fecha o modal
       },
       error: () => {
         this.onError();
@@ -134,10 +133,8 @@ export class ClientePageComponent implements OnInit {
     this.snackBar.open('Erro ao excluir o cliente.', '', { duration: 5000 });
   }
 
-
-
-
   // TRATATIVA COM O DEPENDENTE
+
 
   definirDependente(idDependente: string): void {
     this.dependenteId = idDependente;
