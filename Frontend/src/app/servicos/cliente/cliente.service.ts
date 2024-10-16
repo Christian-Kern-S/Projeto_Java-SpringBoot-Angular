@@ -51,12 +51,14 @@ export class ClienteService {
     return this.http.post<DependenteModel>(this.baseUrl + `/cliente/${id}/dependente`, record);
   }
 
-  updateDependete(id: string, id2?: string, depedente?: DependenteModel): Observable<any> {
-    const url = this.baseUrl + `/cliente/${id}/dependente/${id2}`;
+  updateDependete(id: string, id2: any, depedente?: DependenteModel): Observable<any> {
+    const idDepen = id2.idDependente;
+    const url = this.baseUrl + `/cliente/${id}/dependente/${idDepen}`;
     return this.http.put(url, depedente);
   }
 
-  deleteDependente(id: string, id2?: string){
+  deleteDependente(id: string, dependente: any) {
+    const id2 = dependente.idDependente; 
     const url = this.baseUrl + `/cliente/${id}/dependente/${id2}`;
     return this.http.delete(url);
   }
