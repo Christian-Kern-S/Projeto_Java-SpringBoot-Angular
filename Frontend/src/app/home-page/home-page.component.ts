@@ -7,10 +7,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Modal } from 'bootstrap';
 
 @Component({
-    selector: 'app-home-page',
-    templateUrl: './home-page.component.html',
-    styleUrl: './home-page.component.css',
-    standalone: false
+  selector: 'app-home-page',
+  templateUrl: './home-page.component.html',
+  styleUrl: './home-page.component.css'
 })
 export class HomePageComponent {
 

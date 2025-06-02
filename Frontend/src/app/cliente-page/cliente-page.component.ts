@@ -8,10 +8,9 @@ import { Location } from '@angular/common';
 import { DependenteModel } from '../models/dependente.model';
 
 @Component({
-    selector: 'app-cliente-page',
-    templateUrl: './cliente-page.component.html',
-    styleUrls: ['./cliente-page.component.css'],
-    standalone: false
+  selector: 'app-cliente-page',
+  templateUrl: './cliente-page.component.html',
+  styleUrls: ['./cliente-page.component.css']
 })
 export class ClientePageComponent implements OnInit {
 
