@@ -5,13 +5,17 @@ import { ClientePageComponent } from './cliente-page/cliente-page.component'
 import { LoginPageComponent } from './login-page/login-page.component';
 import { LoginGuard } from './login-page/login-page.guard';
 import { AuthGuard } from './auth/auth.guard';
-// import { AuthGuard } from './auth.guard';
+import { RegistrationPageComponent } from './registration-page/registration-page.component';
 
 const routes: Routes = [
   {
     path: "login",
     component: LoginPageComponent,
     canActivate: [LoginGuard]
+  },
+  {
+    path: "registration",
+    component: RegistrationPageComponent
   },
   {
     path: "home",
