@@ -5,6 +5,7 @@
     <form class="pesquisa-conteudo" [formGroup]="form" (submit)="onSubmit()">
       <input type="text" formControlName="value" class="cliente" placeholder="Insira o código ou o nome do cliente">
       <button class="btn btn-primary" type="submit">Pesquisar</button>
+      <button (click)="logout()">Sair</button>
     </form>
   </div>
 

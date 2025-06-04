@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Modal } from 'bootstrap';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-home-page',
@@ -21,7 +22,8 @@ export class HomePageComponent {
     private readonly clienteService: ClienteService,
     private readonly fb: FormBuilder,
     private readonly router: Router,
-    private snackBar: MatSnackBar
+    private authService: AuthService,
+    private snackBar: MatSnackBar,
   ) {
     this.form = this.fb.group({
       value: [''],
@@ -59,6 +61,11 @@ export class HomePageComponent {
 
   onSubmit(): void {
     this.loadClientes()
+  }
+
+  logout(): void{
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   obterDataAtual(): string {
