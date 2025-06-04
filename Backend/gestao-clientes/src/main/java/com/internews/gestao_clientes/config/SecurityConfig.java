@@ -33,6 +33,19 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login"   ).permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/cliente"   ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/clientes"   ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/cliente/{id}"   ).permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/cliente/{id}"   ).permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/cliente/{id}"   ).permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/cliente/{id}/dependente"   ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/cliente/{id}/dependentes"   ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/cliente/{id}/dependente/{id2}"   ).permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/cliente/{id}/dependente/{id2}"   ).permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/cliente/{id}/dependente/{id2}"   ).permitAll()
+
                         .requestMatchers("/h2-console/**"                    ).permitAll()
                         .anyRequest().authenticated()
                 )
