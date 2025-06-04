@@ -6,6 +6,10 @@ interface LoginResponse {
     token: string;
 }
 
+interface SignInResponse{
+    status: string;
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -21,6 +25,13 @@ export class AuthService{
         return this.http.post<LoginResponse>(`${this.baseUrl}/login`, body,{
             headers: new HttpHeaders({ 'Content-Type': 'application/json'})
         });
+    }
+
+    signIn(username: string, password: string): Observable<SignInResponse>{
+        const body = {username, password};
+        return this.http.post<SignInResponse>(`${this.baseUrl}/register`, body,{
+            headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+        })
     }
 
     public saveToken(token: string): void{
