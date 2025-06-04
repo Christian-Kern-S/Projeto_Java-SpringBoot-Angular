@@ -8,11 +8,12 @@ import { AuthService } from '../auth/auth.service';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.css'] // <- CORRIGIDO: era "styleUrl" e deve ser "styleUrls"
+  styleUrls: ['./login-page.component.css']
 })
 export class LoginPageComponent implements OnInit, AfterViewInit {
   form: FormGroup;
   errorMessage: string | null = null;
+  private timeoutHandle?: any;
 
   constructor(
     private router: Router,
@@ -72,12 +73,29 @@ export class LoginPageComponent implements OnInit, AfterViewInit {
    * Por enquanto só redireciona para outra rota como exemplo,
    * mas aqui você colocaria a chamada à API, validação, etc.
    */
+  onRegister(): void{
+    this.router.navigate(['/registration']);
+  }
+
   onSubmit(): void {
-    // if (this.form.invalid) {
-    //   this.errorMessage = 'Preencha usuário e senha.';
-    //   return;
-    // }
-    
+    const usuario = this.form.get('usuario')?.value as string;
+    const senha = this.form.get('senha')?.value as string;
+
+    if (!usuario || !senha) {
+      this.showError('Todos os campos devem ser preenchidos');
+      return;
+    }
+
+    if (/\s/.test(senha)) {
+    this.showError('A senha não pode conter espaços em branco');
+    return;
+    }
+
+    if (/\s/.test(usuario)) {
+    this.showError('O usuário não pode conter espaços em branco');
+    return;
+    }
+
     const username = this.form.get('usuario')?.value;
     const password = this.form.get('senha')?.value;
 
@@ -96,5 +114,17 @@ export class LoginPageComponent implements OnInit, AfterViewInit {
         console.error(err);
       }
     });
+  }
+
+    private showError(message: string): void {
+    if (this.timeoutHandle) {
+      clearTimeout(this.timeoutHandle);
+    }
+
+    this.errorMessage = message;
+    this.timeoutHandle = setTimeout(() => {
+      this.errorMessage = null;
+      this.timeoutHandle = undefined;
+    }, 5000);
   }
 }

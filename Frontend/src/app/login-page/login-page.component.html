@@ -1,5 +1,9 @@
 <div class="overlay-wrapper">
     <div class="login-box">
+        <div *ngIf="errorMessage" class="error-message">
+            <div class="linha-vertical"></div>
+            {{ errorMessage }}
+        </div>
         <img class="wave" src="wave.png">
         <div class="container">
             <div class="img">
@@ -8,7 +12,7 @@
                     <p>Registre-se agora clicando no botão abaixo</p>
                 </div>
                 <img src="undraw_mobile-log-in_0n4q.svg">
-                <input type="submit" class="btn-register" value="Registrar">
+                <input type="submit" class="btn-register" value="Registrar" (click)="onRegister()">
             </div>
             <div class="login-content">
                 <form [formGroup]="form" (ngSubmit)="onSubmit()">

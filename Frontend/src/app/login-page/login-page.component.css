@@ -27,6 +27,7 @@
 	display: flex;
 	flex-direction: column;     /* para alinhar conteúdo verticalmente */
 	align-items: center;
+	animation: slide-in-right 0.7s ease-out forwards;
 }
 
 .wave{
@@ -81,6 +82,29 @@
 	font-family: "Kanit", sans-serif;
 	font-weight: 300;
 	font-style: normal;
+}
+
+.error-message{
+    display: flex;
+    position:absolute;
+    align-items: center;
+    top: 0;
+    right: 0;
+    padding-right: 10px;
+    border-radius: 7px;
+    background: #fff;
+    margin: 20px;
+    color: red;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    animation: slide-in-right 0.5s ease-out forwards;
+}
+
+.linha-vertical {
+    position: relative;
+    border-left: 4px solid #004b9b; /* Cor e espessura da linha */
+    height: 40px;               /* Altura da linha */
+    margin-right: 10px;
+    border-radius: 5px;
 }
 
 form{
@@ -321,4 +345,16 @@ a:hover{
 		justify-content: center;
 		width: 80%;
 	}
+}
+
+@keyframes slide-in-right {
+  from {
+    /* posiciona totalmente fora da tela à direita */
+    right: -100%;      /* ou use transform: translateX(100%); */
+    
+  }
+  to {
+    /* posição final */
+    right: 0;          /* ou transform: translateX(0); */
+  }
 }
