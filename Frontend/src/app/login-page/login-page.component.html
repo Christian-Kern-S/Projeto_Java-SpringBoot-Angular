@@ -3,7 +3,12 @@
         <img class="wave" src="wave.png">
         <div class="container">
             <div class="img">
+                <div class="register">
+                    <span>Não tem login?</span>
+                    <p>Registre-se agora clicando no botão abaixo</p>
+                </div>
                 <img src="undraw_mobile-log-in_0n4q.svg">
+                <input type="submit" class="btn-register" value="Registrar">
             </div>
             <div class="login-content">
                 <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -34,7 +39,6 @@
                         <input type="submit" class="btn" value="Entrar">
                     </div>
                     <div class="lostPass">
-                        
                         <a href="#">Esqueceu a senha?</a>
                     </div>
                 </form>
