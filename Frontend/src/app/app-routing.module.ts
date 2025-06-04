@@ -2,15 +2,31 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ClientePageComponent } from './cliente-page/cliente-page.component'
+import { LoginPageComponent } from './login-page/login-page.component';
+import { LoginGuard } from './login-page/login-page.guard';
+import { AuthGuard } from './auth/auth.guard';
+// import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   {
+    path: "login",
+    component: LoginPageComponent,
+    canActivate: [LoginGuard]
+  },
+  {
     path: "home",
-    component: HomePageComponent
+    component: HomePageComponent,
+    canActivate: [AuthGuard]
   }, 
   {
     path: "cliente/:id",
-    component: ClientePageComponent
+    component: ClientePageComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full'
   },
   {
     path:"**",

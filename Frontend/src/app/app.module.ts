@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { TableModule } from 'primeng/table';
+import { LoginPageComponent } from './login-page/login-page.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { TableModule } from 'primeng/table';
     AppComponent,
     HomePageComponent,
     ClientePageComponent,
+    LoginPageComponent,
   ],
   imports: [
     BrowserModule,
