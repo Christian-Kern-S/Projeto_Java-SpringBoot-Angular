@@ -1,0 +1,39 @@
+<div class="overlay-wrapper">
+    <div class="login-box">
+        <img class="wave" src="wave.png">
+        <div class="container">
+            <div class="img">
+                <img src="undraw_mobile-log-in_0n4q.svg">
+            </div>
+            <div class="login-content">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <img src="undraw_young-man-avatar_wgbd.svg">
+                    <h2 class="title">Bem-vindo</h2>
+                    <!-- <div *ngIf="errorMessage" class="error-message">
+                        {{ errorMessage }}
+                    </div> -->
+                    <div class="input-div one">
+                        <div class="i">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h5>Usuário</h5>
+                            <input class="input" type="text" formControlName="usuario">
+                        </div>
+                    </div>
+                    <div class="input-div pass">
+                        <div class="i">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div>
+                            <h5>Senha</h5>
+                            <input class="input" type="password" formControlName="senha">
+                        </div>
+                    </div>
+                    <a href="#">Esqueceu a senha?</a>
+                    <input type="submit" class="btn" value="Login">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
