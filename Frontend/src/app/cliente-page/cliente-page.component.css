@@ -66,6 +66,8 @@
 }
 
 .titulo-id h2 {
+  overflow-wrap: break-word;
+  white-space: normal;
   margin: 0;
   font-size: 40px;
   font-weight: 700;
