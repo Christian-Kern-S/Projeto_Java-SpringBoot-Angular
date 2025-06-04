@@ -8,7 +8,7 @@
             <div class="login-content">
                 <form [formGroup]="form" (ngSubmit)="onSubmit()">
                     <img src="undraw_young-man-avatar_wgbd.svg">
-                    <h2 class="title">Bem-vindo</h2>
+                    <h2 class="title">Login</h2>
                     <!-- <div *ngIf="errorMessage" class="error-message">
                         {{ errorMessage }}
                     </div> -->
@@ -30,8 +30,13 @@
                             <input class="input" type="password" formControlName="senha">
                         </div>
                     </div>
-                    <a href="#">Esqueceu a senha?</a>
-                    <input type="submit" class="btn" value="Login">
+                    <div class="button">
+                        <input type="submit" class="btn" value="Entrar">
+                    </div>
+                    <div class="lostPass">
+                        
+                        <a href="#">Esqueceu a senha?</a>
+                    </div>
                 </form>
             </div>
         </div>
