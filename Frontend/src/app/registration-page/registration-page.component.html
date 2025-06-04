@@ -1,0 +1,55 @@
+<div class="overlay-wrapper">
+    <div class="login-box">
+        <div *ngIf="errorMessage" class="error-message">
+            <div class="linha-vertical"></div>
+            {{ errorMessage }}
+        </div>
+        <img class="wave" src="wave.png">
+        <div class="container">
+            <div class="login-content">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <img src="undraw_young-man-avatar_wgbd.svg">
+                    <h2 class="title">Sign Up</h2>
+                    <div class="input-div one">
+                        <div class="i">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h5>Usuário</h5>
+                            <input class="input" type="text" formControlName="usuario">
+                        </div>
+                    </div>
+                    <div class="input-div pass">
+                        <div class="i">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div>
+                            <h5>Senha</h5>
+                            <input class="input" type="password" formControlName="senha">
+                        </div>
+                    </div>
+                    <div class="input-div pass-confirm">
+                        <div class="i">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div>
+                            <h5>Confirme a Senha</h5>
+                            <input class="input" type="password" formControlName="senha_confirm">
+                        </div>
+                    </div>
+                    <div class="button">
+                        <input type="submit" class="btn" value="Registrar">
+                    </div>
+                </form>
+            </div>
+            <div class="img">
+                <div class="register">
+                    <span>Já tem login?</span>
+                    <p>Acesse sua conta clicando no botão abaixo</p>
+                </div>
+                <img src="undraw_authentication_tbfc.svg">
+                <input type="submit" class="btn-register" value="Entrar" (click)="onLogin()">
+            </div>
+        </div>
+    </div>
+</div>
