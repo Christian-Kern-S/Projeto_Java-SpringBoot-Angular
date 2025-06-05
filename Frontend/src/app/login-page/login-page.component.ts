@@ -107,9 +107,9 @@ export class LoginPageComponent implements OnInit, AfterViewInit {
       },
       error: (err) => {
         if (err.status === 401){
-          this.errorMessage = 'Credenciais inválidas.'
+          this.showError('Credenciais inválidas.');
         } else {
-          this.errorMessage = 'Erro no servidor. Tente novamente';
+          this.showError('Erro no servidor. Tente novamente');
         }
         console.error(err);
       }
