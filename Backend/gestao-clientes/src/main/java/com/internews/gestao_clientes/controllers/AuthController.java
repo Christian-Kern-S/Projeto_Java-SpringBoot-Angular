@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -51,12 +52,24 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
+
         boolean valid = authService.authenticate(loginDto);
         if (!valid) {
             return ResponseEntity.status(401).body("Credenciais inválidas");
         }
 
-        String fakeToken = "Bearer" + java.util.UUID.randomUUID().toString();
-        return ResponseEntity.ok().body(Map.of("token", fakeToken));
+        UsuarioModel usuario = authService.loadByUsername(loginDto.username());
+
+
+        // trocar por um JWT real ou outro mecanismo
+        String fakeToken = "Bearer " + java.util.UUID.randomUUID().toString();
+
+        // Constroi o JSON de resposta contendo token, id_user e username
+        Map<String, String> responseBody = new HashMap<>();
+        responseBody.put("token",   fakeToken);
+        responseBody.put("id_user", usuario.getId().toString());
+        responseBody.put("username", usuario.getUsername());
+
+        return ResponseEntity.ok(responseBody);
     }
 }
