@@ -1,13 +1,20 @@
 package com.internews.gestao_clientes.models;
 
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
-@Table
-public class UsuarioModel {
+@Table(name = "USUARIO_MODEL")
+public class UsuarioModel extends RepresentationModel<UsuarioModel> implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_user;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id_user;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -16,6 +23,11 @@ public class UsuarioModel {
     private String password;
 
     private String role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClienteModel> clientes;
+
+    /*INICIO DOS GETTERS E SETTERS*/
 
     public UsuarioModel() { }
 
@@ -49,11 +61,19 @@ public class UsuarioModel {
         this.username = username;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id_user;
     }
 
-    public void setId(Long id_user) {
+    public void setId(UUID id_user) {
         this.id_user = id_user;
+    }
+
+    public List<ClienteModel> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<ClienteModel> clientes) {
+        this.clientes = clientes;
     }
 }
