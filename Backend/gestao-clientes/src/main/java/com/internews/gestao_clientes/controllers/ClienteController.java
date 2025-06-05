@@ -2,7 +2,9 @@ package com.internews.gestao_clientes.controllers;
 
 import com.internews.gestao_clientes.dtos.ClienteRecordDto;
 import com.internews.gestao_clientes.models.ClienteModel;
+import com.internews.gestao_clientes.models.UsuarioModel;
 import com.internews.gestao_clientes.repositories.ClienteRepository;
+import com.internews.gestao_clientes.repositories.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,24 +12,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 public class ClienteController {
     @Autowired
     ClienteRepository clienteRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-    @PostMapping("/cliente")
-    public ResponseEntity<ClienteModel> salvarCliente(@RequestBody @Valid ClienteRecordDto clienteRecordDto) {
+    @PostMapping("/user/{id_user}/cliente")
+    public ResponseEntity<ClienteModel> salvarCliente(@PathVariable("id_user") UUID id_user, @RequestBody @Valid ClienteRecordDto clienteRecordDto) {
+        Optional<UsuarioModel> usuarioOptional = usuarioRepository.findById(id_user);
+        if (usuarioOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
         var clienteModel = new ClienteModel();
         BeanUtils.copyProperties(clienteRecordDto, clienteModel);
+        clienteModel.setUser(usuarioOptional.get());
+
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteRepository.save(clienteModel));
     }
 
-    @GetMapping("/clientes")
-    public ResponseEntity<List<ClienteModel>> listarTodosClientes(@RequestParam(value = "") String value) {
+    @GetMapping("/user/{id}/clientes")
+    public ResponseEntity<List<ClienteModel>> listarTodosClientes(@PathVariable(value = "id") UUID id_user ,@RequestParam(value = "") String value) {
         List<ClienteModel> clienteList = null;
 
         // Verifica se o valor passado é um UUID válido
@@ -41,7 +50,12 @@ public class ClienteController {
                 clienteList = clienteRepository.findByNomeContaining(value);
             }
         } else {
-            clienteList = clienteRepository.findAll();
+            Optional<UsuarioModel> usuarioOptional = usuarioRepository.findById(id_user);
+            if (usuarioOptional.isPresent()) {
+                clienteList = usuarioOptional.get().getClientes();
+            }else{
+                clienteList = Collections.emptyList();
+            }
         }
 
         return ResponseEntity.ok(clienteList);
