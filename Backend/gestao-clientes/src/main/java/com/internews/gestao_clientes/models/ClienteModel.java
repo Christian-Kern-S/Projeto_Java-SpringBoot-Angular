@@ -1,5 +1,6 @@
 package com.internews.gestao_clientes.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -11,8 +12,13 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "TB_CLIENTES")
-public class ClienteModel extends RepresentationModel<ClienteModel> implements Serializable {
+public class ClienteModel extends RepresentationModel<UsuarioModel> implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user", referencedColumnName = "id_user")
+    @JsonIgnore
+    private UsuarioModel user;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,6 +43,9 @@ public class ClienteModel extends RepresentationModel<ClienteModel> implements S
     private List<DependenteModel> dependentes;
 
     /* INICIO DOS GETTERS E SETTERS */
+
+    public UsuarioModel getUser() { return user; }
+    public void setUser(UsuarioModel user) { this.user = user; }
 
     public UUID getIdCliente() {
         return idCliente;

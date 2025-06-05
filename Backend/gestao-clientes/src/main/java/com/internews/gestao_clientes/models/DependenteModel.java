@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table ( name = "TB_DEPENDENTES")
-public class DependenteModel extends RepresentationModel<ClienteModel> implements Serializable {
+public class DependenteModel extends RepresentationModel<UsuarioModel> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ManyToOne(fetch = FetchType.LAZY)
