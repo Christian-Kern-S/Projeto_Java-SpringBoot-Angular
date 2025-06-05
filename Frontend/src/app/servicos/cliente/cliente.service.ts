@@ -12,8 +12,8 @@ export class ClienteService {
   private baseUrl = environment.apiUrl;
   constructor(private readonly http: HttpClient) { }
 
-  listarClientes(filtros: { value: string, type: string }) : Observable<ClienteModel[]> {
-    return this.http.get<ClienteModel[]>(this.baseUrl + '/clientes', { params: { ...filtros }})
+  listarClientes(id:any, filtros: { value: string, type: string }) : Observable<ClienteModel[]> {
+    return this.http.get<ClienteModel[]>(this.baseUrl + `/user/${id}/clientes`, { params: { ...filtros }})
   }
 
 
@@ -22,8 +22,8 @@ export class ClienteService {
   }
 
 
-  save(record: ClienteModel){
-    return this.http.post<ClienteModel>(this.baseUrl + '/cliente', record);
+  save(id_user:any, record: ClienteModel){
+    return this.http.post<ClienteModel>(this.baseUrl + `/user/${id_user}/cliente`, record);
   }
 
   update(id: string, cliente: ClienteModel): Observable<any> {
