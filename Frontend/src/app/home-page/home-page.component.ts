@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { ClienteService } from '../servicos/cliente/cliente.service';
 import { ClienteModel } from '../models/cliente.model';
+import { UsuarioModel } from '../models/usuario.model';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,6 +18,7 @@ export class HomePageComponent {
   form: FormGroup
   clientes: ClienteModel[] = []
   formCliente: FormGroup;
+  usuario: UsuarioModel | null = null;
 
   constructor(
     private readonly clienteService: ClienteService,
@@ -47,11 +49,35 @@ export class HomePageComponent {
     })
   }
 
+  ngOnInit(): void {
+    // Pega o usuário logado (agora o getCurrentUser() não vai falhar)
+    this.authService.getCurrentUser().subscribe({
+      next: (u: UsuarioModel) => {
+        this.usuario = u;
+        this.loadClientes();
+      },
+      error: (err) => {
+        console.error('Não foi possível obter o usuário logado', err);
+        // Opcional: redirecionar para login se não houver usuário
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
   loadClientes(): void {
+    if (!this.usuario) {
+      return;
+    }
     this.clienteService.listarClientes(
+      this.usuario.id_user,
       this.form.getRawValue()
-    ).subscribe(clientes => {
-      this.clientes = clientes
+    ).subscribe({
+      next: (clientes: ClienteModel[]) => {
+        this.clientes = clientes;
+      },
+      error: (err) =>{
+        console.error('Erro ao listar clientes:', err);
+      }
     });
   }
 
@@ -78,6 +104,9 @@ export class HomePageComponent {
 
   @ViewChild('adicionarClienteModal') modal!: Modal;
   onSend(): void {
+    if (!this.usuario) {
+      return;
+    }
       // Obter a data atual formatada
     const dataAtual = this.obterDataAtual();
 
@@ -85,7 +114,10 @@ export class HomePageComponent {
     this.formCliente.patchValue({
       dataCadastro: dataAtual
     });
-    this.clienteService.save(this.formCliente.value).subscribe({
+    this.clienteService.save(
+      this.usuario.id_user,
+      this.formCliente.value
+    ).subscribe({
       next: (result) => {
         this.onSuccess()
       },
