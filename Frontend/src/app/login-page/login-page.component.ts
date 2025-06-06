@@ -116,7 +116,7 @@ export class LoginPageComponent implements OnInit, AfterViewInit {
     });
   }
 
-    private showError(message: string): void {
+  private showError(message: string): void {
     if (this.timeoutHandle) {
       clearTimeout(this.timeoutHandle);
     }
