@@ -10,6 +10,14 @@
   </div>
 
   <div class="container">
+    <div *ngIf="errorMessage" class="error-message">
+        <div class="linha-vertical"></div>
+        {{ errorMessage }}
+    </div>
+    <div *ngIf="successMessage" class="success-message">
+        <div class="linha-vertical"></div>
+        {{ successMessage }}
+    </div>
     <div class="listaCliente">
       <div class="add-cliente">
         <h3>Clientes</h3>
@@ -17,18 +25,22 @@
           Adicionar Cliente
         </button>
       </div>
-      <p-table class="table table-striped" [value]="clientes" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }"
-        [rowsPerPageOptions]="[5, 10, 20]">
+      <div class="noDataImg" *ngIf="hasNoData">
+        <span>Não foi encontrado nenhum cliente.</span>
+        <img src="undraw_search-engines_k649.svg"  alt="Sem dados">
+      </div>
+      <p-table *ngIf="!hasNoData" class="table table-striped" [value]="clientes" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }"
+      [rowsPerPageOptions]="[5, 10, 20]">
         <ng-template pTemplate="header">
           <tr>
-            <th >ID - Cliente</th>
-            <th >Nome</th>
-            <th >CPF</th>
-            <th >Email</th>
-            <th >Ações</th>
+              <th >ID - Cliente</th>
+              <th >Nome</th>
+              <th >CPF</th>
+              <th >Email</th>
+              <th >Ações</th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-customer>
+          <ng-template pTemplate="body" let-customer>
           <tr class="py-2">
             <th scope="row">{{ customer.idCliente }}</th>
             <td class="py-2"> {{ customer.nome }} </td>

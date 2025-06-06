@@ -19,6 +19,10 @@ export class HomePageComponent {
   clientes: ClienteModel[] = []
   formCliente: FormGroup;
   usuario: UsuarioModel | null = null;
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
+  hasNoData: boolean = false;
+  private timeoutHandle?: any;
 
   constructor(
     private readonly clienteService: ClienteService,
@@ -66,6 +70,7 @@ export class HomePageComponent {
 
   loadClientes(): void {
     if (!this.usuario) {
+      this.hasNoData = true;
       return;
     }
     this.clienteService.listarClientes(
@@ -74,9 +79,11 @@ export class HomePageComponent {
     ).subscribe({
       next: (clientes: ClienteModel[]) => {
         this.clientes = clientes;
+        this.hasNoData = (clientes.length === 0);
       },
       error: (err) =>{
         console.error('Erro ao listar clientes:', err);
+        this.hasNoData = true;
       }
     });
   }
@@ -109,6 +116,7 @@ export class HomePageComponent {
     }
       // Obter a data atual formatada
     const dataAtual = this.obterDataAtual();
+    this.errorMessage = null;
 
     // Definir o valor do campo dataCadastro no formulário
     this.formCliente.patchValue({
@@ -119,21 +127,37 @@ export class HomePageComponent {
       this.formCliente.value
     ).subscribe({
       next: (result) => {
-        this.onSuccess()
+        this.showSuccess('Cliente salvo com sucesso.')
+        this.loadClientes();
       },
       error: (error) => {
-        this.onError()
+        this.showError('Erro ao salvar o cliente')
       }
     });
   }
 
-  private onSuccess() {
-    this.snackBar.open('Cliente salvo com sucesso.', '', { duration: 5000 })
-    this.loadClientes()
-    this.modal.hide()
+
+  private showError(message: string): void {
+    if (this.timeoutHandle) {
+      clearTimeout(this.timeoutHandle);
+    }
+
+    this.errorMessage = message;
+    this.timeoutHandle = setTimeout(() => {
+      this.errorMessage = null;
+      this.timeoutHandle = undefined;
+    }, 5000);
   }
 
-  private onError() {
-    this.snackBar.open('Erro ao salvar o cliente.', '', { duration: 5000 })
+  private showSuccess(message: string): void {
+    if (this.timeoutHandle) {
+      clearTimeout(this.timeoutHandle);
+    }
+
+    this.successMessage = message;
+    this.timeoutHandle = setTimeout(() => {
+      this.successMessage = null;
+      this.timeoutHandle = undefined;
+    }, 5000);
   }
 }

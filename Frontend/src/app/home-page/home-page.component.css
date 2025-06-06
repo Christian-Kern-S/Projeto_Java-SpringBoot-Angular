@@ -2,13 +2,38 @@
 
 * {
   padding: 0;
+  margin: 0;
   box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
 }
 
 .home-page {
+  position: sticky;
   background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+  width: 100%;
   min-height: 100vh;
+}
+
+.noDataImg {
+  display: grid;
+  padding: 80px;
+  justify-content: center;
+  justify-items: center;
+  background-color: #e6e6e6;
+  border-radius: 8px;
+}
+
+.noDataImg img {
+  width: 50%;
+}
+
+.noDataImg span {
+  font-size: 25px;
+  padding-bottom: 40px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  font-style: normal;
+
 }
 
 .cabecalho {
@@ -21,34 +46,38 @@
 }
 
 .cabecalho h2 {
-  margin: 0; 
-  font-size: 24px; /* Aumenta o tamanho da fonte do título */
+  margin: 0;
+  font-size: 24px;
 }
 
 .container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: -webkit-fill-available;
   width: 100%;
   margin: 20px auto;
   padding: 20px;
 }
 
-.add-cliente{
+.add-cliente {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.add-cliente button{
+.add-cliente button {
   font-size: 16px;
   font-weight: 600;
   width: 230px;
   height: 40px;
   margin-bottom: 20px;
+  border: none;
   transition: 0.3s ease-in-out;
 }
-.add-cliente button:hover{
-  font-size: 110%;
+
+.add-cliente button:hover {
   background-color: #004b9b;
-  border: none;
 }
 
 .pesquisa {
@@ -60,10 +89,10 @@
 
 .pesquisa .pesquisa-conteudo {
   display: flex;
-  align-items: center; 
+  align-items: center;
 }
 
-.pesquisa-conteudo input[type="text"], 
+.pesquisa-conteudo input[type="text"],
 .pesquisa-conteudo button {
   font-size: 14px;
   margin-left: 10px;
@@ -80,13 +109,12 @@
   padding-left: 15px;
 }
 
-.pesquisa-conteudo button{
+.pesquisa-conteudo button {
   width: 100px;
   font-weight: 600;
 }
 
-.pesquisa-conteudo button:hover{
-  font-size: 100%;
+.pesquisa-conteudo button:hover {
   background-color: white;
   color: #004b9b;
   border: none;
@@ -95,7 +123,8 @@
 /* Remove o background da lista de clientes */
 .listaCliente {
   width: 100%;
-  background-color: #f0f0f0; /* Fundo transparente */
+  min-height: 100%;
+  background-color: #f0f0f0;
   border-radius: 8px;
   padding: 20px;
 }
@@ -107,7 +136,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  
+
 }
 
 .table th,
@@ -131,8 +160,7 @@
   transition: 0.3s ease-in-out;
 }
 
-.table button:hover{
-  font-size: 100%;
+.table button:hover {
   background-color: #004b9b;
   border: none;
 }
@@ -140,32 +168,42 @@
 /* Modal Cliente */
 
 .modal-fade {
-  display:center;
-  align-items: center; /* Centraliza verticalmente */
-  justify-content: center; /* Centraliza horizontalmente */
-  min-height: calc(100vh - 2rem); /* Garante a centralização em telas maiores */
+  display: center;
+  align-items: center;
+  /* Centraliza verticalmente */
+  justify-content: center;
+  /* Centraliza horizontalmente */
+  min-height: calc(100vh - 2rem);
+  /* Garante a centralização em telas maiores */
 }
 
 .modal-content {
   border-radius: 8px;
+  width: 800px;
+  max-width: 1000px;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .modal-header {
-  background-color: #004b9b; 
-  color: white; 
+  background-color: #004b9b;
+  color: white;
   font-size: 10px;
-  display: flex; /* Para alinhar o título e o botão */
-  align-items: center; /* Alinha verticalmente */
-  justify-content: space-between; /* Distribui o espaço entre o título e o botão */
+  display: flex;
+  /* Para alinhar o título e o botão */
+  align-items: center;
+  /* Alinha verticalmente */
+  justify-content: space-between;
+  /* Distribui o espaço entre o título e o botão */
   height: 50px;
   padding: 20px;
 }
 
 .modal-title {
-  font-size: 1.2rem; /* Título um pouco maior */
-  margin-bottom: 0; /* Remove a margem inferior padrão */
+  font-size: 1.2rem;
+  /* Título um pouco maior */
+  margin-bottom: 0;
+  /* Remove a margem inferior padrão */
 }
 
 .modal-body {
@@ -175,13 +213,15 @@
 .modal-footer {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  display: flex; /* Para alinhar os botões */
-  justify-content: flex-end; /* Alinha os botões à direita */
+  display: flex;
+  /* Para alinhar os botões */
+  justify-content: flex-end;
+  /* Alinha os botões à direita */
   align-items: center;
   height: 60px;
 }
 
-.modal-footer .btn-secondary{
+.modal-footer .btn-secondary {
   color: #007bff;
   background-color: transparent;
   border: 1px solid #007bff;
@@ -191,7 +231,8 @@
   width: 90px;
   transition: 0.3s ease-in-out;
 }
-.modal-footer .btn-secondary:hover{
+
+.modal-footer .btn-secondary:hover {
   font-size: 17px;
   font-weight: 500;
   border: none;
@@ -199,7 +240,7 @@
   color: #dc3545;
 }
 
-.modal-footer .btn-primary{
+.modal-footer .btn-primary {
   color: white;
   background-color: #007bff;
   font-size: 16px;
@@ -210,20 +251,20 @@
   transition: 0.3s ease-in-out;
 }
 
-.modal-footer .btn-primary:hover{
+.modal-footer .btn-primary:hover {
   font-size: 17px;
   font-weight: 500;
 }
 
-.form-group{
+.form-group {
   margin-bottom: 20px;
 }
 
 .form-group label {
-  font-weight: bold; 
+  font-weight: bold;
 }
 
-.form-group input{
+.form-group input {
   padding-left: 10px;
   background-color: white;
   outline: none;
@@ -232,6 +273,61 @@
 }
 
 /* Espaçamento entre os botões */
-.modal-footer .btn + .btn {
-  margin-left: 10px; 
+.modal-footer .btn+.btn {
+  margin-left: 10px;
+}
+
+.error-message {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  top: 0;
+  right: 0;
+  padding-right: 10px;
+  border-radius: 7px;
+  background: #fff;
+  margin-right: 20px;
+  color: red;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: slide-in-right 0.5s ease-out forwards;
+}
+
+.success-message {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  top: 0;
+  right: 0;
+  padding-right: 10px;
+  border-radius: 7px;
+  background: #fff;
+  margin-right: 20px;
+  color: rgb(0, 180, 9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: slide-in-right 0.5s ease-out forwards;
+}
+
+.linha-vertical {
+  position: relative;
+  border-left: 4px solid #004b9b;
+  /* Cor e espessura da linha */
+  height: 40px;
+  /* Altura da linha */
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+@keyframes slide-in-right {
+  from {
+    /* posiciona totalmente fora da tela à direita */
+    right: -100%;
+    /* ou use transform: translateX(100%); */
+
+  }
+
+  to {
+    /* posição final */
+    right: 0;
+    /* ou transform: translateX(0); */
+  }
 }
