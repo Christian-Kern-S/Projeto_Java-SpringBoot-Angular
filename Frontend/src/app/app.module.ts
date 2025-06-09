@@ -13,6 +13,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { TableModule } from 'primeng/table';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
+import { providePrimeNG } from 'primeng/config';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';            
+import { MultiSelectModule } from 'primeng/multiselect'; 
+import { SelectModule } from 'primeng/select';         
+import { TagModule } from 'primeng/tag';                 
+
+
 
 
 @NgModule({
@@ -25,14 +33,19 @@ import { RegistrationPageComponent } from './registration-page/registration-page
   ],
   imports: [
     BrowserModule,
+    MultiSelectModule,
+    SelectModule,
+    TagModule,
     AppRoutingModule,
     ReactiveFormsModule,
     NgxMaskDirective,
     NgxMaskPipe,
     TableModule,
+    IconFieldModule,
+    InputIconModule,
     MatSnackBarModule
   ],
-  providers: [provideHttpClient(), provideNgxMask(), provideAnimationsAsync()],
+  providers: [provideHttpClient(), provideNgxMask(), provideAnimationsAsync(), providePrimeNG()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
