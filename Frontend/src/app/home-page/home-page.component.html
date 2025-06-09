@@ -11,12 +11,12 @@
 
   <div class="container">
     <div *ngIf="errorMessage" class="error-message">
-        <div class="linha-vertical"></div>
-        {{ errorMessage }}
+      <div class="linha-vertical"></div>
+      {{ errorMessage }}
     </div>
     <div *ngIf="successMessage" class="success-message">
-        <div class="linha-vertical"></div>
-        {{ successMessage }}
+      <div class="linha-vertical"></div>
+      {{ successMessage }}
     </div>
     <div class="listaCliente">
       <div class="add-cliente">
@@ -25,22 +25,29 @@
           Adicionar Cliente
         </button>
       </div>
-      <div class="noDataImg" *ngIf="hasNoData">
-        <span>Não foi encontrado nenhum cliente.</span>
-        <img src="undraw_search-engines_k649.svg"  alt="Sem dados">
+      <div class="d-flex justify-content-center" *ngIf="loading">
+        <div class="spinner-border text-secondary" style="width: 4rem; height: 4rem; align-items: center;"
+          role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       </div>
-      <p-table *ngIf="!hasNoData" class="table table-striped" [value]="clientes" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }"
-      [rowsPerPageOptions]="[5, 10, 20]">
+      <div class="noDataImg" *ngIf="hasNoData && !loading">
+        <span>Não foi encontrado nenhum cliente.</span>
+        <img src="undraw_search-engines_k649.svg" alt="Sem dados">
+      </div>
+
+      <p-table *ngIf="!hasNoData && !loading" class="table table-striped" [value]="clientes" [paginator]="true"
+        [rows]="5" [tableStyle]="{ 'min-width': '50rem'}" [rowsPerPageOptions]="[5, 10, 20, 100]">
         <ng-template pTemplate="header">
           <tr>
-              <th >ID - Cliente</th>
-              <th >Nome</th>
-              <th >CPF</th>
-              <th >Email</th>
-              <th >Ações</th>
+            <th>ID - Cliente</th>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Email</th>
+            <th>Ações</th>
           </tr>
         </ng-template>
-          <ng-template pTemplate="body" let-customer>
+        <ng-template pTemplate="body" let-customer>
           <tr class="py-2">
             <th scope="row">{{ customer.idCliente }}</th>
             <td class="py-2"> {{ customer.nome }} </td>
@@ -74,7 +81,8 @@
           <div class="form-group">
             <label for="cpf">CPF:</label>
             <input type="text" class="form-control" mask="000.000.000-00" id="cpf" formControlName="cpf">
-            <div  *ngIf="formCliente.get('cpf')?.hasError('minlength') && formCliente.get('cpf')?.touched" class="text-danger">
+            <div *ngIf="formCliente.get('cpf')?.hasError('minlength') && formCliente.get('cpf')?.touched"
+              class="text-danger">
               O cpf deve ter no mínimo 11 caracteres.
             </div>
           </div>
@@ -86,7 +94,8 @@
 
           <div class="form-group">
             <label for="telefone">Telefone:</label>
-            <input type="text" class="form-control" id="telefone" mask="(00)0000-0000||(00)00000-0000" formControlName="telefone">
+            <input type="text" class="form-control" id="telefone" mask="(00)0000-0000||(00)00000-0000"
+              formControlName="telefone">
           </div>
 
           <div class="form-group">

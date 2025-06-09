@@ -22,6 +22,7 @@ export class HomePageComponent {
   errorMessage: string | null = null;
   successMessage: string | null = null;
   hasNoData: boolean = false;
+  loading: boolean = false;
   private timeoutHandle?: any;
 
   constructor(
@@ -68,11 +69,12 @@ export class HomePageComponent {
     });
   }
 
-  loadClientes(): void {
+  async loadClientes(): Promise<void> {
     if (!this.usuario) {
       this.hasNoData = true;
       return;
     }
+    await this.showLoading()
     this.clienteService.listarClientes(
       this.usuario.id_user,
       this.form.getRawValue()
@@ -159,5 +161,16 @@ export class HomePageComponent {
       this.successMessage = null;
       this.timeoutHandle = undefined;
     }, 5000);
+  }
+
+  private showLoading(): void{
+    if (this.timeoutHandle) {
+      clearTimeout(this.timeoutHandle);
+    }
+    this.loading = true;
+    this.timeoutHandle = setTimeout(() => {
+      this.timeoutHandle = undefined;
+      this.loading = false;
+    }, 700);
   }
 }
