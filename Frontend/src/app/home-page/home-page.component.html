@@ -1,15 +1,23 @@
 <!--TELA HOME-->
+
 <div class="home-page">
+
+  <!-- CABEÇALHO -->
   <div class="cabecalho">
-    <h2>Sistema de gestão</h2>
-    <form class="pesquisa-conteudo" [formGroup]="form" (submit)="onSubmit()">
-      <input type="text" formControlName="value" class="cliente" placeholder="Insira o código ou o nome do cliente">
-      <button class="btn btn-primary" type="submit">Pesquisar</button>
-      <button (click)="logout()">Sair</button>
-    </form>
+    <div class="menu">
+      <i class="fa-solid fa-bars" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions"
+        aria-controls="offcanvasWithBothOptions"></i>
+      <h2>Kern Corp.</h2>
+    </div>
+    <div (click)="logout()" class="logout">
+      <button>
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </button>
+    </div>
   </div>
 
   <div class="container">
+    <!-- MENSAGEM DE ERRO OU SUCESSO  -->
     <div *ngIf="errorMessage" class="error-message">
       <div class="linha-vertical"></div>
       {{ errorMessage }}
@@ -18,6 +26,8 @@
       <div class="linha-vertical"></div>
       {{ successMessage }}
     </div>
+
+    <!-- LISTA DE CLIENTES -->
     <div class="listaCliente">
       <div class="add-cliente">
         <h3>Clientes</h3>
@@ -36,9 +46,19 @@
         <img src="undraw_search-engines_k649.svg" alt="Sem dados">
       </div>
 
-      <p-table *ngIf="!hasNoData && !loading" class="table table-striped" [value]="clientes" [paginator]="true"
-        [rows]="5" [tableStyle]="{ 'min-width': '50rem'}" [rowsPerPageOptions]="[5, 10, 20, 100]">
-        <ng-template pTemplate="header">
+      <p-table #dt2 *ngIf="!hasNoData && !loading" class="tabela" [value]="clientes" dataKey="id" [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true"
+        [globalFilterFields]="['idCliente','nome', 'cpf', 'email']" [tableStyle]="{ 'min-width': '75rem'}"
+        [style]="{'min-height':'70vh' }">
+        <ng-template #caption>
+          <div class="flex">
+            <p-iconfield iconPosition="left" class="ml-auto">
+              <input pInputText type="text" class="custom-global-filter"
+                (input)="dt2.filterGlobal($any($event.target).value, 'contains')" placeholder="Pesquisa Global">
+            </p-iconfield>
+          </div>
+        </ng-template>
+        <ng-template #header>
           <tr>
             <th>ID - Cliente</th>
             <th>Nome</th>
@@ -46,22 +66,76 @@
             <th>Email</th>
             <th>Ações</th>
           </tr>
+          <tr>
+            <th>
+              <p-columnFilter type="text" field="idCliente" placeholder="Pesquisar por Id"
+                ariaLabel="Filter Name"></p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter type="text" field="nome" placeholder="Pesquisar por nome"
+                ariaLabel="Filter name"></p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter type="text" field="cpf" placeholder="Pesquisar por cpf"
+                ariaLabel="Filter name"></p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter type="text" field="email" placeholder="Pesquisar por cpf"
+                ariaLabel="Filter name"></p-columnFilter>
+            </th>
+            <th>
+            </th>
+          </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-customer>
-          <tr class="py-2">
-            <th scope="row">{{ customer.idCliente }}</th>
-            <td class="py-2"> {{ customer.nome }} </td>
-            <td class="py-2">{{ customer.cpf | mask: '000.000.000-00' }}</td>
-            <td class="py-2">{{ customer.email }}</td>
-            <td class="py-2">
+        <ng-template #body let-customer>
+          <tr>
+            <td>
+              {{ customer.idCliente }}
+            </td>
+            <td>
+              <div class="flex items-center gap-2">
+                <span>{{ customer.nome }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="flex items-center gap-2">
+                <span>{{ customer.cpf }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="flex items-center gap-2">
+                <span>{{ customer.email }}</span>
+              </div>
+            </td>
+            <td>
               <button (click)="verMais(customer)" class="btn btn-primary">Ver Mais</button>
             </td>
+          </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+          <tr>
+            <td colspan="5">Nenhum cliente encontrado com esse filtro.</td>
           </tr>
         </ng-template>
       </p-table>
     </div>
   </div>
 </div>
+
+
+<!-- LEFTSIDEBAR -->
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
+  aria-labelledby="offcanvasWithBothOptionsLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Menu</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <p>Try scrolling the rest of the page to see this option in action.</p>
+  </div>
+</div>
+
+
 
 <!--MODAL PARA ADICIONAR UM CLIENTE-->
 <div class="modal fade" id="adicionarClienteModal" tabindex="-1" role="dialog"
