@@ -79,7 +79,7 @@ export class RegistrationPageComponent implements OnInit, AfterViewInit {
 
   onSubmit(): void {
 
-    const usuario = this.form.get('usuario')?.value as string;
+    const usuario = this.form.get('usuario')?.value?.toLowerCase() as string;
     const senha = this.form.get('senha')?.value as string;
     const senhaConfirm = this.form.get('senha_confirm')?.value as string;
 

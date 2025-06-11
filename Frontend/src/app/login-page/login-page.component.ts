@@ -96,7 +96,7 @@ export class LoginPageComponent implements OnInit, AfterViewInit {
     return;
     }
 
-    const username = this.form.get('usuario')?.value;
+    const username = this.form.get('usuario')?.value?.toLowerCase();
     const password = this.form.get('senha')?.value;
 
     this.authService.login(username, password).subscribe({
