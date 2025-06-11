@@ -10,7 +10,7 @@
       <h2>Kern Corp.</h2>
     </div>
     <div (click)="logout()" class="logout">
-        <i class="fa-solid fa-right-from-bracket" type="button" ></i>
+      <i class="fa-solid fa-right-from-bracket" type="button"></i>
     </div>
   </div>
 
@@ -29,7 +29,11 @@
     <div class="listaCliente">
       <div class="add-cliente">
         <h3>Clientes</h3>
+        <button *ngIf="hasNoData" type="button" class="btn btn-primary" data-toggle="modal" data-target="#adicionarClienteModal">
+          Adicionar Cliente
+        </button>
       </div>
+
       <div class="d-flex justify-content-center" *ngIf="loading">
         <div class="spinner-border text-secondary" style="width: 4rem; height: 4rem; align-items: center;"
           role="status">
@@ -51,7 +55,8 @@
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#adicionarClienteModal">
                 Adicionar Cliente
               </button>
-              <i type="button" data-toggle="modal" class="fa-solid fa-user-plus responsive-btn" data-target="#adicionarClienteModal"></i>
+              <i type="button" data-toggle="modal" class="fa-solid fa-user-plus responsive-btn"
+                data-target="#adicionarClienteModal"></i>
               <input pInputText type="text" class="custom-global-filter"
                 (input)="dt2.filterGlobal($any($event.target).value, 'contains')" placeholder="Pesquisa Global">
             </p-iconfield>
