@@ -3,7 +3,7 @@ import { ClienteService } from '../servicos/cliente/cliente.service';
 import { ClienteModel } from '../models/cliente.model';
 import { UsuarioModel } from '../models/usuario.model';
 import { Router } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Modal } from 'bootstrap';
 import { AuthService } from '../auth/auth.service';
@@ -23,7 +23,9 @@ export class HomePageComponent {
   successMessage: string | null = null;
   hasNoData: boolean = false;
   loading: boolean = false;
-  private timeoutHandle?: any;
+  private errorTimeout?: any;
+  private successTimeout?: any;
+  private loadingTimeout?: any;
 
   constructor(
     private readonly clienteService: ClienteService,
@@ -38,7 +40,7 @@ export class HomePageComponent {
     })
     this.loadClientes()
     this.formCliente = this.fb.group({
-      nome: new FormControl<string | null>(null, {nonNullable: true}),
+      nome: new FormControl<string | null>(null, { nonNullable: true }),
       logradouro: new FormControl<string | null>(null),
       numero: new FormControl<string | null>(null),
       complemento: new FormControl<string | null>(null),
@@ -47,8 +49,8 @@ export class HomePageComponent {
       uf: new FormControl<string | null>(null),
       cep: new FormControl<string | null>(null),
       cpf: new FormControl<string | null>(null, [Validators.required, Validators.minLength(11)]),
-      email: new FormControl<string | null>(null, {nonNullable: true}),
-      telefone: new FormControl<string | null>(null, {nonNullable: true}),
+      email: new FormControl<string | null>(null, { nonNullable: true }),
+      telefone: new FormControl<string | null>(null, { nonNullable: true }),
       rendaMensal: new FormControl<number | null>(null),
       dataCadastro: new FormControl<Date | null>(null, { nonNullable: true })
     })
@@ -83,7 +85,7 @@ export class HomePageComponent {
         this.clientes = clientes;
         this.hasNoData = (clientes.length === 0);
       },
-      error: (err) =>{
+      error: (err) => {
         console.error('Erro ao listar clientes:', err);
         this.hasNoData = true;
       }
@@ -98,7 +100,7 @@ export class HomePageComponent {
     this.loadClientes()
   }
 
-  logout(): void{
+  logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
@@ -109,16 +111,17 @@ export class HomePageComponent {
     const mes = (hoje.getMonth() + 1).toString().padStart(2, '0'); // Mês começa em 0
     const dia = hoje.getDate().toString().padStart(2, '0');
     return `${ano}-${mes}-${dia}`;
-  } 
+  }
 
   @ViewChild('adicionarClienteModal') modal!: Modal;
   onSend(): void {
     if (!this.usuario) {
       return;
     }
-      // Obter a data atual formatada
+    // Obter a data atual formatada
     const dataAtual = this.obterDataAtual();
     this.errorMessage = null;
+    this.successMessage = null;
 
     // Definir o valor do campo dataCadastro no formulário
     this.formCliente.patchValue({
@@ -130,7 +133,9 @@ export class HomePageComponent {
     ).subscribe({
       next: (result) => {
         this.showSuccess('Cliente salvo com sucesso.')
+        this.formCliente.reset();
         this.loadClientes();
+
       },
       error: (error) => {
         this.showError('Erro ao salvar o cliente')
@@ -140,36 +145,36 @@ export class HomePageComponent {
 
 
   private showError(message: string): void {
-    if (this.timeoutHandle) {
-      clearTimeout(this.timeoutHandle);
+    if (this.errorTimeout) {
+      clearTimeout(this.errorTimeout);
     }
 
     this.errorMessage = message;
-    this.timeoutHandle = setTimeout(() => {
+    this.errorTimeout = setTimeout(() => {
       this.errorMessage = null;
-      this.timeoutHandle = undefined;
+      this.errorTimeout = undefined;
     }, 5000);
   }
 
   private showSuccess(message: string): void {
-    if (this.timeoutHandle) {
-      clearTimeout(this.timeoutHandle);
+    if (this.successTimeout) {
+      clearTimeout(this.successTimeout);
     }
 
     this.successMessage = message;
-    this.timeoutHandle = setTimeout(() => {
+    this.successTimeout = setTimeout(() => {
       this.successMessage = null;
-      this.timeoutHandle = undefined;
+      this.successTimeout = undefined;
     }, 5000);
   }
 
-  private showLoading(): void{
-    if (this.timeoutHandle) {
-      clearTimeout(this.timeoutHandle);
+  private showLoading(): void {
+    if (this.loadingTimeout) {
+      clearTimeout(this.loadingTimeout);
     }
     this.loading = true;
-    this.timeoutHandle = setTimeout(() => {
-      this.timeoutHandle = undefined;
+    this.loadingTimeout = setTimeout(() => {
+      this.loadingTimeout = undefined;
       this.loading = false;
     }, 700);
   }
