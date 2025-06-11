@@ -27,7 +27,6 @@
 }
 
 .add-dependente button:hover {
-  font-size: 110%;
   background-color: #004b9b;
   border: none;
 }
@@ -45,7 +44,6 @@
 }
 
 .cabecalho .btn-primary:hover {
-  font-size: 110%;
   background-color: white;
   color: #004b9b;
   border: none;
@@ -128,7 +126,6 @@
 .botoes-acao .btn-primary:hover{
   background-color: white;
   color:#007bff;
-  font-size: 23px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -233,7 +230,6 @@
 }
 
 .table .btn-primary:hover{
-  font-size: 16px;
   background-color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   color: #007bff;
@@ -292,7 +288,6 @@
   transition: 0.3s ease-in-out;
 }
 .modal-footer .btn-secondary:hover{
-  font-size: 17px;
   font-weight: 500;
   border: none;
   background-color: #fff;
@@ -311,7 +306,6 @@
 }
 
 .modal-footer .btn-primary:hover{
-  font-size: 17px;
   font-weight: 500;
 }
 
