@@ -10,9 +10,7 @@
       <h2>Kern Corp.</h2>
     </div>
     <div (click)="logout()" class="logout">
-      <button>
-        <i class="fa-solid fa-right-from-bracket"></i>
-      </button>
+        <i class="fa-solid fa-right-from-bracket" type="button" ></i>
     </div>
   </div>
 
@@ -31,9 +29,6 @@
     <div class="listaCliente">
       <div class="add-cliente">
         <h3>Clientes</h3>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#adicionarClienteModal">
-          Adicionar Cliente
-        </button>
       </div>
       <div class="d-flex justify-content-center" *ngIf="loading">
         <div class="spinner-border text-secondary" style="width: 4rem; height: 4rem; align-items: center;"
@@ -46,13 +41,17 @@
         <img src="undraw_search-engines_k649.svg" alt="Sem dados">
       </div>
 
-      <p-table #dt2 *ngIf="!hasNoData && !loading" class="tabela" [value]="clientes" dataKey="id" [rows]="10"
-        [rowsPerPageOptions]="[10, 25, 50]" [loading]="loading" [paginator]="true"
+      <p-table #dt2 *ngIf="!hasNoData && !loading" class="tabela" [value]="clientes" dataKey="id" [rows]="5"
+        [rowsPerPageOptions]="[5, 10, 25, 50]" [loading]="loading" [paginator]="true"
         [globalFilterFields]="['idCliente','nome', 'cpf', 'email']" [tableStyle]="{ 'min-width': '75rem'}"
         [style]="{'min-height':'70vh' }">
         <ng-template #caption>
           <div class="flex">
             <p-iconfield iconPosition="left" class="ml-auto">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#adicionarClienteModal">
+                Adicionar Cliente
+              </button>
+              <i type="button" data-toggle="modal" class="fa-solid fa-user-plus responsive-btn" data-target="#adicionarClienteModal"></i>
               <input pInputText type="text" class="custom-global-filter"
                 (input)="dt2.filterGlobal($any($event.target).value, 'contains')" placeholder="Pesquisa Global">
             </p-iconfield>

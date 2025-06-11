@@ -15,7 +15,7 @@
 }
 
 
-/* Header */
+/* HEADER */
 
 .cabecalho {
   display: flex;
@@ -31,12 +31,10 @@
   margin-right: 30px;
 }
 
-.logout button{
-  background-color: transparent;
+.logout {
   color: #fff;
-  border: none;
 }
-.logout button :hover{
+.logout :hover{
   color: #dcedff;
   transition: .1s ease-in-out;
 }
@@ -65,7 +63,6 @@
 
 
 
-
 /* BODY */
 
 .container{
@@ -76,10 +73,64 @@
   padding: 40px;
 }
 
+.add-cliente {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-cliente button {
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  width: 230px;
+  height: 40px;
+  margin-bottom: 20px;
+  border: none;
+  transition: 0.3s ease-in-out;
+}
+
+.add-cliente button:hover {
+  background-color: #004b9b;
+}
+
+
+/* Mostra só o botão e esconda o ícone */
+:host ::ng-deep p-iconfield .btn.btn-primary {
+  display: inline-flex;
+  align-items: center;
+}
+
+:host ::ng-deep p-iconfield .responsive-btn {
+  display: none;
+}
+
+/* 2) Quando a largura ficar menor que X (ajuste pra seu breakpoint), faça o inverso */
+@media (max-width: 600px) {
+  :host ::ng-deep p-iconfield .btn.btn-primary {
+    display: none;
+  }
+  :host ::ng-deep p-iconfield .responsive-btn {
+    display: inline-flex;
+    margin-right: 10px;
+    color: #004b9b;
+    background: #fff;
+    width: 35px;
+    height: 35px;
+    border-radius: 6px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  :host ::ng-deep p-iconfield .responsive-btn:hover {
+    background: #f5f5f5;
+  }
+}
+
 .listaCliente {
   width: 100%;
   min-height: 100%;
-  background-color: #f0f0f0;
+  background-color: #f0f0f08e;
   border-radius: 8px;
   padding: 20px;
 }
@@ -88,66 +139,297 @@
   margin-bottom: 10px;
 }
 
-.tabela {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #fff;
-  border: 1px solid #dee2e6;
+
+
+/* TABELA */
+
+/* Container principal da tabela (.tabela) */
+:host ::ng-deep .tabela {
+  background: #fff !important;                 
+  border: none !important;                 
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5)!important; 
+  border-radius: 8px!important;                      
+  overflow: hidden!important;               
 }
 
-.tabela th,
-.tabela td {
-  padding: 10px;
-  text-align: left;
-  border: 1px solid #dee2e6;
+/* Tabela de itens */
+:host ::ng-deep .p-datatable-table-container{
+  border-radius: 7px 7px 0 0;
 }
+
+/* Cabeçalho da tabela (colunas) */
+:host ::ng-deep .tabela .p-datatable-thead > tr > th {
+  background-color: #fafafa !important;        
+  color: #333 !important;                       
+  font-weight: 600 !important;                
+  border-bottom: 1px solid #e0e0e0 !important;   
+  padding: 0.75rem 1rem !important;             
+}
+
+/* Placeholder do input */
+:host ::ng-deep .tabela .p-datatable-thead > tr > th ::placeholder{
+  color: #bdbdbd;
+}
+
+/* Icone de filtro */
+:host ::ng-deep .p-button-text.p-button-secondary {
+  color: #004b9b;                        
+  width: 30px;
+  height: 30px;
+  background-color: #eeeeee;
+  align-items: center;
+  justify-items: center;
+  margin: 3px;
+  margin-left: 8px;
+  
+}
+
+/* Hover do Icone de filtro */
+:host ::ng-deep .p-button-text.p-button-secondary:hover {
+  color: #007bff !important;                     
+  background-color: #fafafa !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
+}
+
+/* Lista das opções de filtro */
+::ng-deep .p-datatable-filter-constraint-list  {
+    gap: 5px !important;
+    background: #fff !important;
+    border-radius: 10px !important;
+    padding: 5px !important;
+    margin-top: 5px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Cada opção das opções de filtro */
+::ng-deep .p-datatable-filter-constraint  {
+    padding-left: 5px !important;
+    border-radius: 5px !important;
+    padding-top: 3px !important;
+}
+
+/* Hover de cada opção das opções de filtro */
+::ng-deep .p-datatable-filter-constraint:hover  {
+    background: #e2e2e2 !important;
+    color: #004b9b !important;
+}
+
+/* Inputs do filtro (campo de texto dentro do p-columnFilter) */
+:host ::ng-deep .p-inputtext {
+  width: 100%;                        
+  border: 1px solid #ddd;             
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  background-color: #fff;
+  color: #555;
+  transition: border-color 0.2s;
+  height: 30px;
+}
+
+/* Modo focus do input de filtro */
+:host ::ng-deep .p-inputtext:focus {
+  border-color: #007bff !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+
+/* Cor os itens da lista */
+:host ::ng-deep .tabela .p-datatable-tbody > tr {
+  transition: background-color 0.2s !important;
+  background-color: #fefefe; 
+}
+
+/* Hover dos itens da lista */
+:host ::ng-deep .tabela .p-datatable-tbody > tr:hover {
+  background-color: #eeeeee;       
+  transition: .3s;   
+}
+
+/* Células do corpo */
+:host ::ng-deep .tabela .p-datatable-tbody > tr > td {
+  border: none;                       
+  border-bottom: 1px solid #f0f0f0;   
+  padding: 0.75rem 1rem;              
+  color: #303030;                        
+  font-size: 0.95rem;
+}
+
+
 
 .tabela button {
-  color: white;
+  background-color: #007bff;       
+  color: #fff;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  width: 100px;
-  height: 30px;
-  font-weight: 600;
-  transition: 0.3s ease-in-out;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s, transform 0.1s;
 }
 
 .tabela button:hover {
-  background-color: #004b9b;
+  background-color: #0056b3;          /* escurecer no hover */
+}
+
+
+/* PESQUISA GLOBAL */
+
+/* Container do ícone + input */
+:host ::ng-deep .p-iconfield {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;          /* empurra o input para a direita */
+  margin-top: 1rem;                   /* espaço acima, para “respirar” */
+  margin-bottom: 0.5rem;
+  margin-left: 10px !important;
+}
+:host ::ng-deep .p-iconfield button {
+    margin-right: 10px;
+    min-height: 37px;
+    max-height: 37px;
+    min-width: fit-content;
+}
+
+
+:host ::ng-deep .p-datatable-header{
   border: none;
 }
 
+/* Campo de texto de pesquisa global (classe já criada no seu CSS) */
 .custom-global-filter {
-  width: 200px;
-  border: 1px solid #ccc !important;
+  width: 250px;                       /* largura menor que 100% */
+  border: 1px solid #ddd !important;  /* borda clara */
+  border-radius: 7px;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.95rem;
+  color: #303030 !important;
+  background-color: #fff;
+  transition: border-color 0.2s;
+}
+
+.custom-global-filter::placeholder{
+  color: #bdbdbd !important;
+}
+
+.custom-global-filter:focus {
+  border-color: #007bff !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+
+/* PAGINATOR */
+
+/* Remover bordas e deixar mais clean */
+:host ::ng-deep .tabela .p-paginator {
+  border: none;
+  background-color: #fff;
+  font-size: 0.9rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0px 0px 7px 7px;              
+}
+
+/* Seletor de itens por pagina */
+:host ::ng-deep .tabela .p-paginator .p-select {
+  padding:8px;
+  background:transparent;
+  border: 1px solid #bdbdbd ;
   border-radius: 6px;
-  padding: 0.5rem;
-  box-shadow: none !important;
-  outline: none;
-  margin-top: 30px;
-  margin-bottom: 10px;
+  width: 65px;
+  height: 30px;
+  align-items: center;
+  justify-items: center;
 }
 
-::ng-deep .p-iconfield.ml-auto {
-  justify-content: flex-end;
-  display: flex;
+/* Hover do Seletor  */
+:host ::ng-deep .tabela .p-paginator .p-select:hover {
+  border: 1px solid #999999 !important ;
 }
 
-
-:host ::ng-deep .p-datatable-thead > tr > th p-columnfilter{
-  color: #a8a8a8;
+/* Seletor em modo focus */
+:host ::ng-deep .tabela .p-paginator .p-select:focus-visible {
+  border: 1px solid #333 !important ;
 }
-:host ::ng-deep .p-button-text.p-button-secondary{
-  width: 30px;
+
+/* Icone do dropdown*/
+:host ::ng-deep .tabela .p-paginator .p-select .p-select-dropdown{
+  color: #bdbdbd !important;
+  
+}
+
+/* Quantidade de itens por pagina lista*/
+:host ::ng-deep .tabela .p-paginator .p-select .p-select-list{
+  padding: 6px;
+  background: #fff; 
+  border-radius: 6px;
+  
+} 
+:host ::ng-deep .p-overlay-content{
+  margin-top: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  border-radius: 6px;
+}
+
+/* Quantidade de itens por pagina */
+:host ::ng-deep .tabela .p-paginator .p-select p-selectitem{
+  padding: 4px;
+  margin-bottom: 5px;
+  border-radius:6px;
+} 
+
+/* Hover para a quantidade de itens por pagina */
+:host ::ng-deep .tabela .p-paginator .p-select p-selectitem:hover{
+  background:#eeeeee;
   color: #004b9b;
-}
-:host ::ng-deep .p-datatable-header {
-  border: none !important;
-  box-shadow: none !important;
+} 
+
+/* Botões de página */
+:host ::ng-deep .tabela .p-paginator .p-paginator-page,
+:host ::ng-deep .tabela .p-paginator .p-paginator-next,
+:host ::ng-deep .tabela .p-paginator .p-paginator-prev,
+:host ::ng-deep .tabela .p-paginator .p-paginator-first,
+:host ::ng-deep .tabela .p-paginator .p-paginator-last {
+  border: none;
+  color: #555;
+  margin: 0 0.25rem;
+  font-weight: 500;
+  width: 35px;
+  height: 35px;
+  border-radius: 25px;
 }
 
+/* Hover botões de página */
+:host ::ng-deep .tabela .p-paginator .p-paginator-page:hover,
+:host ::ng-deep .tabela .p-paginator .p-paginator-next:hover,
+:host ::ng-deep .tabela .p-paginator .p-paginator-prev:hover,
+:host ::ng-deep .tabela .p-paginator .p-paginator-first:hover,
+:host ::ng-deep .tabela .p-paginator .p-paginator-last:hover{
+  color: #004b9b !important;
+  background: #e0e0e0 !important;
+}
+
+/* Pagina selecionada do paginator */
+:host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-paginator-page-selected {
+  color: #004b9b !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-paginator-page-selected:hover {
+  background: transparent !important;
+  color: #004b9b !important;
+}
+
+/* Dropdown “rows per page” */
+:host ::ng-deep .tabela .p-paginator .p-paginator-rpp-options .p-dropdown {
+  min-width: 3rem;
+  font-size: 0.9rem;
+}
+
+
+
+/* IMAGEM */
 .noDataImg {
   display: grid;
   padding: 80px;
@@ -170,29 +452,9 @@
 
 }
 
-.add-cliente {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.add-cliente button {
-  font-size: 16px;
-  font-weight: 600;
-  width: 230px;
-  height: 40px;
-  margin-bottom: 20px;
-  border: none;
-  transition: 0.3s ease-in-out;
-}
-
-.add-cliente button:hover {
-  background-color: #004b9b;
-}
 
 
-
-/* Modal Cliente */
+/* MODAL */
 
 .modal-fade {
   display: center;
