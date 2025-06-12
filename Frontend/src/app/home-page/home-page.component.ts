@@ -23,6 +23,7 @@ export class HomePageComponent {
   successMessage: string | null = null;
   hasNoData: boolean = false;
   loading: boolean = false;
+  visible: boolean = false;
   private errorTimeout?: any;
   private successTimeout?: any;
   private loadingTimeout?: any;
@@ -177,5 +178,9 @@ export class HomePageComponent {
       this.loadingTimeout = undefined;
       this.loading = false;
     }, 700);
+  }
+
+  showDialog() {
+    this.visible = true;
   }
 }
