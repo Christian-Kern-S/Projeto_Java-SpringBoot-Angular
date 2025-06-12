@@ -79,7 +79,7 @@ export class RegistrationPageComponent implements OnInit, AfterViewInit {
 
   onSubmit(): void {
 
-    const usuario = this.form.get('usuario')?.value?.toLowerCase() as string;
+    const usuario = this.form.get('usuario')?.value as string;
     const senha = this.form.get('senha')?.value as string;
     const senhaConfirm = this.form.get('senha_confirm')?.value as string;
 
@@ -103,8 +103,8 @@ export class RegistrationPageComponent implements OnInit, AfterViewInit {
     return;
     }
       
-    const username = this.form.get('usuario')?.value;
-    const password = this.form.get('senha')?.value;
+    const username = this.form.get('usuario')?.value?.toLowerCase()
+    const password = this.form.get('senha')?.value
 
     this.authService.signIn(username, password).subscribe({
       next: () => {
