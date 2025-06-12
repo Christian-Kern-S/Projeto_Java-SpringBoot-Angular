@@ -464,105 +464,92 @@
 
 /* MODAL */
 
-.modal-fade {
-  display: center;
-  align-items: center;
-  justify-content: center;
-  min-height: calc(100vh - 2rem);
+/* Corpo do modal */
+:host ::ng-deep .p-dialog.custom-dialog {
+  /* border-radius: 8px !important; */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  background: #fff;
+  width: 35vw !important;
+  height: 70vh !important;
 }
 
-.modal-content {
+/* HEADER */
+:host ::ng-deep .p-dialog.custom-dialog .p-dialog-header {
+  background-color: #004b9b !important;
+  color: #ffffff !important;
+  font-size: 1.2rem !important;
+  height: 50px !important;
+  padding: 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  /* border-radius: 8px 8px 0 0 !important; */
+}
+
+/* Dentro do modal */
+:host ::ng-deep .p-dialog.custom-dialog  .p-dialog-content {
+  padding-inline: 50px !important;
+  padding-top: 20px;
+}
+
+/* Rodapé */
+:host ::ng-deep .p-dialog.custom-dialog  .p-dialog-footer {
+  border-bottom-left-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  height: 60px !important;
+  padding: 0 20px !important;
+  border-top: 1px solid #ebebeb;
+}
+
+/* Botões do footer */
+:host ::ng-deep .p-dialog.custom-dialog  .btn-secondary {
+  color: #007bff !important;
+  background-color: transparent !important;
+  border: 1px solid #007bff !important;
+  font-size: 16px !important;
   border-radius: 8px;
-  width: 800px;
-  max-width: 1000px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 90px !important;
+  height: 35px !important;
+  margin-right: 10px !important;
+  transition: 0.3s ease-in-out !important;
 }
 
-.modal-header {
-  background-color: #004b9b;
-  color: white;
-  font-size: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 50px;
-  padding: 20px;
+/* Grupo do input */
+.form-group{
+  margin-bottom: 15px;
 }
 
-.modal-title {
-  font-size: 1.2rem;
-  margin-bottom: 0;
+:host ::ng-deep .p-dialog.custom-dialog  .btn-secondary:hover {
+  border: none !important;
+  background-color: #ffffff !important;
+  color: #dc3545 !important;
 }
 
-.modal-body {
-  padding: 20px;
+:host ::ng-deep .p-dialog.custom-dialog  .btn-primary {
+  color: #ffffff !important;
+  background-color: #007bff !important;
+  font-size: 16px !important;
+  border-radius: 8px;
+  width: 90px !important;
+  height: 35px !important;
+  margin-right: 20px !important;
+  border: none !important;
+  transition: 0.3s ease-in-out !important;
+}
+:host ::ng-deep .p-dialog.custom-dialog  .btn-primary:hover {
+  background-color: #004b9b !important;
 }
 
-.modal-footer {
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  height: 60px;
+/* Background preto opaco */
+:host ::ng-deep .custom-backdrop.p-dialog-mask {
+  background-color: rgba(0, 0, 0, 0.2) !important;
 }
 
-.modal-footer .btn-secondary {
-  color: #007bff;
-  background-color: transparent;
-  border: 1px solid #007bff;
-  font-size: 16px;
-  margin-right: 10px;
-  height: 35px;
-  width: 90px;
-  transition: 0.3s ease-in-out;
-}
 
-.modal-footer .btn-secondary:hover {
-  font-size: 17px;
-  font-weight: 500;
-  border: none;
-  background-color: #fff;
-  color: #dc3545;
-}
 
-.modal-footer .btn-primary {
-  color: white;
-  background-color: #007bff;
-  font-size: 16px;
-  margin-right: 20px;
-  height: 35px;
-  width: 90px;
-  border: none;
-  transition: 0.3s ease-in-out;
-}
-
-.modal-footer .btn-primary:hover {
-  font-size: 17px;
-  font-weight: 500;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  font-weight: bold;
-}
-
-.form-group input {
-  padding-left: 10px;
-  background-color: white;
-  outline: none;
-  height: 30px;
-  font-weight: 500;
-}
-
-/* Espaçamento entre os botões */
-.modal-footer .btn+.btn {
-  margin-left: 10px;
-}
 
 
 
