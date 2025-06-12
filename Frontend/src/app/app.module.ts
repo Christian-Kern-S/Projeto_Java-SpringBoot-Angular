@@ -19,7 +19,9 @@ import { InputIconModule } from 'primeng/inputicon';
 import { MultiSelectModule } from 'primeng/multiselect'; 
 import { SelectModule } from 'primeng/select';         
 import { TagModule } from 'primeng/tag';                 
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
 
 
 
@@ -33,6 +35,9 @@ import { TagModule } from 'primeng/tag';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    ButtonModule,
+    DialogModule,
     MultiSelectModule,
     SelectModule,
     TagModule,
