@@ -128,46 +128,6 @@
 </div>
 
 
-<!-- LEFTSIDEBAR -->
-<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
-  aria-labelledby="offcanvasWithBothOptionsLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Menu</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div class="card">
-      <p-menu [model]="items" class="flex justify-center" styleClass="w-full md:w-60">
-        <ng-template #submenuheader let-item>
-          <span class="text-primary font-bold">{{ item.label }}</span>
-        </ng-template>
-        <ng-template #item let-item>
-          <a pRipple class="flex items-center p-menu-item-link">
-            <span [class]="item.icon"></span>
-            <span class="ml-2">{{ item.label }}</span>
-            <p-badge *ngIf="item.badge" class="ml-auto" [value]="item.badge" />
-            <span *ngIf="item.shortcut"
-              class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut
-              }}</span>
-          </a>
-        </ng-template>
-        <ng-template #end>
-          <button pRipple
-            class="relative overflow-hidden w-full border-0 bg-transparent flex items-start p-2 pl-4 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-none cursor-pointer transition-colors duration-200">
-            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" class="mr-2"
-              shape="circle" />
-            <span class="inline-flex flex-col">
-              <span class="font-bold">Amy Elsner</span>
-              <span class="text-sm">Admin</span>
-            </span>
-          </button>
-        </ng-template>
-      </p-menu>
-    </div>
-  </div>
-</div>
-
-
 
 <!--MODAL PARA ADICIONAR UM CLIENTE-->
 

@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ClienteService } from '../servicos/cliente/cliente.service';
 import { ClienteModel } from '../models/cliente.model';
 import { UsuarioModel } from '../models/usuario.model';
@@ -7,7 +7,6 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors,
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Modal } from 'bootstrap';
 import { AuthService } from '../auth/auth.service';
-import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-home-page',
@@ -18,7 +17,6 @@ export class HomePageComponent {
 
   form: FormGroup
   clientes: ClienteModel[] = []
-  items: MenuItem[] | undefined;
   formCliente: FormGroup;
   usuario: UsuarioModel | null = null;
   errorMessage: string | null = null;
@@ -72,50 +70,6 @@ export class HomePageComponent {
         this.router.navigate(['/login']);
       }
     });
-
-    this.items = [
-      {
-        separator: true
-      },
-      {
-        label: 'Documents',
-        items: [
-          {
-            label: 'New',
-            icon: 'pi pi-plus',
-            shortcut: '⌘+N'
-          },
-          {
-            label: 'Search',
-            icon: 'pi pi-search',
-            shortcut: '⌘+S'
-          }
-        ]
-      },
-      {
-        label: 'Profile',
-        items: [
-          {
-            label: 'Settings',
-            icon: 'pi pi-cog',
-            shortcut: '⌘+O'
-          },
-          {
-            label: 'Messages',
-            icon: 'pi pi-inbox',
-            badge: '2'
-          },
-          {
-            label: 'Logout',
-            icon: 'pi pi-sign-out',
-            shortcut: '⌘+Q'
-          }
-        ]
-      },
-      {
-        separator: true
-      }
-    ];
   }
 
   ngAfterViewInit(): void {
