@@ -136,7 +136,34 @@
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <p>Try scrolling the rest of the page to see this option in action.</p>
+    <div class="card">
+      <p-menu [model]="items" class="flex justify-center" styleClass="w-full md:w-60">
+        <ng-template #submenuheader let-item>
+          <span class="text-primary font-bold">{{ item.label }}</span>
+        </ng-template>
+        <ng-template #item let-item>
+          <a pRipple class="flex items-center p-menu-item-link">
+            <span [class]="item.icon"></span>
+            <span class="ml-2">{{ item.label }}</span>
+            <p-badge *ngIf="item.badge" class="ml-auto" [value]="item.badge" />
+            <span *ngIf="item.shortcut"
+              class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut
+              }}</span>
+          </a>
+        </ng-template>
+        <ng-template #end>
+          <button pRipple
+            class="relative overflow-hidden w-full border-0 bg-transparent flex items-start p-2 pl-4 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-none cursor-pointer transition-colors duration-200">
+            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" class="mr-2"
+              shape="circle" />
+            <span class="inline-flex flex-col">
+              <span class="font-bold">Amy Elsner</span>
+              <span class="text-sm">Admin</span>
+            </span>
+          </button>
+        </ng-template>
+      </p-menu>
+    </div>
   </div>
 </div>
 
@@ -165,8 +192,8 @@
 
       <div class="input-div">
         <h5 for="email">Email *</h5>
-        <input type="email" class="input" id="email" formControlName="email"
-          (focus)="onFocus($event)" (blur)="onBlur($event)">
+        <input type="email" class="input" id="email" formControlName="email" (focus)="onFocus($event)"
+          (blur)="onBlur($event)">
       </div>
 
       <div class="input-div" [ngClass]="{'input-div--error': telefoneInvalid}">
@@ -207,7 +234,8 @@
 
       <div class="input-div" [ngClass]="{'input-div--error': ufInvalid}">
         <h5 for="uf">UF</h5>
-        <input type="text" class="input" id="uf" formControlName="uf"  mask="AA"(focus)="onFocus($event)" (blur)="onBlur($event)">
+        <input type="text" class="input" id="uf" formControlName="uf" mask="AA" (focus)="onFocus($event)"
+          (blur)="onBlur($event)">
       </div>
 
       <div class="input-div" [ngClass]="{'input-div--error': cepInvalid}">

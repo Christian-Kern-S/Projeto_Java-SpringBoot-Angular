@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { ClienteService } from '../servicos/cliente/cliente.service';
 import { ClienteModel } from '../models/cliente.model';
 import { UsuarioModel } from '../models/usuario.model';
@@ -7,6 +7,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors,
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Modal } from 'bootstrap';
 import { AuthService } from '../auth/auth.service';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-home-page',
@@ -17,6 +18,7 @@ export class HomePageComponent {
 
   form: FormGroup
   clientes: ClienteModel[] = []
+  items: MenuItem[] | undefined;
   formCliente: FormGroup;
   usuario: UsuarioModel | null = null;
   errorMessage: string | null = null;
@@ -70,6 +72,50 @@ export class HomePageComponent {
         this.router.navigate(['/login']);
       }
     });
+
+    this.items = [
+      {
+        separator: true
+      },
+      {
+        label: 'Documents',
+        items: [
+          {
+            label: 'New',
+            icon: 'pi pi-plus',
+            shortcut: '⌘+N'
+          },
+          {
+            label: 'Search',
+            icon: 'pi pi-search',
+            shortcut: '⌘+S'
+          }
+        ]
+      },
+      {
+        label: 'Profile',
+        items: [
+          {
+            label: 'Settings',
+            icon: 'pi pi-cog',
+            shortcut: '⌘+O'
+          },
+          {
+            label: 'Messages',
+            icon: 'pi pi-inbox',
+            badge: '2'
+          },
+          {
+            label: 'Logout',
+            icon: 'pi pi-sign-out',
+            shortcut: '⌘+Q'
+          }
+        ]
+      },
+      {
+        separator: true
+      }
+    ];
   }
 
   ngAfterViewInit(): void {
@@ -223,26 +269,26 @@ export class HomePageComponent {
     this.visible = true;
   }
 
-  get cpfInvalid(): boolean{
+  get cpfInvalid(): boolean {
     const control = this.formCliente.get('cpf')
     return !!(control?.invalid && control?.touched)
   }
 
-  get nomeInvalid(): boolean{
+  get nomeInvalid(): boolean {
     const control = this.formCliente.get('nome')
     return !!(control?.invalid && control?.touched)
   }
-  get telefoneInvalid(): boolean{
+  get telefoneInvalid(): boolean {
     const control = this.formCliente.get('telefone')
     return !!(control?.invalid && control?.touched)
   }
 
-  get ufInvalid(): boolean{
+  get ufInvalid(): boolean {
     const control = this.formCliente.get('uf')
     return !!(control?.errors?.['minLengthIfOne'] && control.touched)
   }
 
-  get cepInvalid(): boolean{
+  get cepInvalid(): boolean {
     const control = this.formCliente.get('cep')
     return !!(control?.errors?.['minLengthCep'] && control.touched)
   }
@@ -251,16 +297,16 @@ export class HomePageComponent {
 export function minLengthIfOne(min: number): import("@angular/forms").ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const v = control.value as string | null
-    if(v == null) return null
-    return v.length === 1 ? {minLengthIfOne: { requiredLength: min, actualLength: v.length }} : null
+    if (v == null) return null
+    return v.length === 1 ? { minLengthIfOne: { requiredLength: min, actualLength: v.length } } : null
   }
 }
 
 export function minLengthCep(min: number): import("@angular/forms").ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null =>{
+  return (control: AbstractControl): ValidationErrors | null => {
     const v = control.value as string | null
-    if(v == null) return null
-    return v.length < min && v.length != 0 && v.length != null ? {minLengthCep: { requiredLength: min, actualLength: v.length}} : null
+    if (v == null) return null
+    return v.length < min && v.length != 0 && v.length != null ? { minLengthCep: { requiredLength: min, actualLength: v.length } } : null
   }
 }
 
