@@ -22,7 +22,10 @@ import { TagModule } from 'primeng/tag';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-
+import { MenuModule } from 'primeng/menu';
+import { BadgeModule } from 'primeng/badge';
+import { RippleModule } from 'primeng/ripple';
+import { AvatarModule } from 'primeng/avatar';
 
 
 @NgModule({
@@ -39,6 +42,10 @@ import { DialogModule } from 'primeng/dialog';
     ButtonModule,
     DialogModule,
     MultiSelectModule,
+    RippleModule,
+    BadgeModule,
+    MenuModule,
+    AvatarModule,
     SelectModule,
     TagModule,
     AppRoutingModule,
