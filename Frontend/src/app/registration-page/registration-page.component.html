@@ -40,6 +40,12 @@
                     <div class="button">
                         <input type="submit" class="btn" value="Registrar">
                     </div>
+                    <div *ngIf="isMobile" style="justify-items: center;">
+                        <div class="separator"></div>
+                    </div>
+                    <div *ngIf="isMobile" class="login" type="submit" value="Logar" (click)="onLogin()">
+                        <a>Já tem login? Clique aqui para entrar!</a>
+                    </div>
                 </form>
             </div>
             <div class="img">

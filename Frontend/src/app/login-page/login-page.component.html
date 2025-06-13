@@ -42,6 +42,12 @@
                     <div class="lostPass">
                         <a href="#">Esqueceu a senha?</a>
                     </div>
+                    <div *ngIf="isMobile" style="justify-items: center;">
+                        <div class="separator"></div>
+                    </div>
+                    <div *ngIf="isMobile" class="register" type="submit" value="Registrar" (click)="onRegister()">
+                        <a>Não tem login? Clique aqui para se resgistrar!</a>
+                    </div>
                 </form>
             </div>
         </div>

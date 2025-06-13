@@ -1,4 +1,4 @@
-*{
+* {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
@@ -8,67 +8,78 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 100vw;            /* ocupa a largura total da viewport */
-	height: 100vh;           /* ocupa a altura total da viewport */
-	display: flex;           /* para centralizar a login-box */
-	justify-content: center; /* centraliza horizontalmente */
-	align-items: center;     /* centraliza verticalmente */
-	z-index: 1000;           /* fica acima de outros elementos da página */
+	width: 100vw;
+	/* ocupa a largura total da viewport */
+	height: 100vh;
+	/* ocupa a altura total da viewport */
+	display: flex;
+	/* para centralizar a login-box */
+	justify-content: center;
+	/* centraliza horizontalmente */
+	align-items: center;
+	/* centraliza verticalmente */
+	z-index: 1000;
+	/* fica acima de outros elementos da página */
 }
 
 .login-box {
 	width: 1100px;
 	height: 600px;
-	background: #ffffff;        /* fundo branco */
-	border-radius: 10px;         /* cantos arredondados, opcional */
-	box-shadow: 0 2px 10px rgba(0,0,0,0.3); /* sombra leve para destacar a caixa */
+	background: #ffffff;
+	/* fundo branco */
+	border-radius: 10px;
+	/* cantos arredondados, opcional */
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+	/* sombra leve para destacar a caixa */
 	position: relative;
-	overflow: hidden;           /* se algo extravasar, fica oculto */
+	overflow: hidden;
+	/* se algo extravasar, fica oculto */
 	display: flex;
-	flex-direction: column;     /* para alinhar conteúdo verticalmente */
+	flex-direction: column;
+	/* para alinhar conteúdo verticalmente */
 	align-items: center;
 	animation: slide-in-right 0.7s ease-out forwards;
 }
 
-.wave{
-	position:fixed;
+.wave {
+	position: fixed;
 	bottom: 0;
 	left: 0;
 	height: 100%;
 	z-index: -1;
 }
 
-.container{
-    height: 100vh;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap :7rem;
-    padding: 0 2rem;
+.container {
+	height: 100vh;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-gap: 7rem;
+	padding: 0 2rem;
 }
 
-.img{
+.img {
 	display: grid;
 	align-items: center;
 	justify-items: center;
 }
 
-.login-content{
+.login-content {
 	display: flex;
-    justify-content: center;
+	justify-content: center;
 	align-items: center;
 	text-align: center;
 }
 
-.img img{
+.img img {
 	width: 350px;
 }
 
-.register{
-	justify-items:flex-start;
-	margin-top:40px;
+.register {
+	justify-items: flex-start;
+	margin-top: 40px;
 }
 
-.register span{
+.register span {
 	font-size: 35px;
 	font-family: "Kanit", sans-serif;
 	font-weight: 500;
@@ -77,87 +88,89 @@
 	color: #004b9b;
 }
 
-.register p{
+.register p {
 	font-size: 20px;
 	font-family: "Kanit", sans-serif;
 	font-weight: 300;
 	font-style: normal;
 }
 
-.error-message{
-    display: flex;
-    position:absolute;
-    align-items: center;
-    top: 0;
-    right: 0;
-    padding-right: 10px;
-    border-radius: 7px;
-    background: #fff;
-    margin: 20px;
-    color: red;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    animation: slide-in-right 0.5s ease-out forwards;
+.error-message {
+	display: flex;
+	position: absolute;
+	align-items: center;
+	top: 0;
+	right: 0;
+	padding-right: 10px;
+	border-radius: 7px;
+	background: #fff;
+	margin: 20px;
+	color: red;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	animation: slide-in-right 0.5s ease-out forwards;
 }
 
 .linha-vertical {
-    position: relative;
-    border-left: 4px solid #004b9b; /* Cor e espessura da linha */
-    height: 40px;               /* Altura da linha */
-    margin-right: 10px;
-    border-radius: 5px;
+	position: relative;
+	border-left: 4px solid #004b9b;
+	/* Cor e espessura da linha */
+	height: 40px;
+	/* Altura da linha */
+	margin-right: 10px;
+	border-radius: 5px;
 }
 
-form{
+form {
 	width: 360px;
 }
 
-.button{
+.button {
 	display: flex;
 	width: 100%;
 	justify-content: center;
 }
 
-.login-content img{
-    height: 100px;
+.login-content img {
+	height: 100px;
 }
 
-.login-content h2{
+.login-content h2 {
 	margin: 15px 0;
 	color: #333;
 	text-transform: uppercase;
 	font-size: 2.9rem;
 }
 
-.login-content .input-div{
+.login-content .input-div {
 	position: relative;
-    display: grid;
-    grid-template-columns: 7% 93%;
-    margin: 25px 0;
-    padding: 5px 0;
-    border-bottom: 2px solid #d9d9d9;
+	display: grid;
+	grid-template-columns: 7% 93%;
+	margin: 25px 0;
+	padding: 5px 0;
+	border-bottom: 2px solid #d9d9d9;
 }
 
-.login-content .input-div.one{
+.login-content .input-div.one {
 	margin-top: 0;
 }
 
-.i{
+.i {
 	color: #d9d9d9;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-.i i{
+.i i {
 	transition: .3s;
 }
 
-.input-div > div{
-    position: relative;
+.input-div>div {
+	position: relative;
 	height: 45px;
 }
 
-.input-div > div > h5{
+.input-div>div>h5 {
 	position: absolute;
 	left: 10px;
 	top: 50%;
@@ -167,7 +180,8 @@ form{
 	transition: .3s;
 }
 
-.input-div:before, .input-div:after{
+.input-div:before,
+.input-div:after {
 	content: '';
 	position: absolute;
 	bottom: -2px;
@@ -177,28 +191,29 @@ form{
 	transition: .4s;
 }
 
-.input-div:before{
+.input-div:before {
 	right: 50%;
 }
 
-.input-div:after{
+.input-div:after {
 	left: 50%;
 }
 
-.input-div.focus:before, .input-div.focus:after{
+.input-div.focus:before,
+.input-div.focus:after {
 	width: 50%;
 }
 
-.input-div.focus > div > h5{
+.input-div.focus>div>h5 {
 	top: -5px;
 	font-size: 15px;
 }
 
-.input-div.focus > .i > i{
+.input-div.focus>.i>i {
 	color: #004b9b;
 }
 
-.input-div > div > input{
+.input-div>div>input {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -213,17 +228,17 @@ form{
 	font-family: 'poppins', sans-serif;
 }
 
-.input-div.pass{
+.input-div.pass {
 	margin-bottom: 4px;
 }
 
-.lostPass{
+.lostPass {
 	width: 100%;
 	justify-items: center;
 	margin-top: 20px;
 }
 
-a{
+a {
 	display: block;
 	text-decoration: none;
 	color: #999;
@@ -231,11 +246,11 @@ a{
 	transition: .3s;
 }
 
-a:hover{
+a:hover {
 	color: #004b9b;
 }
 
-.btn{
+.btn {
 	display: block;
 	width: 50%;
 	height: 45px;
@@ -252,17 +267,17 @@ a:hover{
 	transition: .5s;
 }
 
-.btn:hover{
+.btn:hover {
 	background-color: #003d7e;
 }
 
-.btn-register:hover{
+.btn-register:hover {
 	color: #fff;
 	background-color: #004b9b;
 	transition: .3s;
 }
 
-.btn-register{
+.btn-register {
 	display: block;
 	width: 50%;
 	height: 45px;
@@ -283,78 +298,120 @@ a:hover{
 	margin-top: -20px;
 }
 
-@media screen and (max-width: 1200px){
-	.login-box{
+
+.register {
+	align-items: center;
+	justify-items: center;
+	margin-top: 0px;
+}
+
+.register a {
+	align-items: center;
+	justify-items: center;
+	color: #004b9b;
+	transition: .3s;
+	font-weight: 500;
+	width: 110%;
+}
+
+.register a:hover {
+	color: #003d7e;
+}
+
+.separator {
+	display: flex;
+	position: relative;
+	border-bottom: 1px solid #d9d9d9;
+	width: 20%;
+	height: 2px;
+	justify-items: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+
+
+@media screen and (max-width: 1200px) {
+	.login-box {
 		align-items: center;
 		width: 90%;
 	}
-	.container{
+
+	.container {
 		gap: 5rem;
 	}
-	.img img{
+
+	.img img {
 		width: 350px;
 	}
 }
 
-@media screen and (max-width: 1050px){
-	.login-box{
+@media screen and (max-width: 1050px) {
+	.login-box {
 		align-items: center;
 		width: 90%;
 	}
-	.container{
+
+	.container {
 		gap: 5rem;
 	}
-	.img img{
+
+	.img img {
 		width: 350px;
 	}
 }
 
-@media screen and (max-width: 1000px){
-	.login-box{
+@media screen and (max-width: 1000px) {
+	.login-box {
 		align-items: center;
 		width: 90%;
 	}
-	.container{
+
+	.container {
 		grid-template-columns: 1fr;
 		justify-items: center;
 	}
 
-	.img{
+	.img {
 		display: none;
 	}
 
-	.login-content{
+	.login-content {
 		justify-content: center;
 	}
 }
 
-@media screen and (max-width: 900px){
-	.login-box{
+@media screen and (max-width: 900px) {
+	.login-box {
 		width: 90%;
 	}
-	.container{
+
+	.container {
 		grid-template-columns: 1fr;
 		justify-content: center;
 	}
 
-	.img{
+	.img {
 		display: none;
 	}
 
-	.login-content{
+	.login-content {
 		justify-content: center;
 		width: 80%;
 	}
 }
 
 @keyframes slide-in-right {
-  from {
-    /* posiciona totalmente fora da tela à direita */
-    right: -100%;      /* ou use transform: translateX(100%); */
-    
-  }
-  to {
-    /* posição final */
-    right: 0;          /* ou transform: translateX(0); */
-  }
+	from {
+		/* posiciona totalmente fora da tela à direita */
+		right: -100%;
+		/* ou use transform: translateX(100%); */
+
+	}
+
+	to {
+		/* posição final */
+		right: 0;
+		/* ou transform: translateX(0); */
+	}
 }

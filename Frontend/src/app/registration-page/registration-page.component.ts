@@ -12,6 +12,7 @@ import { AuthService } from '../auth/auth.service';
 export class RegistrationPageComponent implements OnInit, AfterViewInit {
   form: FormGroup;
   errorMessage: string | null = null;
+  isMobile = window.innerWidth <= 1000;
   private timeoutHandle?: any;
 
   constructor(
@@ -24,6 +25,9 @@ export class RegistrationPageComponent implements OnInit, AfterViewInit {
       usuario: ['', Validators.required],
       senha:   ['', Validators.required],
       senha_confirm: ['', Validators.required]
+    });
+    window.addEventListener('resize', () => {
+      this.isMobile = window.innerWidth <= 1000;
     });
   }
 

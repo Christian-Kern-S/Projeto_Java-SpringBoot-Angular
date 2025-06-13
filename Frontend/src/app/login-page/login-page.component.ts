@@ -13,6 +13,7 @@ import { AuthService } from '../auth/auth.service';
 export class LoginPageComponent implements OnInit, AfterViewInit {
   form: FormGroup;
   errorMessage: string | null = null;
+  isMobile = window.innerWidth <= 1000;
   private timeoutHandle?: any;
 
   constructor(
@@ -23,7 +24,10 @@ export class LoginPageComponent implements OnInit, AfterViewInit {
     // Inicializa o FormGroup com dois controles (por exemplo "usuario" e "senha")
     this.form = this.fb.group({
       usuario: ['', Validators.required],
-      senha:   ['', Validators.required]
+      senha: ['', Validators.required]
+    });
+    window.addEventListener('resize', () => {
+      this.isMobile = window.innerWidth <= 1000;
     });
   }
 
@@ -73,7 +77,7 @@ export class LoginPageComponent implements OnInit, AfterViewInit {
    * Por enquanto só redireciona para outra rota como exemplo,
    * mas aqui você colocaria a chamada à API, validação, etc.
    */
-  onRegister(): void{
+  onRegister(): void {
     this.router.navigate(['/registration']);
   }
 
@@ -87,13 +91,13 @@ export class LoginPageComponent implements OnInit, AfterViewInit {
     }
 
     if (/\s/.test(senha)) {
-    this.showError('A senha não pode conter espaços em branco');
-    return;
+      this.showError('A senha não pode conter espaços em branco');
+      return;
     }
 
     if (/\s/.test(usuario)) {
-    this.showError('O usuário não pode conter espaços em branco');
-    return;
+      this.showError('O usuário não pode conter espaços em branco');
+      return;
     }
 
     const username = this.form.get('usuario')?.value?.toLowerCase();
@@ -106,7 +110,7 @@ export class LoginPageComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/home']);
       },
       error: (err) => {
-        if (err.status === 401){
+        if (err.status === 401) {
           this.showError('Credenciais inválidas.');
         } else {
           this.showError('Erro no servidor. Tente novamente');
