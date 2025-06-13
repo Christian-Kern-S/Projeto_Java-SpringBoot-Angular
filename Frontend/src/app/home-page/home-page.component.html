@@ -68,7 +68,7 @@
             <th>ID - Cliente</th>
             <th>Nome</th>
             <th>CPF</th>
-            <th>Email</th>
+            <th>E-mail</th>
             <th>Ações</th>
           </tr>
           <tr>
@@ -85,7 +85,7 @@
                 ariaLabel="Filter name"></p-columnFilter>
             </th>
             <th>
-              <p-columnFilter type="text" field="email" placeholder="Pesquisar por cpf"
+              <p-columnFilter type="text" field="email" placeholder="Pesquisar por e-mail"
                 ariaLabel="Filter name"></p-columnFilter>
             </th>
             <th>
@@ -94,25 +94,25 @@
         </ng-template>
         <ng-template #body let-customer>
           <tr>
-            <td>
+            <td style="width:20%">
               {{ customer.idCliente }}
             </td>
-            <td>
+            <td style="width:30%">
               <div class="flex items-center gap-2">
                 <span>{{ customer.nome }}</span>
               </div>
             </td>
-            <td>
+            <td style="width:20%">
               <div class="flex items-center gap-2">
-                <span>{{ customer.cpf }}</span>
+                <span>{{ customer.cpf | mask:'000.000.000-00' }}</span>
               </div>
             </td>
-            <td>
+            <td style="width:25%">
               <div class="flex items-center gap-2">
                 <span>{{ customer.email }}</span>
               </div>
             </td>
-            <td>
+            <td style="width:15%">
               <button (click)="verMais(customer)" class="btn btn-primary">Ver Mais</button>
             </td>
           </tr>
@@ -151,69 +151,75 @@
     [styleClass]="'custom-dialog'" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '50vw' }"
     [draggable]="false" [resizable]="false" styleClass="custom-dialog" [closable]="false">
     <form [formGroup]="formCliente">
-      <div class="form-group">
-        <label for="nome">Nome</label>
-        <input type="text" class="form-control" id="nome" formControlName="nome">
+      <div class="input-div" [ngClass]="{'input-div--error': nomeInvalid}">
+        <h5 for="nome">Nome *</h5>
+        <input type="text" class="input" id="nome" formControlName="nome" (focus)="onFocus($event)"
+          (blur)="onBlur($event)">
       </div>
 
-      <div class="form-group">
-        <label for="cpf">CPF</label>
-        <input type="text" class="form-control" mask="000.000.000-00" id="cpf" formControlName="cpf">
-        <div *ngIf="formCliente.get('cpf')?.hasError('minlength') && formCliente.get('cpf')?.touched"
-          class="text-danger">
-          O cpf deve ter no mínimo 11 caracteres.
-        </div>
+      <div class="input-div" [ngClass]="{'input-div--error': cpfInvalid}">
+        <h5 for="cpf">CPF *</h5>
+        <input type="text" class="input" mask="000.000.000-00" id="cpf" formControlName="cpf" (focus)="onFocus($event)"
+          (blur)="onBlur($event)">
       </div>
 
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="text" class="form-control" id="email" formControlName="email">
+      <div class="input-div">
+        <h5 for="email">Email *</h5>
+        <input type="email" class="input" id="email" formControlName="email"
+          (focus)="onFocus($event)" (blur)="onBlur($event)">
       </div>
 
-      <div class="form-group">
-        <label for="telefone">Telefone</label>
-        <input type="text" class="form-control" id="telefone" mask="(00)0000-0000||(00)00000-0000"
-          formControlName="telefone">
+      <div class="input-div" [ngClass]="{'input-div--error': telefoneInvalid}">
+        <h5 for="telefone">Telefone *</h5>
+        <input type="text" class="input" id="telefone" mask="(00)0000-0000||(00)00000-0000" formControlName="telefone"
+          (focus)="onFocus($event)" (blur)="onBlur($event)">
       </div>
 
-      <div class="form-group">
-        <label for="logradouro">Logradouro</label>
-        <input type="text" class="form-control" id="logradouro" formControlName="logradouro">
+      <div class="input-div">
+        <h5 for="logradouro">Logradouro</h5>
+        <input type="text" class="input" id="logradouro" formControlName="logradouro" (focus)="onFocus($event)"
+          (blur)="onBlur($event)">
       </div>
 
-      <div class="form-group">
-        <label for="numero">Número</label>
-        <input type="text" class="form-control" id="numero" formControlName="numero">
+      <div class="input-div">
+        <h5 for="numero">Número</h5>
+        <input type="text" class="input" id="numero" formControlName="numero" (focus)="onFocus($event)"
+          (blur)="onBlur($event)">
       </div>
 
-      <div class="form-group">
-        <label for="complemento">Complemento</label>
-        <input type="text" class="form-control" id="complemento" formControlName="complemento">
+      <div class="input-div">
+        <h5 for="complemento">Complemento</h5>
+        <input type="text" class="input" id="complemento" formControlName="complemento" (focus)="onFocus($event)"
+          (blur)="onBlur($event)">
       </div>
 
-      <div class="form-group">
-        <label for="bairro">Bairro</label>
-        <input type="text" class="form-control" id="bairro" formControlName="bairro">
+      <div class="input-div">
+        <h5 for="bairro">Bairro</h5>
+        <input type="text" class="input" id="bairro" formControlName="bairro" (focus)="onFocus($event)"
+          (blur)="onBlur($event)">
       </div>
 
-      <div class="form-group">
-        <label for="cidade">Cidade</label>
-        <input type="text" class="form-control" id="cidade" formControlName="cidade">
+      <div class="input-div">
+        <h5 for="cidade">Cidade</h5>
+        <input type="text" class="input" id="cidade" formControlName="cidade" (focus)="onFocus($event)"
+          (blur)="onBlur($event)">
       </div>
 
-      <div class="form-group">
-        <label for="uf">UF</label>
-        <input type="text" class="form-control" id="uf" formControlName="uf">
+      <div class="input-div" [ngClass]="{'input-div--error': ufInvalid}">
+        <h5 for="uf">UF</h5>
+        <input type="text" class="input" id="uf" formControlName="uf"  mask="AA"(focus)="onFocus($event)" (blur)="onBlur($event)">
       </div>
 
-      <div class="form-group">
-        <label for="cep">CEP</label>
-        <input type="text" class="form-control" id="cep" formControlName="cep">
+      <div class="input-div" [ngClass]="{'input-div--error': cepInvalid}">
+        <h5 for="cep">CEP</h5>
+        <input type="text" class="input" id="cep" formControlName="cep" mask="00000-000" (focus)="onFocus($event)"
+          (blur)="onBlur($event)">
       </div>
 
-      <div class="form-group">
-        <label for="rendaMensal">Renda Mensal</label>
-        <input type="number" class="form-control" id="rendaMensal" formControlName="rendaMensal">
+      <div class="input-div">
+        <h5 for="rendaMensal">Renda Mensal</h5>
+        <input type="number" class="input" id="rendaMensal" formControlName="rendaMensal" (focus)="onFocus($event)"
+          (blur)="onBlur($event)">
       </div>
     </form>
     <ng-template pTemplate="footer">

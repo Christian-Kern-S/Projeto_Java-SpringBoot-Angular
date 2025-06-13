@@ -3,7 +3,7 @@ import { ClienteService } from '../servicos/cliente/cliente.service';
 import { ClienteModel } from '../models/cliente.model';
 import { UsuarioModel } from '../models/usuario.model';
 import { Router } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Modal } from 'bootstrap';
 import { AuthService } from '../auth/auth.service';
@@ -37,21 +37,21 @@ export class HomePageComponent {
   ) {
     this.form = this.fb.group({
       value: [''],
-      type: ['1', [Validators.required]]
+      type: ['1', [Validators.required]],
     })
     this.loadClientes()
     this.formCliente = this.fb.group({
-      nome: new FormControl<string | null>(null, { nonNullable: true }),
+      nome: new FormControl<string | null>(null, [Validators.required, Validators.nullValidator]),
       logradouro: new FormControl<string | null>(null),
       numero: new FormControl<string | null>(null),
       complemento: new FormControl<string | null>(null),
       bairro: new FormControl<string | null>(null),
       cidade: new FormControl<string | null>(null),
-      uf: new FormControl<string | null>(null),
-      cep: new FormControl<string | null>(null),
+      uf: new FormControl<string | null>(null, [Validators.required, minLengthIfOne(2)]),
+      cep: new FormControl<string | null>(null, [Validators.required, minLengthCep(8)]),
       cpf: new FormControl<string | null>(null, [Validators.required, Validators.minLength(11)]),
       email: new FormControl<string | null>(null, { nonNullable: true }),
-      telefone: new FormControl<string | null>(null, { nonNullable: true }),
+      telefone: new FormControl<string | null>(null, [Validators.required, Validators.nullValidator]),
       rendaMensal: new FormControl<number | null>(null),
       dataCadastro: new FormControl<Date | null>(null, { nonNullable: true })
     })
@@ -71,6 +71,44 @@ export class HomePageComponent {
       }
     });
   }
+
+  ngAfterViewInit(): void {
+    // Depois que o template já foi renderizado, capturamos todos os inputs de classe "input"
+    const inputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('.input');
+
+    // Adiciona listener de focus/blur a cada um
+    inputs.forEach(input => {
+      input.addEventListener('focus', this.onFocus);
+      input.addEventListener('blur', this.onBlur);
+    });
+  }
+
+  /**
+   * Chamado quando um <input class="input"> ganha foco.
+   * Adiciona a classe "focus" ao elemento-pai-do-pai.
+   */
+  onFocus(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    // Como no HTML original o input está dentro de duas divs,
+    // fazemos parentNode duas vezes (input → <div class="div"> → <div class="input-div ...">).
+    const parent = (target as HTMLElement).closest('.input-div') as HTMLElement;
+    if (parent) {
+      parent.classList.add('focus');
+    }
+  }
+
+  /**
+   * Chamado quando um <input class="input"> perde o foco.
+   * Remove a classe "focus" se o campo estiver vazio.
+   */
+  onBlur(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    if (!target.value) {
+      const parent = (target as HTMLElement).closest('.input-div') as HTMLElement;
+      parent?.classList.remove('focus');
+    }
+  }
+
 
   async loadClientes(): Promise<void> {
     if (!this.usuario) {
@@ -109,7 +147,7 @@ export class HomePageComponent {
   obterDataAtual(): string {
     const hoje = new Date();
     const ano = hoje.getFullYear();
-    const mes = (hoje.getMonth() + 1).toString().padStart(2, '0'); // Mês começa em 0
+    const mes = (hoje.getMonth() + 1).toString().padStart(2, '0');
     const dia = hoje.getDate().toString().padStart(2, '0');
     return `${ano}-${mes}-${dia}`;
   }
@@ -139,6 +177,7 @@ export class HomePageComponent {
 
       },
       error: (error) => {
+        this.formCliente.reset();
         this.showError('Erro ao salvar o cliente')
       }
     });
@@ -183,4 +222,45 @@ export class HomePageComponent {
   showDialog() {
     this.visible = true;
   }
+
+  get cpfInvalid(): boolean{
+    const control = this.formCliente.get('cpf')
+    return !!(control?.invalid && control?.touched)
+  }
+
+  get nomeInvalid(): boolean{
+    const control = this.formCliente.get('nome')
+    return !!(control?.invalid && control?.touched)
+  }
+  get telefoneInvalid(): boolean{
+    const control = this.formCliente.get('telefone')
+    return !!(control?.invalid && control?.touched)
+  }
+
+  get ufInvalid(): boolean{
+    const control = this.formCliente.get('uf')
+    return !!(control?.errors?.['minLengthIfOne'] && control.touched)
+  }
+
+  get cepInvalid(): boolean{
+    const control = this.formCliente.get('cep')
+    return !!(control?.errors?.['minLengthCep'] && control.touched)
+  }
 }
+
+export function minLengthIfOne(min: number): import("@angular/forms").ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const v = control.value as string | null
+    if(v == null) return null
+    return v.length === 1 ? {minLengthIfOne: { requiredLength: min, actualLength: v.length }} : null
+  }
+}
+
+export function minLengthCep(min: number): import("@angular/forms").ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null =>{
+    const v = control.value as string | null
+    if(v == null) return null
+    return v.length < min && v.length != 0 && v.length != null ? {minLengthCep: { requiredLength: min, actualLength: v.length}} : null
+  }
+}
+
