@@ -69,6 +69,7 @@ public class AuthController {
         responseBody.put("token",   fakeToken);
         responseBody.put("id_user", usuario.getId().toString());
         responseBody.put("username", usuario.getUsername());
+        responseBody.put("role", usuario.getRole());
 
         return ResponseEntity.ok(responseBody);
     }

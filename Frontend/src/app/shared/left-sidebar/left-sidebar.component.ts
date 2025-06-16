@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MenuModule } from 'primeng/menu';
 import { BadgeModule } from 'primeng/badge';
 import { RippleModule } from 'primeng/ripple';
 import { AvatarModule } from 'primeng/avatar';
 import { MenuItem } from 'primeng/api';
+import { UsuarioModel } from '../../models/usuario.model';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-left-sidebar',
@@ -23,6 +25,12 @@ import { MenuItem } from 'primeng/api';
 })
 export class LeftSidebarComponent {
   items: MenuItem[] = [];
+  usuario: UsuarioModel | null = null;
+
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {}
 
   ngOnInit(): void {
     this.items = [
@@ -30,6 +38,7 @@ export class LeftSidebarComponent {
         items: [
           { label: 'Dashboard', icon: 'fa-solid fa-house' },
           { label: 'Clientes', icon: 'fa-regular fa-address-book' },
+          { label: 'Helpdesk', icon: 'fa-solid fa-headset' },
           { label: 'Mensagens', icon: 'fa-solid fa-comment', badge: '2' }
         ]
       },
@@ -41,5 +50,18 @@ export class LeftSidebarComponent {
         ]
       },
     ];
+
+    this.authService.getCurrentUser().subscribe({
+      next: (u: UsuarioModel) => {
+        this.usuario = u;
+      },
+      error: (err) => {
+        console.error('Não foi possível obter o usuário logado', err);
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+  verifyUserRole(): string {
+    return this.usuario?.role === "ROLE_ADMIN" ? "Admin" : "Usuário";
   }
 }

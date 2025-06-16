@@ -7,6 +7,7 @@ interface LoginResponse {
     token: string
     id_user: string
     username: string
+    role: string
 }
 
 interface SignInResponse{
@@ -36,7 +37,8 @@ export class AuthService{
             // 2) salva também os dados do usuário (id_user e username)
             const userData: UsuarioModel = {
             id_user: response.id_user,
-            username: response.username
+            username: response.username,
+            role: response.role
             };
             localStorage.setItem('userData', JSON.stringify(userData));
 

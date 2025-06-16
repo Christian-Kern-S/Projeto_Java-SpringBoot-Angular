@@ -28,8 +28,8 @@
             <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" class="mr-2"
               shape="circle"></p-avatar>
             <span class="inline-flex flex-col">
-              <span class="font-bold">Amy Elsner</span>
-              <span class="text-sm">Admin</span>
+              <span class="font-bold">{{usuario?.username}}</span>
+              <span class="text-sm">{{verifyUserRole()}}</span>
             </span>
           </button>
         </ng-template>

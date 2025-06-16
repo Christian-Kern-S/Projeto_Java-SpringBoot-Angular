@@ -1,6 +1,6 @@
 .offcanvas {
   padding: 10px;
-  width: 20vw;
+  width: 290px;
 }
 
 .card {
@@ -39,7 +39,7 @@
 }
 
 :host ::ng-deep .p-menu-separator {
-  margin-bottom: 46vh;
+  margin-bottom: 42vh;
 }
 
 :host ::ng-deep .p-avatar-circle {
