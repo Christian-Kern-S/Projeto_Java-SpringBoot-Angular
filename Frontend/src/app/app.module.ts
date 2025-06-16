@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { ClientePageComponent } from './cliente-page/cliente-page.component';
+import { DetalheClientePageComponent } from './detalhes-cliente-page/detalhe-cliente-page.component';
 import { provideHttpClient } from '@angular/common/http';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask'
 import { ReactiveFormsModule } from '@angular/forms';
@@ -33,7 +33,7 @@ import { LeftSidebarComponent } from '../app/shared/left-sidebar/left-sidebar.co
   declarations: [
     AppComponent,
     HomePageComponent,
-    ClientePageComponent,
+    DetalheClientePageComponent,
     LoginPageComponent,
     RegistrationPageComponent,
   ],

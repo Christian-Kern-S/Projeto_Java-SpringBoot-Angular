@@ -9,10 +9,10 @@ import { DependenteModel } from '../models/dependente.model';
 
 @Component({
   selector: 'app-cliente-page',
-  templateUrl: './cliente-page.component.html',
-  styleUrls: ['./cliente-page.component.css']
+  templateUrl: './detalhe-cliente-page.component.html',
+  styleUrls: ['./detalhe-cliente-page.component.css']
 })
-export class ClientePageComponent implements OnInit {
+export class DetalheClientePageComponent implements OnInit {
 
   cliente: ClienteModel | null = null
   dependente: DependenteModel | null = null
