@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './home-page/home-page.component';
-import { DetalheClientePageComponent } from './detalhes-cliente-page/detalhe-cliente-page.component'
+import { DetalheClientePageComponent } from './detalhe-cliente-page/detalhe-cliente-page.component'
 import { LoginPageComponent } from './login-page/login-page.component';
 import { LoginGuard } from './login-page/login-page.guard';
 import { AuthGuard } from './auth/auth.guard';
