@@ -9,11 +9,11 @@ import { Modal } from 'bootstrap';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
-  selector: 'app-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.css'
+  selector: 'app-clientes-page',
+  templateUrl: './clientes-page.component.html',
+  styleUrl: './clientes-page.component.css'
 })
-export class HomePageComponent {
+export class ClientesPageComponent {
 
   form: FormGroup
   clientes: ClienteModel[] = []

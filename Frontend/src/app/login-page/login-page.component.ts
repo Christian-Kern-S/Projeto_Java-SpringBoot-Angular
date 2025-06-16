@@ -33,7 +33,7 @@ export class LoginPageComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/clientes']);
     }
   }
 
@@ -107,7 +107,7 @@ export class LoginPageComponent implements OnInit, AfterViewInit {
       next: (response) => {
         this.authService.saveToken(response.token);
         this.errorMessage = null;
-        this.router.navigate(['/home']);
+        this.router.navigate(['/clientes']);
       },
       error: (err) => {
         if (err.status === 401) {

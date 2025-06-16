@@ -16,8 +16,8 @@ export class LoginGuard implements CanActivate {
       // Se NÃO estiver logado, deixa acessar /login
       return true;
     }
-    // Se JÁ estiver logado, manda para /home
-    this.router.navigate(['/home']);
+    // Se JÁ estiver logado, manda para /clientes
+    this.router.navigate(['/clientes']);
     return false;
   }
 }

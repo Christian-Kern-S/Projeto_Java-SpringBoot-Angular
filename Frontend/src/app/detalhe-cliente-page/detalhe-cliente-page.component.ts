@@ -1,5 +1,5 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from '../servicos/cliente/cliente.service';
 import { ClienteModel } from '../models/cliente.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -27,6 +27,7 @@ export class DetalheClientePageComponent implements OnInit {
   
   constructor(
     private readonly clienteService: ClienteService,
+    private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly snackBar: MatSnackBar,
     private readonly location: Location,
@@ -192,6 +193,11 @@ export class DetalheClientePageComponent implements OnInit {
       console.error("ID do dependente a ser excluído não encontrado.");
     }
   }
+
+  backPage(): void {
+    this.router.navigate(['/clientes']);
+  }
+    
 
   private onSuccessCreateDependente() {
     this.loadDependentes()

@@ -33,7 +33,7 @@ export class RegistrationPageComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/clientes']);
     }
   }
 
@@ -78,7 +78,7 @@ export class RegistrationPageComponent implements OnInit, AfterViewInit {
    * mas aqui você colocaria a chamada à API, validação, etc.
    */
   onLogin(): void{
-    this.router.navigate(['/loging']);
+    this.router.navigate(['/login']);
   }
 
   onSubmit(): void {
