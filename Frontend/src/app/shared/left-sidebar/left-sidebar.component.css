@@ -1,8 +1,116 @@
-.offcanvas-body {
-  padding: 0;
+.offcanvas {
+  padding: 10px;
+  width: 20vw;
 }
+
 .card {
   border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  height: 100%;
+  display: grid;
+}
+
+:host ::ng-deep .p-menu {
+  display: grid;
+  align-content: space-between;
+  height: 100%;
+}
+
+:host ::ng-deep .p-menu-item-link {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  overflow: hidden;
+  position: relative;
+  color: inherit;
+  padding: var(--p-menu-item-padding);
+  gap: var(--p-menu-item-gap);
+  user-select: none;
+  outline: 0 none;
+}
+
+:host ::ng-deep .ml-2 {
+  margin-left: .5rem;
+}
+
+:host ::ng-deep .ml-auto {
+  margin-left: auto;
+}
+
+:host ::ng-deep .p-menu-separator {
+  margin-bottom: 46vh;
+}
+
+:host ::ng-deep .p-avatar-circle {
+  border-radius: 50% !important;
+}
+
+:host ::ng-deep.p-avatar-image {
+  background: transparent !important;
+}
+
+:host ::ng-deep .p-avatar {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 3rem !important;
+  height: 3rem !important;
+  font-size: 2rem !important;
+  color: #334155 !important;
+}
+
+:host ::ng-deep .items-start {
+  display: flex !important;
+  justify-items: center !important;
+  align-items: flex-start !important;
+  width: 100% !important;
+}
+
+:host ::ng-deep .items-start:hover {
+  background: #e7e7e7 !important;
+  border-radius: 7px !important;
+}
+
+:host ::ng-deep .flex-col {
+  flex-direction: column !important;
+}
+
+:host ::ng-deep .inline-flex {
+  display: inline-flex !important;
+  align-items: flex-start;
+  padding-inline: 20px;
+}
+
+:host ::ng-deep .font-bold {
+  font-weight: 600 !important;
+  color: #004b9b;
+}
+
+:host ::ng-deep .text-sm {
+  font-size: .875rem;
+  line-height: 1.25rem;
+  color: #3d3d3d;
+}
+
+.line {
+  display: flex;
+  position: relative;
+  border-bottom: 1px solid #d9d9d9;
+  width: 100%;
+  height: 2px;
+  justify-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+:host ::ng-deep .p-menu-item {
+  padding: 6px;
+  padding-inline: 12px;
+  margin: 2px;
+}
+
+:host ::ng-deep .p-menu-item:hover {
+  background: #e7e7e7 !important;
+  border-radius: 7px !important;
 }

@@ -26,23 +26,20 @@ export class LeftSidebarComponent {
 
   ngOnInit(): void {
     this.items = [
+      {
+        items: [
+          { label: 'Dashboard', icon: 'fa-solid fa-house' },
+          { label: 'Clientes', icon: 'fa-regular fa-address-book' },
+          { label: 'Mensagens', icon: 'fa-solid fa-comment', badge: '2' }
+        ]
+      },
       { separator: true },
       {
-        label: 'Documents',
         items: [
-          { label: 'New', icon: 'pi pi-plus', shortcut: '⌘+N' },
-          { label: 'Search', icon: 'pi pi-search', shortcut: '⌘+S' }
+          { label: 'Configurações', icon: 'fa-solid fa-gear' },
+          { label: 'Sair', icon: 'fa-solid fa-right-from-bracket' }
         ]
       },
-      {
-        label: 'Profile',
-        items: [
-          { label: 'Settings', icon: 'pi pi-cog', shortcut: '⌘+O' },
-          { label: 'Messages', icon: 'pi pi-inbox', badge: '2' },
-          { label: 'Logout', icon: 'pi pi-sign-out', shortcut: '⌘+Q' }
-        ]
-      },
-      { separator: true }
     ];
   }
 }
