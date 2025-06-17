@@ -1,5 +1,4 @@
 /* Importa a fonte Montserrat */
-
 * {
   padding: 0;
   box-sizing: border-box;
@@ -8,7 +7,7 @@
 
 .cliente-page {
   background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-  min-height: 100vh;
+  padding-bottom: 20px;
 }
 
 .add-dependente {
@@ -31,6 +30,28 @@
   border: none;
 }
 
+.cabecalho {
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #004b9b;
+  color: white;
+  height: 3rem;
+  width: 100%;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  padding-inline: 30px;
+}
+
+.cabecalho h2 {
+  font-size: 24px;
+  margin: 0;
+}
+
 .cabecalho .btn-primary {
   font-size: 15px;
   margin-left: 10px;
@@ -49,43 +70,28 @@
   border: none;
 }
 
-.cabecalho {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #004b9b;
-  color: white;
-  padding: 20px;
-}
-
-.cabecalho h2{
-  font-size: 24px;
-  margin: 0;        
-}
-
 .titulo-id h2 {
   overflow-wrap: break-word;
   white-space: normal;
-  margin: 0;
+  margin: 0 0 5px 0;
   font-size: 40px;
   font-weight: 700;
-  margin-bottom: 5px;
 }
 
-.titulo-id h4{
+.titulo-id h4 {
   font-size: 20px;
+  margin: 0;
 }
 
 .container {
   width: 80%;
   margin: 20px auto;
-  padding: 20px;
+  padding-top: 60px;
+  padding-inline: 20px;
 }
 
 .cliente-info {
-
   margin-bottom: 20px;
-  
   align-items: center;
   justify-content: center;
   padding: 20px;
@@ -100,12 +106,10 @@
 .botoes-acao {
   display: flex;
   justify-content: flex-end;
-  /* Alinha os botões à direita */
   gap: 10px;
 }
 
 .botoes-acao .btn-primary {
-  /* Botão de editar (lápis) */
   background-color: #007bff;
   min-width: 50px;
   height: 50px;
@@ -114,22 +118,19 @@
   border: none;
   margin-left: 15px;
   transition: 0.3s ease-in-out;
-  /* Azul */
 }
 
 .botoes-acao .trash {
-  /* Botão de excluir (lixeira) */
   background-color: #dc3545;
-  /* Vermelho */
 }
 
-.botoes-acao .btn-primary:hover{
+.botoes-acao .btn-primary:hover {
   background-color: white;
-  color:#007bff;
+  color: #007bff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.botoes-acao .trash:hover{
+.botoes-acao .trash:hover {
   color: #dc3545;
 }
 
@@ -143,47 +144,39 @@
 .endereco-info {
   margin-top: 25px;
   margin-bottom: 20px;
-  /* Aumenta o espaçamento entre as seções */
 }
 
 .pessoal-info h3,
 .endereco-info h3 {
   font-size: 20px;
-  /* Aumenta um pouco o tamanho do título */
   margin-bottom: 15px;
-  /* Adiciona espaço entre o título e a lista */
 }
 
 .pessoal-info .list-group-item,
-.endereco-info .list-group-item{
+.endereco-info .list-group-item {
   max-width: 65%;
 }
 
 .list-group-item {
   border: none;
-  /* Remove a borda padrão da lista */
   padding: 15px 20px;
-  /* Aumenta o espaçamento interno dos itens */
   border-bottom: 1px solid #eee;
-  /* Adiciona uma linha sutil entre os itens */
 }
 
 .list-group-item p {
   font-size: 16px;
-  /* Aumenta um pouco o tamanho da fonte */
   margin-bottom: 0;
-  /* Remove a margem inferior padrão do parágrafo */
 }
 
 .list-group-item:last-child {
   border-bottom: none;
-  /* Remove a linha do último item */
 }
 
 .dependentes {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 8px;
   padding: 20px;
+  margin-bottom: 20px;
 }
 
 .dependentes h3 {
@@ -201,7 +194,6 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  
 }
 
 .table th,
@@ -211,32 +203,32 @@
   border: 1px solid #dee2e6;
 }
 
-.table .btn-primary{
+.table .btn-primary {
   background-color: #007bff;
   border: none;
-  width:30px;
+  width: 30px;
   height: 30px;
   min-width: 30px;
   border-radius: 30px;
   font-size: 13px;
   align-items: center;
   margin-left: 10px;
-  justify-content: space-between;
+  justify-content: center;
   transition: 0.2s ease-in-out;
+  display: inline-flex;
 }
 
-.table .trash{
+.table .trash {
   background-color: #dc3545;
 }
 
-.table .btn-primary:hover{
+.table .btn-primary:hover {
   background-color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  color: #007bff;
+  color: #004b9b;
 }
 
-
-.table .trash:hover{
+.table .trash:hover {
   color: #dc3545;
 }
 
@@ -245,23 +237,23 @@
 .modal-content {
   border-radius: 8px;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .modal-header {
-  background-color: #004b9b; 
-  color: white; 
-  font-size: 10px;
-  display: flex; /* Para alinhar o título e o botão */
-  align-items: center; /* Alinha verticalmente */
-  justify-content: space-between; /* Distribui o espaço entre o título e o botão */
+  background-color: #004b9b;
+  color: white;
+  font-size: 16px;
+  align-items: center;
+  justify-content: space-between;
   height: 50px;
   padding: 20px;
+  display: flex;
 }
 
 .modal-title {
-  font-size: 1.2rem; /* Título um pouco maior */
-  margin-bottom: 0; /* Remove a margem inferior padrão */
+  font-size: 1.2rem;
+  margin-bottom: 0;
 }
 
 .modal-body {
@@ -271,13 +263,13 @@
 .modal-footer {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  display: flex; /* Para alinhar os botões */
-  justify-content: flex-end; /* Alinha os botões à direita */
+  display: flex;
+  justify-content: flex-end;
   align-items: center;
   height: 60px;
 }
 
-.modal-footer .btn-secondary{
+.modal-footer .btn-secondary {
   color: #007bff;
   background-color: transparent;
   border: 1px solid #007bff;
@@ -287,14 +279,15 @@
   width: 90px;
   transition: 0.3s ease-in-out;
 }
-.modal-footer .btn-secondary:hover{
+
+.modal-footer .btn-secondary:hover {
   font-weight: 500;
   border: none;
   background-color: #fff;
   color: #dc3545;
 }
 
-.modal-footer .btn-primary{
+.modal-footer .btn-primary {
   color: white;
   background-color: #007bff;
   font-size: 16px;
@@ -305,22 +298,137 @@
   transition: 0.3s ease-in-out;
 }
 
-.modal-footer .btn-primary:hover{
+.modal-footer .btn-primary:hover {
   font-weight: 500;
 }
 
-.form-group{
+.form-group {
   margin-bottom: 20px;
 }
 
 .form-group label {
-  font-weight: bold; 
+  font-weight: bold;
 }
 
-.form-group input{
+.form-group input {
   padding-left: 10px;
   background-color: white;
   outline: none;
   height: 30px;
   font-weight: 500;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.btn-default {
+    border-color: rgba(24, 28, 33, 0.1);
+    background  : rgba(0, 0, 0, 0);
+    color       : #4E5155;
+}
+
+label.btn {
+    margin-bottom: 0;
+}
+
+.btn-outline-primary {
+    border-color: #26B4FF;
+    background  : transparent;
+    color       : #26B4FF;
+}
+
+.btn {
+    cursor: pointer;
+}
+
+.text-light {
+    color: #babbbc !important;
+}
+
+.btn-facebook {
+    border-color: rgba(0, 0, 0, 0);
+    background  : #3B5998;
+    color       : #fff;
+}
+
+.btn-instagram {
+    border-color: rgba(0, 0, 0, 0);
+    background  : #000;
+    color       : #fff;
+}
+
+.card {
+    background-clip: padding-box;
+    box-shadow     : 0 1px 4px rgba(24, 28, 33, 0.012);
+}
+
+.row-bordered {
+    overflow: hidden;
+}
+
+.account-settings-fileinput {
+    position  : absolute;
+    visibility: hidden;
+    width     : 1px;
+    height    : 1px;
+    opacity   : 0;
+}
+
+.account-settings-links .list-group-item.active {
+    font-weight: bold !important;
+}
+
+html:not(.dark-style) .account-settings-links .list-group-item.active {
+    background: transparent !important;
+}
+
+.account-settings-multiselect~.select2-container {
+    width: 100% !important;
+}
+
+.light-style .account-settings-links .list-group-item {
+    padding     : 0.85rem 1.5rem;
+    border-color: rgba(24, 28, 33, 0.03) !important;
+}
+
+.light-style .account-settings-links .list-group-item.active {
+    color: #4e5155 !important;
+}
+
+.material-style .account-settings-links .list-group-item {
+    padding     : 0.85rem 1.5rem;
+    border-color: rgba(24, 28, 33, 0.03) !important;
+}
+
+.material-style .account-settings-links .list-group-item.active {
+    color: #4e5155 !important;
+}
+
+.dark-style .account-settings-links .list-group-item {
+    padding     : 0.85rem 1.5rem;
+    border-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+.dark-style .account-settings-links .list-group-item.active {
+    color: #fff !important;
+}
+
+.light-style .account-settings-links .list-group-item.active {
+    color: #4E5155 !important;
+}
+
+.light-style .account-settings-links .list-group-item {
+    padding     : 0.85rem 1.5rem;
+    border-color: rgba(24, 28, 33, 0.03) !important;
 }
