@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +24,11 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel> implements S
     private String password;
 
     private String role;
+    private String email;
+    private String cargo;
+    private String ramal;
+    private LocalDate dataCadastro;
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClienteModel> clientes;
@@ -67,6 +73,38 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel> implements S
 
     public void setId(UUID id_user) {
         this.id_user = id_user;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
+    public String getRamal() {
+        return ramal;
+    }
+
+    public void setRamal(String ramal) {
+        this.ramal = ramal;
+    }
+
+    public LocalDate getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(LocalDate dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
     public List<ClienteModel> getClientes() {

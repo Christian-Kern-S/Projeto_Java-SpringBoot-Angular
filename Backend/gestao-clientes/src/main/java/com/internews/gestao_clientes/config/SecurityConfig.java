@@ -36,7 +36,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/user/{id_user}/cliente"   ).permitAll()
                         .requestMatchers(HttpMethod.POST, "/cliente/{id}/dependente"   ).permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/user").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/users").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/user/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/user/{id_user}/clientes"   ).permitAll()
                         .requestMatchers(HttpMethod.GET, "/cliente/{id}"   ).permitAll()
                         .requestMatchers(HttpMethod.GET, "/cliente/{id}/dependentes"   ).permitAll()
@@ -44,6 +45,7 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.PUT, "/cliente/{id}"   ).permitAll()
                         .requestMatchers(HttpMethod.PUT, "/cliente/{id}/dependente/{id2}"   ).permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/user/{id}").permitAll()
 
                         .requestMatchers(HttpMethod.DELETE, "cliente/{id}/dependente/{id2}"   ).permitAll()
                         .requestMatchers(HttpMethod.DELETE, "cliente/{id}"   ).permitAll()
