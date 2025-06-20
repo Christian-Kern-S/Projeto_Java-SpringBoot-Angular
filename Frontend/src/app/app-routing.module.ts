@@ -6,6 +6,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { LoginGuard } from './login-page/login-page.guard';
 import { AuthGuard } from './auth/auth.guard';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,11 @@ const routes: Routes = [
   {
     path: "cliente/:id",
     component: DetalheClientePageComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: "profile/:id",
+    component: ProfilePageComponent,
     canActivate: [AuthGuard]
   },
   {

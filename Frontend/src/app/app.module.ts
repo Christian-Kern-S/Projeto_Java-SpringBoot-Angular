@@ -27,6 +27,7 @@ import { BadgeModule } from 'primeng/badge';
 import { RippleModule } from 'primeng/ripple';
 import { AvatarModule } from 'primeng/avatar';
 import { LeftSidebarComponent } from '../app/shared/left-sidebar/left-sidebar.component';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { LeftSidebarComponent } from '../app/shared/left-sidebar/left-sidebar.co
     DetalheClientePageComponent,
     LoginPageComponent,
     RegistrationPageComponent,
+    ProfilePageComponent,
   ],
   imports: [
     BrowserModule,
