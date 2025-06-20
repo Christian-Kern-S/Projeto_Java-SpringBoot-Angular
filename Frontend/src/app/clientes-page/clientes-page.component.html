@@ -29,7 +29,7 @@
     <div class="listaCliente">
       <div class="add-cliente">
         <h3>Clientes</h3>
-        <button *ngIf="hasNoData" type="button" class="btn btn-primary" data-target="#adicionarClienteModal"
+        <button *ngIf="hasNoData && !loading" type="button" class="btn btn-primary" data-target="#adicionarClienteModal"
           (click)="showDialog()">
           Adicionar Cliente
         </button>
