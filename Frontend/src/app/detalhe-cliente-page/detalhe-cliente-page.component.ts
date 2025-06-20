@@ -22,9 +22,20 @@ export class DetalheClientePageComponent implements OnInit {
   formCliente: FormGroup
   formDependente: FormGroup
   form: FormGroup
+  hasNoData: boolean = false;
+  loading: boolean = false;
+  visible: boolean = false;
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
   dependentes: DependenteModel[] = []
   dependenteId: string | null = null
-  
+  private errorTimeout?: any;
+  private successTimeout?: any;
+  private loadingTimeout?: any;
+
+  // NOVA PROPRIEDADE PARA MODO DE EDIÇÃO
+  editMode: boolean = false;
+
   constructor(
     private readonly clienteService: ClienteService,
     private readonly router: Router,
@@ -32,13 +43,13 @@ export class DetalheClientePageComponent implements OnInit {
     private readonly snackBar: MatSnackBar,
     private readonly location: Location,
     private readonly fb: FormBuilder
-  ) { 
+  ) {
     this.form = this.fb.group({
       value: [''],
       type: ['1', [Validators.required]]
     })
     this.formCliente = new FormGroup({
-      nome: new FormControl<string | null>(null, {nonNullable: true}),
+      nome: new FormControl<string | null>(null, { nonNullable: true }),
       logradouro: new FormControl<string | null>(null),
       numero: new FormControl<string | null>(null),
       complemento: new FormControl<string | null>(null),
@@ -47,15 +58,15 @@ export class DetalheClientePageComponent implements OnInit {
       uf: new FormControl<string | null>(null),
       cep: new FormControl<string | null>(null),
       cpf: new FormControl<string | null>(null, [Validators.required, Validators.minLength(11)]),
-      email: new FormControl<string | null>(null, {nonNullable: true}),
-      telefone: new FormControl<string | null>(null, {nonNullable: true}),
+      email: new FormControl<string | null>(null, { nonNullable: true }),
+      telefone: new FormControl<string | null>(null, { nonNullable: true }),
       rendaMensal: new FormControl<number | null>(null),
       dataCadastro: new FormControl<Date | null>(null, { nonNullable: true })
     })
     this.formDependente = new FormGroup({
-      nome: new FormControl<string | null>(null, {nonNullable: true}),
+      nome: new FormControl<string | null>(null, { nonNullable: true }),
       telefone: new FormControl<string | null>(null),
-      parentesco: new FormControl<string | null>(null, {nonNullable: true})
+      parentesco: new FormControl<string | null>(null, { nonNullable: true })
     })
   }
 
@@ -64,6 +75,47 @@ export class DetalheClientePageComponent implements OnInit {
     if (this.id) {
       this.loadCliente(this.id)
     }
+  }
+
+  // NOVA FUNÇÃO PARA ALTERNAR MODO DE EDIÇÃO
+  toggleEditMode(): void {
+    this.editMode = !this.editMode;
+    if (this.editMode) {
+      this.showSuccess('Modo de edição ativado. Agora você pode editar os campos.');
+    } else {
+      this.showSuccess('Modo de edição desativado. Os campos estão protegidos.');
+    }
+  }
+
+  // NOVA FUNÇÃO PARA SALVAR ALTERAÇÕES
+  saveChanges(): void {
+    if (this.editMode && this.formCliente.valid) {
+      this.onEdit();
+      this.editMode = false;
+    }
+  }
+
+  // NOVA FUNÇÃO PARA CANCELAR EDIÇÃO
+  cancelEdit(): void {
+    if (this.cliente) {
+      this.formCliente.patchValue({
+        nome: this.cliente.nome,
+        logradouro: this.cliente.logradouro,
+        numero: this.cliente.numero,
+        complemento: this.cliente.complemento,
+        bairro: this.cliente.bairro,
+        cidade: this.cliente.cidade,
+        uf: this.cliente.uf,
+        cep: this.cliente.cep,
+        cpf: this.cliente.cpf,
+        email: this.cliente.email,
+        telefone: this.cliente.telefone,
+        rendaMensal: this.cliente.rendaMensal,
+        dataCadastro: this.cliente.dataCadastro
+      });
+    }
+    this.editMode = false;
+    this.showSuccess('Alterações canceladas. Dados originais restaurados.');
   }
 
   loadCliente(id: string): void {
@@ -95,7 +147,7 @@ export class DetalheClientePageComponent implements OnInit {
 
   onEdit(): void {
     // Atualiza o cliente no backend
-    this.clienteService.update(this.cliente!.idCliente,this.formCliente.value).subscribe({
+    this.clienteService.update(this.cliente!.idCliente, this.formCliente.value).subscribe({
       next: () => {
         this.onSuccess();
         this.loadCliente(this.cliente!.idCliente) // Recarrega o cliente
@@ -106,7 +158,7 @@ export class DetalheClientePageComponent implements OnInit {
     });
   }
 
-  onDelete(): void{
+  onDelete(): void {
     this.clienteService.delete(this.cliente!.idCliente).subscribe({
       next: (result) => {
         this.onSuccessDelete()
@@ -118,24 +170,23 @@ export class DetalheClientePageComponent implements OnInit {
   }
 
   private onSuccess() {
-    this.snackBar.open('Cliente atualizado com sucesso.', '', { duration: 5000 });
+    this.showSuccess('Cliente atualizado com sucesso.');
   }
 
   private onSuccessDelete() {
     this.location.back()
-    this.snackBar.open('Cliente excluido com sucesso.', '', { duration: 5000 });
+    this.showSuccess('Cliente excluido com sucesso.');
   }
 
   private onError() {
-    this.snackBar.open('Erro ao atualizar o cliente.', '', { duration: 5000 });
+    this.showError('Erro ao atualizar o cliente.');
   }
 
   private onErrorDelete() {
-    this.snackBar.open('Erro ao excluir o cliente.', '', { duration: 5000 });
+    this.showError('Erro ao excluir o cliente.');
   }
 
   // TRATATIVA COM O DEPENDENTE
-
 
   definirDependente(idDependente: string): void {
     this.dependenteId = idDependente;
@@ -151,15 +202,24 @@ export class DetalheClientePageComponent implements OnInit {
       }
     });
   }
-  
+
   loadDependentes(): void {
-    this.dependentes = []; 
-    if (this.cliente) { 
+    this.dependentes = [];
+
+    if (this.cliente) {
       this.clienteService.listarDependentes(
-        this.cliente.idCliente, 
+        this.cliente.idCliente,
         this.form.getRawValue()
-      ).subscribe(dependentes => {
-        this.dependentes = dependentes;
+      ).subscribe({
+        next: (dependente: DependenteModel[]) => {
+          this.showLoading()
+          this.dependentes = dependente;
+          this.hasNoData = (dependente.length === 0);
+        },
+        error: (err) => {
+          console.error('Erro ao listar clientes:', err);
+          this.hasNoData = true;
+        }
       });
     }
   }
@@ -197,32 +257,67 @@ export class DetalheClientePageComponent implements OnInit {
   backPage(): void {
     this.router.navigate(['/clientes']);
   }
-    
+
+  private showError(message: string): void {
+    if (this.errorTimeout) {
+      clearTimeout(this.errorTimeout);
+    }
+
+    this.errorMessage = message;
+    this.errorTimeout = setTimeout(() => {
+      this.errorMessage = null;
+      this.errorTimeout = undefined;
+    }, 5000);
+  }
+
+  private showSuccess(message: string): void {
+    if (this.successTimeout) {
+      clearTimeout(this.successTimeout);
+    }
+
+    this.successMessage = message;
+    this.successTimeout = setTimeout(() => {
+      this.successMessage = null;
+      this.successTimeout = undefined;
+    }, 5000);
+  }
+
+  private showLoading(): void {
+    if (this.loadingTimeout) {
+      clearTimeout(this.loadingTimeout);
+    }
+    this.loading = true;
+    this.loadingTimeout = setTimeout(() => {
+      this.loadingTimeout = undefined;
+      this.loading = false;
+    }, 700);
+  }
 
   private onSuccessCreateDependente() {
     this.loadDependentes()
-    this.snackBar.open('Dependente criado com sucesso.', '', { duration: 5000 });
+    this.showSuccess('Dependente criado com sucesso.');
   }
-  
+
   private onErrorCriarDependente() {
-    this.snackBar.open('Erro ao criar o dependente.', '', { duration: 5000 });
+    this.showError('Erro ao criar o dependente.');
   }
 
   private onSuccessAtualizarDependente() {
     this.loadDependentes()
-    this.snackBar.open('Dependente atualizado com sucesso.', '', { duration: 5000 });
+    this.showSuccess('Dependente atualizado com sucesso.');
   }
-  
+
   private onErrorAtualizarDependente() {
-    this.snackBar.open('Erro ao atualizar o dependente.', '', { duration: 5000 });
+    this.showError('Erro ao atualizar o dependente.');
   }
-  
-  private OnSuccessExcluirDependente(){
+
+  private OnSuccessExcluirDependente() {
     this.loadDependentes()
-    this.snackBar.open('Dependente excluido com sucesso.', '', {duration: 5000})
+    this.showSuccess('Dependente excluido com sucesso.')
   }
-  
-  private OnErrorExcluirDependente(){
-    this.snackBar.open('Erro ao excluir o dependente.', '', {duration: 5000})
+
+  private OnErrorExcluirDependente() {
+    this.showError('Erro ao excluir o dependente.')
   }
 }
+
