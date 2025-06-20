@@ -1,0 +1,115 @@
+/* ===== LAYOUT PRINCIPAL ===== */
+.profile-page {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  padding-top: var(--header-height);
+}
+
+
+/* ===== CABEÇALHO FIXO ===== */
+.cabecalho {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--primary-blue);
+  color: var(--white);
+  height: var(--header-height);
+  padding: 0 var(--container-padding);
+}
+
+.cabecalho h2 {
+  font-family: var(--font-family-secondary);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-medium);
+  color: var(--white);
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+}
+
+.header-actions .btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-xs);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--border-radius-button);
+  min-width: 100px;
+  height: 35px;
+  justify-content: center;
+}
+
+.cabecalho .btn-primary {
+  background: var(--primary-blue);
+  color: var(--white);
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.cabecalho .btn-primary:hover {
+  background: var(--primary-blue-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.cabecalho .btn-secondary {
+  background: var(--white);
+  color: var(--primary-blue);
+  border: 2px solid var(--primary-blue);
+}
+
+.cabecalho .btn-secondary:hover {
+  background: var(--primary-blue);
+  color: var(--white);
+}
+
+.header-actions .btn-secondary.active {
+  background: var(--success-green);
+  color: var(--white);
+  border-color: var(--success-green);
+}
+
+
+/* ===== MENSAGENS DE FEEDBACK ===== */
+.message-container {
+  position: fixed;
+  top: calc(var(--header-height) + var(--space-md));
+  right: var(--space-lg);
+  z-index: 1001;
+  max-width: 400px;
+}
+
+.error-message,
+.success-message {
+  display: flex;
+  align-items: center;
+  padding-left: var(--space-md);
+  padding-right: var(--space-sm);
+  border-radius: var(--border-radius-button);
+  background: var(--white);
+  box-shadow: var(--shadow-lg);
+  margin-bottom: var(--space-sm);
+  animation: slideInRight var(--transition-base) ease-out;
+  border-left: 5px solid;
+  min-height: 50px;
+  min-width: fit-content;
+}
+
+.error-message {
+  border-left-color: var(--danger-red);
+  color: var(--danger-red);
+}
+
+.success-message {
+  border-left-color: var(--success-green);
+  color: var(--success-green);
+}
