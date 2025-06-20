@@ -7,7 +7,7 @@ import { ClientesPageComponent } from './clientes-page/clientes-page.component';
 import { DetalheClientePageComponent } from './detalhe-cliente-page/detalhe-cliente-page.component';
 import { provideHttpClient } from '@angular/common/http';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask'
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { TableModule } from 'primeng/table';
@@ -41,6 +41,7 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     LeftSidebarComponent,
     BrowserAnimationsModule,
     ButtonModule,
