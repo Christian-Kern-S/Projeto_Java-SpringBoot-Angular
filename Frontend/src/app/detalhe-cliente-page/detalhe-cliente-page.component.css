@@ -35,9 +35,6 @@ body {
   color: var(--white);
   height: var(--header-height);
   padding: 0 var(--container-padding);
-  box-shadow: var(--shadow-md);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0, 75, 155, 0.1);
 }
 
 .cabecalho h2 {
