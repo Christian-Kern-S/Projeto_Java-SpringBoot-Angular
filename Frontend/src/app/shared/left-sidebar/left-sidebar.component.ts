@@ -36,17 +36,17 @@ export class LeftSidebarComponent {
     this.items = [
       {
         items: [
-          { label: 'Dashboard', icon: 'fa-solid fa-house' },
-          { label: 'Clientes', icon: 'fa-regular fa-address-book' },
-          { label: 'Helpdesk', icon: 'fa-solid fa-headset' },
-          { label: 'Mensagens', icon: 'fa-solid fa-comment', badge: '2' }
+          { label: 'Dashboard', icon: 'fa-solid fa-house', command: () => this.router.navigate(['/dashboard']) },
+          { label: 'Clientes', icon: 'fa-regular fa-address-book', command: () => this.router.navigate(['/clientes']) },
+          { label: 'Helpdesk', icon: 'fa-solid fa-headset', command: () => this.router.navigate(['/helpdesk']) },
+          { label: 'Mensagens', icon: 'fa-solid fa-comment', badge: '2', command: () => this.router.navigate(['/mensagens']) },
         ]
       },
       { separator: true },
       {
         items: [
           { label: 'Configurações', icon: 'fa-solid fa-gear' },
-          { label: 'Sair', icon: 'fa-solid fa-right-from-bracket' }
+          { label: 'Sair', icon: 'fa-solid fa-right-from-bracket', command: () => this.logout() }
         ]
       },
     ];
@@ -63,5 +63,14 @@ export class LeftSidebarComponent {
   }
   verifyUserRole(): string {
     return this.usuario?.role === "ROLE_ADMIN" ? "Admin" : "Usuário";
+  }
+
+  navigate(): void {
+    this.router.navigate(['/profile', this.usuario?.id_user]);
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
