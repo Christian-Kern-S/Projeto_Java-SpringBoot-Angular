@@ -1,9 +1,11 @@
 package com.internews.gestao_clientes.controllers;
 
+import com.internews.gestao_clientes.dtos.ChangePasswordDto;
 import com.internews.gestao_clientes.dtos.LoginDto;
 import com.internews.gestao_clientes.models.UsuarioModel;
 import com.internews.gestao_clientes.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,5 +75,16 @@ public class AuthController {
         responseBody.put("role", usuario.getRole());
 
         return ResponseEntity.ok(responseBody);
+    }
+
+    @PutMapping("/changepass/{id_user}")
+    public ResponseEntity<?> changePassword(@PathVariable(value = "id_user") UUID id_user, @RequestBody ChangePasswordDto changePasswordDto) {
+        UUID userId = id_user;
+        try{
+            authService.changePassword(userId, changePasswordDto.oldPassword(), changePasswordDto.newPassword());
+            return ResponseEntity.ok(Map.of("message", "Senha alterada com sucesso!"));
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error",e.getMessage()));
+        }
     }
 }

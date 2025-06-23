@@ -4,10 +4,12 @@ import com.internews.gestao_clientes.dtos.LoginDto;
 import com.internews.gestao_clientes.models.UsuarioModel;
 import com.internews.gestao_clientes.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -45,6 +47,19 @@ public class AuthService {
 
     public UsuarioModel loadByUsername(String username) {
         return usuarioRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
+
+    public void changePassword(UUID id_user, String oldPassword, String newPassword) {
+        UsuarioModel usuario = usuarioRepository.findById(id_user).orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+
+        if(!passwordEncoder.matches(oldPassword, usuario.getPassword())) {
+            throw new IllegalArgumentException("Senha atual incorreta");
+        } else if (oldPassword.equals(newPassword)) {
+            throw new IllegalArgumentException("Senha atual é igual a senha antiga, favor criar uma senha diferente");
+        }
+
+        usuario.setPassword(passwordEncoder.encode(newPassword));
+        usuarioRepository.save(usuario);
     }
 }
 
