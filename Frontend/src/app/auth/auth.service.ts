@@ -8,6 +8,10 @@ interface LoginResponse {
     id_user: string
     username: string
     role: string
+    cargo: string
+    email: string
+    ramal: string
+    dataCadastro: string
 }
 
 interface SignInResponse{
@@ -38,8 +42,12 @@ export class AuthService{
             const userData: UsuarioModel = {
             id_user: response.id_user,
             username: response.username,
-            role: response.role
-            };
+            role: response.role,
+            cargo: response.cargo,
+            email: response.email,
+            ramal: response.ramal,
+            dataCadastro: response.dataCadastro
+        };
             localStorage.setItem('userData', JSON.stringify(userData));
 
             // 3) armazena em memória

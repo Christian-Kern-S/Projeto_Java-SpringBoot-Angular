@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UsuarioModel } from '../models/usuario.model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UsuarioService } from '../servicos/usuario/usuario.service';
+import { AuthService } from '../auth/auth.service';
+
 
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.css'
 })
-export class ProfilePageComponent {
-  usuario: UsuarioModel | null = null
+export class ProfilePageComponent implements OnInit {
+  usuario: UsuarioModel | null = null;
   id_user?: string | null
   errorMessage: string | null = null
   successMessage: string | null = null
@@ -20,13 +23,15 @@ export class ProfilePageComponent {
   private successTimeout?: any;
 
 
-  constructor(private readonly fb: FormBuilder, private readonly route: ActivatedRoute,) {
+  constructor(private readonly fb: FormBuilder, private readonly route: ActivatedRoute, private readonly usuarioService: UsuarioService, private readonly authService: AuthService,
+    private readonly router: Router) {
     this.form = this.fb.group({
       value: [''],
       type: ['1', [Validators.required]]
     })
     this.formUsuario = new FormGroup({
-      nome: new FormControl<string | null>(null, { nonNullable: true }),
+      username: new FormControl<string | null>(null, { nonNullable: true }),
+      cargo: new FormControl<string | null>(null, { nonNullable: true }),
       email: new FormControl<string | null>(null, { nonNullable: true }),
       ramal: new FormControl<string | null>(null, { nonNullable: true }),
       dataCadastro: new FormControl<Date | null>(null, { nonNullable: true })
@@ -34,15 +39,23 @@ export class ProfilePageComponent {
   }
 
   ngOnInit(): void {
-    this.id_user = this.route.snapshot.paramMap.get('id_user');
-    if (this.id_user) {
-      this.loadUsuario(this.id_user);
-    }
+    this.authService.getCurrentUser().subscribe({
+      next: (user) => {
+        this.usuario = user;
+        this.formUsuario.patchValue({
+          username: user.username,
+          cargo: user.cargo,
+          email: user.email,
+          ramal: user.ramal,
+          dataCadastro: user.dataCadastro
+        });
+      },
+      error: (err) => {
+        this.showError('Usuário não encontrado');
+      }
+    });
   }
 
-  loadUsuario(id: string): void {
-  
-  }
 
   backPage() {
     window.history.back();
