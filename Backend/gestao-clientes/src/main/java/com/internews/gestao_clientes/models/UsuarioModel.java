@@ -19,6 +19,7 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel> implements S
 
     @Column(nullable = false, unique = true)
     private String username;
+    private String fullname;
 
     @Column(nullable = false)
     private String password;
@@ -99,12 +100,23 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel> implements S
         this.ramal = ramal;
     }
 
-    public LocalDate getDataCadastro() {
-        return dataCadastro;
+    public String getDataCadastro() {
+        if (dataCadastro == null) {
+            return "Não foi possível verificar a data de cadastro";
+        }
+        return dataCadastro.toString();
     }
 
     public void setDataCadastro(LocalDate dataCadastro) {
         this.dataCadastro = dataCadastro;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public List<ClienteModel> getClientes() {

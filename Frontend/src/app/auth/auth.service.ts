@@ -7,6 +7,11 @@ interface LoginResponse {
     token: string
     id_user: string
     username: string
+    fullname: string
+    cargo: string
+    email: string
+    ramal: string
+    dataCadastro: string
     role: string
 }
 
@@ -38,8 +43,13 @@ export class AuthService{
             const userData: UsuarioModel = {
             id_user: response.id_user,
             username: response.username,
+            fullname: response.fullname,
+            cargo: response.cargo,
+            email: response.email,
+            ramal: response.ramal,
+            dataCadastro: response.dataCadastro,
             role: response.role
-            };
+        };
             localStorage.setItem('userData', JSON.stringify(userData));
 
             // 3) armazena em memória
@@ -85,6 +95,12 @@ export class AuthService{
         // 3) se não tiver nada, devolve erro
         return new Observable<UsuarioModel>(subscriber => {
         subscriber.error('Usuário não encontrado');
+        });
+    }
+    changePassword(id_user: string, oldPassword: string, newPassword: string): Observable<any> {
+        const body = { oldPassword, newPassword };
+        return this.http.put(`${this.baseUrl}/api/auth/changepass/${id_user}`, body, {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json' })
         });
     }
 }
