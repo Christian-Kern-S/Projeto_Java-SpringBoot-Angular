@@ -4,7 +4,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from '../servicos/usuario/usuario.service';
 import { AuthService } from '../auth/auth.service';
-
+import { MessageService } from 'primeng/api';
+import { FileUploadEvent } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-profile-page',
@@ -23,7 +24,7 @@ export class ProfilePageComponent implements OnInit {
   private successTimeout?: any;
 
 
-  constructor(private readonly fb: FormBuilder, private readonly route: ActivatedRoute, private readonly usuarioService: UsuarioService, private readonly authService: AuthService,
+  constructor(private messageService: MessageService, private readonly fb: FormBuilder, private readonly route: ActivatedRoute, private readonly usuarioService: UsuarioService, private readonly authService: AuthService,
     private readonly router: Router) {
     this.form = this.fb.group({
       value: [''],
@@ -39,6 +40,10 @@ export class ProfilePageComponent implements OnInit {
     })
   }
 
+  onUpload(event: FileUploadEvent) {
+    this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
+  }
+  
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe({
       next: (user) => {

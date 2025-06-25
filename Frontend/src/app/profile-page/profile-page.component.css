@@ -79,6 +79,34 @@
 }
 
 
+
+/* ======CARD PRINCIPAL ======*/
+
+.ui-w-80 {
+  width: 120px !important;
+  height: auto;
+  border-radius: 20px;
+}
+
+.align-items-center {
+  justify-items: center;
+  clip-path: fill-box;
+}
+
+.btn-outline-primary {
+  font-size: 13px;
+  border: none;
+}
+
+.media-body {
+  display: flex;
+  flex-direction: column;
+  width: -webkit-fill-available;
+}
+
+
+
+
 /* ===== MENSAGENS DE FEEDBACK ===== */
 .message-container {
   position: fixed;

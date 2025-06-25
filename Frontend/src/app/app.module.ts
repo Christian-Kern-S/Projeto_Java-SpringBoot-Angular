@@ -28,6 +28,8 @@ import { RippleModule } from 'primeng/ripple';
 import { AvatarModule } from 'primeng/avatar';
 import { LeftSidebarComponent } from '../app/shared/left-sidebar/left-sidebar.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { FileUploadModule } from 'primeng/fileupload';
+import { MessageService } from 'primeng/api';
 
 
 @NgModule({
@@ -44,6 +46,7 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
     FormsModule,
     LeftSidebarComponent,
     BrowserAnimationsModule,
+    FileUploadModule,
     ButtonModule,
     DialogModule,
     MultiSelectModule,
@@ -62,7 +65,7 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
     InputIconModule,
     MatSnackBarModule
   ],
-  providers: [provideHttpClient(), provideNgxMask(), provideAnimationsAsync(), providePrimeNG()],
+  providers: [MessageService,provideHttpClient(), provideNgxMask(), provideAnimationsAsync(), providePrimeNG()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
