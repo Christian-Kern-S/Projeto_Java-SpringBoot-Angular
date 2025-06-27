@@ -107,7 +107,6 @@ body {
   box-shadow: var(--shadow-xl);
   overflow: hidden;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
   animation: fadeInUp 0.8s ease-out;
 }
 
