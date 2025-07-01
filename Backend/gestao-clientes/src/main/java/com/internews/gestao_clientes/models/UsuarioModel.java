@@ -1,5 +1,6 @@
 package com.internews.gestao_clientes.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -68,6 +69,7 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel> implements S
         this.username = username;
     }
 
+    @JsonProperty("id_user")
     public UUID getId() {
         return id_user;
     }

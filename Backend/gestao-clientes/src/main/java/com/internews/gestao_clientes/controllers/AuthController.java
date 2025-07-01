@@ -82,9 +82,9 @@ public class AuthController {
         return ResponseEntity.ok(responseBody);
     }
 
-    @PutMapping("/changepass/{id_user}")
-    public ResponseEntity<?> changePassword(@PathVariable(value = "id_user") UUID id_user, @RequestBody ChangePasswordDto changePasswordDto) {
-        UUID userId = id_user;
+    @PutMapping("/changepass/{id}")
+    public ResponseEntity<?> changePassword(@PathVariable(value = "id") UUID id, @RequestBody ChangePasswordDto changePasswordDto) {
+        UUID userId = id;
         try{
             authService.changePassword(userId, changePasswordDto.oldPassword(), changePasswordDto.newPassword());
             return ResponseEntity.ok(Map.of("message", "Senha alterada com sucesso!"));

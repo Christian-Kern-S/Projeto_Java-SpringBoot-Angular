@@ -471,6 +471,7 @@
 .col-md-3 {
   flex: 0 0 25%;
   max-width: 20%;
+  min-width: max-content;
 }
 
 .col-md-4 {
@@ -489,7 +490,7 @@
 }
 
 .col-md-9 {
-  flex: 0 0 80%;
+  flex: content;
   max-width: 80%;
 }
 
@@ -501,7 +502,7 @@
   border-radius: 20px;
 }
 
-:host ::ng-deep .p-fileupload-choose-button{
+:host ::ng-deep .p-fileupload-choose-button {
   background: var(--medium-gray);
   padding: 3px 15px;
   border-radius: 6px;
@@ -509,20 +510,19 @@
   margin: 10px;
 }
 
-:host ::ng-deep .p-fileupload-choose-button:hover{
-  background: var(--primary-blue) !important;
-  color: white !important;
+:host ::ng-deep .p-fileupload-choose-button:hover {
+  background: var(--medium-gray) !important;
 }
 
-:host ::ng-deep .filelabel{
+:host ::ng-deep .filelabel {
   display: none;
 }
 
-:host ::ng-deep .p-button-icon{
+:host ::ng-deep .p-button-icon {
   display: none;
 }
 
-p-button{
+p-button {
   text-align: center;
 }
 
@@ -535,12 +535,12 @@ p-button{
   margin: 10px;
 }
 
-:host ::ng-deep .p-button-secondary:hover{
+:host ::ng-deep .p-button-secondary:hover {
   background: var(--primary-blue) !important;
   color: white !important;
 }
 
-:host ::ng-deep .p-button-icon{
+:host ::ng-deep .p-button-icon {
   margin-right: 5px;
 }
 
@@ -558,6 +558,49 @@ p-button{
   display: flex;
   flex-direction: column;
   width: -webkit-fill-available;
+}
+
+/* ===== MODAIS ===== */
+.modal-content {
+  border-radius: var(--border-radius-card);
+  background: var(--white);
+  box-shadow: var(--shadow-xl);
+  border: none;
+  overflow: hidden;
+}
+
+.modal-header {
+  background: var(--primary-blue-light);
+  color: var(--white);
+  padding: var(--space-xl);
+  border-bottom: none;
+}
+
+.modal-header.bg-danger {
+  background: var(--danger-red) !important;
+}
+
+.modal-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family-secondary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.modal-body {
+  padding: var(--space-2xl);
+  background: var(--white);
+}
+
+.modal-footer {
+  background: var(--light-gray);
+  border-top: 1px solid var(--medium-gray);
+  padding: var(--space-xl);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-md);
 }
 
 
@@ -751,7 +794,7 @@ p-button{
   .col-md-6,
   .col-md-8,
   .col-md-9 {
-    flex: 0 0 100%;
+    flex: content;
     max-width: 100%;
   }
 

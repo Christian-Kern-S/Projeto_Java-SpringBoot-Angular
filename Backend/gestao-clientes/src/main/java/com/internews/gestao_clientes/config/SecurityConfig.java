@@ -46,10 +46,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/cliente/{id}"   ).permitAll()
                         .requestMatchers(HttpMethod.PUT, "/cliente/{id}/dependente/{id2}"   ).permitAll()
                         .requestMatchers(HttpMethod.PUT, "/user/{id}").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/api/auth/changepass/{id_user}").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/auth/changepass/{id}").permitAll()
 
                         .requestMatchers(HttpMethod.DELETE, "cliente/{id}/dependente/{id2}"   ).permitAll()
                         .requestMatchers(HttpMethod.DELETE, "cliente/{id}"   ).permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/user/{id}").permitAll()
 
                         .requestMatchers("/h2-console/**"                    ).permitAll()
                         .anyRequest().authenticated()

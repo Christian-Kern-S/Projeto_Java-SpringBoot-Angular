@@ -31,6 +31,7 @@ export class ProfilePageComponent implements OnInit {
       type: ['1', [Validators.required]]
     })
     this.formUsuario = new FormGroup({
+      id_user: new FormControl<string | null>(null, { nonNullable: true }),
       username: new FormControl<string | null>(null, { nonNullable: true }),
       fullname: new FormControl<string | null>(null, { nonNullable: true }),
       cargo: new FormControl<string | null>(null, { nonNullable: true }),
@@ -43,20 +44,27 @@ export class ProfilePageComponent implements OnInit {
   onUpload(event: FileUploadEvent) {
     this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
   }
-  
+
   ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe({
-      next: (user) => {
-        console.log(user);
-        this.usuario = user;
+    this.id_user = this.route.snapshot.paramMap.get('id');
+    if (this.id_user) {
+      this.loadUsuario(this.id_user)
+    }
+  }
+
+  loadUsuario(id: string): void {
+    this.usuarioService.findById(id).subscribe({
+      next: (res) => {
+        this.usuario = res;
         this.formUsuario.patchValue({
-          username: user.username,
-          fullname: user.fullname,
-          cargo: user.cargo,
-          email: user.email,
-          ramal: user.ramal,
-          dataCadastro: user.dataCadastro
-        });
+          id_user: res.id_user,
+          username: res.username,
+          fullname: res.fullname,
+          cargo: res.cargo,
+          email: res.email,
+          ramal: res.ramal,
+          dataCadastro: res.dataCadastro
+        })
       },
       error: (err) => {
         this.showError('Usuário não encontrado');
@@ -64,9 +72,87 @@ export class ProfilePageComponent implements OnInit {
     });
   }
 
+  toggleEditMode(): void {
+    this.editMode = !this.editMode;
+    if (this.editMode) {
+      this.showSuccess('Modo de edição ativado. Agora você pode editar os campos.');
+    } else {
+      this.showSuccess('Modo de edição desativado. Os campos estão protegidos.');
+    }
+  }
+
+  // NOVA FUNÇÃO PARA SALVAR ALTERAÇÕES
+  saveChanges(): void {
+    if (this.editMode && this.formUsuario.valid) {
+      this.onEdit();
+      this.editMode = false;
+    }
+  }
+
+  // NOVA FUNÇÃO PARA CANCELAR EDIÇÃO
+  cancelEdit(): void {
+    if (this.usuario) {
+      this.formUsuario.patchValue({
+        username: this.usuario.username,
+        fullname: this.usuario.fullname,
+        cargo: this.usuario.cargo,
+        email: this.usuario.email,
+        ramal: this.usuario.ramal,
+        dataCadastro: this.usuario.dataCadastro
+      });
+    }
+    this.editMode = false;
+    this.showSuccess('Alterações canceladas. Dados originais restaurados.');
+  }
+
 
   backPage() {
     window.history.back();
+  }
+
+  onEdit(): void {
+    if (!this.usuario || !this.usuario.id_user) {
+      this.showError('ID do usuário não encontrado.');
+      return;
+    }
+    this.usuarioService.update(this.usuario.id_user, this.formUsuario.value).subscribe({
+      next: () => {
+        this.onSuccess();
+        this.ngOnInit();
+      },
+      error: () => {
+        this.onError();
+      }
+    });
+  }
+
+  onDelete(): void {
+    this.usuarioService.delete(this.usuario!.id_user).subscribe({
+      next: (result) => {
+        this.onSuccessDelete()
+      },
+      error: (error) => {
+        this.onErrorDelete()
+      }
+    });
+  }
+
+  private onSuccess() {
+    this.showSuccess('Cliente atualizado com sucesso.');
+  }
+
+  private async onSuccessDelete() {
+    await this.showSuccess('Cliente excluido com sucesso.');
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
+  private onError() {
+    this.showError('Erro ao atualizar o cliente.');
+  }
+
+  private onErrorDelete() {
+    this.showError('Erro ao excluir o cliente.');
   }
 
   private showError(message: string): void {

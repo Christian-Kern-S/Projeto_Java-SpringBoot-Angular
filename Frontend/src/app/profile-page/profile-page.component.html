@@ -69,7 +69,7 @@
                       <div class="form-group">
                         <label class="form-label">Nome Completo</label>
                         <input type="text" class="form-control" formControlName="fullname" [readonly]="!editMode"
-                          [class.editable]="editMode" placeholder="Digite o nome completo">
+                          [class.editable]="editMode" placeholder="Digite o nome completo" [attr.title]="formUsuario.get('fullname')?.value">
                       </div>
 
                       <div class="form-group">
@@ -97,7 +97,31 @@
                       </div>
                     </form>
                   </div>
+
+                  <section class="botoes-acao" *ngIf="editMode">
+                    <button type="button" class="btn btn-success" (click)="saveChanges()"
+                      [disabled]="!formUsuario.valid" data-tooltip="Salvar todas as alterações">
+                      Salvar Alterações
+                    </button>
+                    <button type="button" class="btn btn-secondary" (click)="cancelEdit()"
+                      data-tooltip="Cancelar e restaurar dados originais">
+                      Cancelar
+                    </button>
+                  </section>
+
+                  <section class="botoes-acao" *ngIf="!editMode">
+                    <button type="button" class="edit btn btn-primary btn-lg" (click)="toggleEditMode()"
+                      [class.active]="editMode" data-tooltip="Alternar modo de edição">
+                      {{ editMode ? '' : '' }}
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button type="button" class="trash btn btn-danger btn-lg" data-toggle="modal"
+                      data-target="#ExcluirUsuarioModal" data-tooltip="Excluir usuario">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </section>
                 </div>
+
                 <div class="tab-pane fade" id="change-password">
                   <div class="card-body pb-2">
                     <div class="form-group">
@@ -123,242 +147,38 @@
       </div>
     </div>
   </ng-container>
-  <!-- <div class="container light-style flex-grow-1 container-p-y">
-    <div class="card overflow-hidden">
-      <div class="row no-gutters row-bordered row-border-light">
-        <div class="col-md-3 pt-0">
-          <div class="list-group list-group-flush account-settings-links">
-            <a class="list-group-item list-group-item-action active" data-toggle="list"
-              href="#account-general">General</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Change
-              password</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">Info</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links">Social
-              links</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list"
-              href="#account-connections">Connections</a>
-            <a class="list-group-item list-group-item-action" data-toggle="list"
-              href="#account-notifications">Notifications</a>
-          </div>
-        </div>
-        <div class="col-md-9">
-          <div class="tab-content">
-            <div class="tab-pane fade active show" id="account-general">
-              <div class="card-body media align-items-center">
-                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt class="d-block ui-w-80">
-                <div class="media-body ml-4">
-                  <label class="btn btn-outline-primary">
-                    Upload new photo
-                    <input type="file" class="account-settings-fileinput">
-                  </label> &nbsp;
-                  <button type="button" class="btn btn-default md-btn-flat">Reset</button>
-                  <div class="text-light small mt-1">Allowed JPG, GIF or PNG. Max size of 800K</div>
-                </div>
-              </div>
-              <hr class="border-light m-0">
-              <div class="card-body">
-                <div class="form-group">
-                  <label class="form-label">Username</label>
-                  <input type="text" class="form-control mb-1" value="nmaxwell">
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Name</label>
-                  <input type="text" class="form-control" value="Nelle Maxwell">
-                </div>
-                <div class="form-group">
-                  <label class="form-label">E-mail</label>
-                  <input type="text" class="form-control mb-1" value="nmaxwell@mail.com">
-                  <div class="alert alert-warning mt-3">
-                    Your email is not confirmed. Please check your inbox.<br>
-                    <a href="javascript:void(0)">Resend confirmation</a>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Company</label>
-                  <input type="text" class="form-control" value="Company Ltd.">
-                </div>
-              </div>
-            </div>
-            <div class="tab-pane fade" id="account-change-password">
-              <div class="card-body pb-2">
-                <div class="form-group">
-                  <label class="form-label">Current password</label>
-                  <input type="password" class="form-control">
-                </div>
-                <div class="form-group">
-                  <label class="form-label">New password</label>
-                  <input type="password" class="form-control">
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Repeat new password</label>
-                  <input type="password" class="form-control">
-                </div>
-              </div>
-            </div>
-            <div class="tab-pane fade" id="account-info">
-              <div class="card-body pb-2">
-                <div class="form-group">
-                  <label class="form-label">Bio</label>
-                  <textarea class="form-control"
-                    rows="5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nunc arcu, dignissim sit amet sollicitudin iaculis, vehicula id urna. Sed luctus urna nunc. Donec fermentum, magna sit amet rutrum pretium, turpis dolor molestie diam, ut lacinia diam risus eleifend sapien. Curabitur ac nibh nulla. Maecenas nec augue placerat, viverra tellus non, pulvinar risus.</textarea>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Birthday</label>
-                  <input type="text" class="form-control" value="May 3, 1995">
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Country</label>
-                  <select class="custom-select">
-                    <option>USA</option>
-                    <option selected>Canada</option>
-                    <option>UK</option>
-                    <option>Germany</option>
-                    <option>France</option>
-                  </select>
-                </div>
-              </div>
-              <hr class="border-light m-0">
-              <div class="card-body pb-2">
-                <h6 class="mb-4">Contacts</h6>
-                <div class="form-group">
-                  <label class="form-label">Phone</label>
-                  <input type="text" class="form-control" value="+0 (123) 456 7891">
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Website</label>
-                  <input type="text" class="form-control" value>
-                </div>
-              </div>
-            </div>
-            <div class="tab-pane fade" id="account-social-links">
-              <div class="card-body pb-2">
-                <div class="form-group">
-                  <label class="form-label">Twitter</label>
-                  <input type="text" class="form-control" value="https://twitter.com/user">
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Facebook</label>
-                  <input type="text" class="form-control" value="https://www.facebook.com/user">
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Google+</label>
-                  <input type="text" class="form-control" value>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">LinkedIn</label>
-                  <input type="text" class="form-control" value>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Instagram</label>
-                  <input type="text" class="form-control" value="https://www.instagram.com/user">
-                </div>
-              </div>
-            </div>
-            <div class="tab-pane fade" id="account-connections">
-              <div class="card-body">
-                <button type="button" class="btn btn-twitter">Connect to
-                  <strong>Twitter</strong></button>
-              </div>
-              <hr class="border-light m-0">
-              <div class="card-body">
-                <h5 class="mb-2">
-                  <a href="javascript:void(0)" class="float-right text-muted text-tiny"><i class="ion ion-md-close"></i>
-                    Remove</a>
-                  <i class="ion ion-logo-google text-google"></i>
-                  You are connected to Google:
-                </h5>
-                <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                  data-cfemail="f9979498818e9c9595b994989095d79a9694">[email&#160;protected]</a>
-              </div>
-              <hr class="border-light m-0">
-              <div class="card-body">
-                <button type="button" class="btn btn-facebook">Connect to
-                  <strong>Facebook</strong></button>
-              </div>
-              <hr class="border-light m-0">
-              <div class="card-body">
-                <button type="button" class="btn btn-instagram">Connect to
-                  <strong>Instagram</strong></button>
-              </div>
-            </div>
-            <div class="tab-pane fade" id="account-notifications">
-              <div class="card-body pb-2">
-                <h6 class="mb-4">Activity</h6>
-                <div class="form-group">
-                  <label class="switcher">
-                    <input type="checkbox" class="switcher-input" checked>
-                    <span class="switcher-indicator">
-                      <span class="switcher-yes"></span>
-                      <span class="switcher-no"></span>
-                    </span>
-                    <span class="switcher-label">Email me when someone comments on my article</span>
-                  </label>
-                </div>
-                <div class="form-group">
-                  <label class="switcher">
-                    <input type="checkbox" class="switcher-input" checked>
-                    <span class="switcher-indicator">
-                      <span class="switcher-yes"></span>
-                      <span class="switcher-no"></span>
-                    </span>
-                    <span class="switcher-label">Email me when someone answers on my forum
-                      thread</span>
-                  </label>
-                </div>
-                <div class="form-group">
-                  <label class="switcher">
-                    <input type="checkbox" class="switcher-input">
-                    <span class="switcher-indicator">
-                      <span class="switcher-yes"></span>
-                      <span class="switcher-no"></span>
-                    </span>
-                    <span class="switcher-label">Email me when someone follows me</span>
-                  </label>
-                </div>
-              </div>
-              <hr class="border-light m-0">
-              <div class="card-body pb-2">
-                <h6 class="mb-4">Application</h6>
-                <div class="form-group">
-                  <label class="switcher">
-                    <input type="checkbox" class="switcher-input" checked>
-                    <span class="switcher-indicator">
-                      <span class="switcher-yes"></span>
-                      <span class="switcher-no"></span>
-                    </span>
-                    <span class="switcher-label">News and announcements</span>
-                  </label>
-                </div>
-                <div class="form-group">
-                  <label class="switcher">
-                    <input type="checkbox" class="switcher-input">
-                    <span class="switcher-indicator">
-                      <span class="switcher-yes"></span>
-                      <span class="switcher-no"></span>
-                    </span>
-                    <span class="switcher-label">Weekly product updates</span>
-                  </label>
-                </div>
-                <div class="form-group">
-                  <label class="switcher">
-                    <input type="checkbox" class="switcher-input" checked>
-                    <span class="switcher-indicator">
-                      <span class="switcher-yes"></span>
-                      <span class="switcher-no"></span>
-                    </span>
-                    <span class="switcher-label">Weekly blog digest</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
+</div>
+
+<!-- MODAL PARA EXCLUIR CLIENTE -->
+<div class="modal fade" id="ExcluirUsuarioModal" tabindex="-1" role="dialog" aria-labelledby="ExcluirUsuarioModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h5 class="modal-title text-white" id="ExcluirUsuarioModalLabel">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          Confirmar Exclusão
+        </h5>
+      </div>
+      <div class="modal-body text-center">
+        <i class="bi bi-person-x"
+          style="font-size: 4rem; color: var(--danger-red); margin-bottom: var(--space-lg);"></i>
+        <h5>Tem certeza que deseja excluir este usuário?</h5>
+        <p class="text-muted">Esta ação não pode ser desfeita. Todos os dados do usuario serão permanentemente
+          removidos.</p>
+        <div class="alert alert-warning" role="alert">
+          <i class="bi bi-exclamation-triangle"></i>
+          <strong>Atenção:</strong> Esta ação também excluirá todos os cliente e dependentes associados a este usuário.
         </div>
       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancelar
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="onDelete()">
+          Confirmar
+        </button>
+      </div>
     </div>
-    <div class="text-right mt-3">
-      <button type="button" class="btn btn-primary">Save changes</button>&nbsp;
-      <button type="button" class="btn btn-default">Cancel</button>
-    </div>
-  </div> -->
-
+  </div>
 </div>

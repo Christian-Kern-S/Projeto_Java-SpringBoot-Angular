@@ -63,4 +63,15 @@ public class UsuarioContoller {
         BeanUtils.copyProperties(usuarioRecordDto, usuarioModel);
         return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuarioModel));
     }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<?> deletarUsuario(@PathVariable(value = "id") UUID id) {
+        Optional<UsuarioModel> usuario = usuarioRepository.findById(id);
+        if (usuario.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+        }
+
+        usuarioRepository.delete(usuario.get());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cliente deletado com sucesso");
+    }
 }
