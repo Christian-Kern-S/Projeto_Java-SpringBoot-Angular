@@ -262,7 +262,7 @@
 .form-label {
   display: block;
   margin-bottom: var(--space-sm);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
   color: var(--text-dark);
   font-size: var(--font-size-sm);
   text-transform: uppercase;
@@ -271,7 +271,7 @@
 
 .form-control {
   width: 100%;
-  padding: var(--space-md);
+  padding: var(--space-sm);
   border: 2px solid var(--medium-gray);
   border-radius: var(--border-radius-input);
   font-size: var(--font-size-base);
@@ -603,6 +603,38 @@ p-button {
   gap: var(--space-md);
 }
 
+
+/* ===== MODO DE EDIÇÃO ===== */
+.edit-mode-indicator {
+  background: linear-gradient(135deg, var(--success-green) 0%, #20c997 100%);
+  color: var(--white);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--border-radius-button);
+  margin-bottom: var(--space-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  box-shadow: var(--shadow-md);
+  animation: slideInDown 0.5s ease-out;
+}
+
+.edit-mode-indicator i {
+  font-size: var(--font-size-lg);
+  animation: pulse 2s infinite;
+}
+
+.info-readonly-notice {
+  background: linear-gradient(135deg, var(--info-blue) 0%, #17a2b8 100%);
+  color: var(--white);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--border-radius-button);
+  margin-bottom: var(--space-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-size: var(--font-size-sm);
+  box-shadow: var(--shadow-sm);
+}
 
 
 /* ===== ANIMAÇÕES ===== */

@@ -8,3 +8,8 @@ export interface UsuarioModel {
     ramal: string
     dataCadastro: string
 }
+
+export interface PasswordModel{
+    oldPassword: string
+    newPassword: string
+}

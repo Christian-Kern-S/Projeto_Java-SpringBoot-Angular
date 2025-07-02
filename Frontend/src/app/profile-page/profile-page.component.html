@@ -124,20 +124,22 @@
 
                 <div class="tab-pane fade" id="change-password">
                   <div class="card-body pb-2">
+                    <form [formGroup]="formPass" (ngSubmit)="changePass()">
                     <div class="form-group">
-                      <label class="form-label">Current password</label>
-                      <input type="password" class="form-control">
+                      <label class="form-label">Senha atual</label>
+                      <input type="password" class="form-control" formControlName="oldPassword" placeholder="Senha atual">
                     </div>
                     <div class="form-group">
-                      <label class="form-label">New password</label>
-                      <input type="password" class="form-control">
+                      <label class="form-label">Senha nova</label>
+                      <input type="password" class="form-control" formControlName="newPassword" placeholder="Senha nova">
                     </div>
                     <div class="form-group">
-                      <label class="form-label">Repeat new password</label>
-                      <input type="password" class="form-control">
+                      <label class="form-label">Repita a senha nova</label>
+                      <input type="password" class="form-control" formControlName="repeatNewPassword" placeholder="Repita a senha nova">
                     </div>
-                    <button class="btn btn-primary">Salvar</button>
-                    <button class="btn btn-secondary">Cancelar</button>
+                    <button *ngIf="!isNull()" class="btn btn-primary" type="submit">Salvar</button>
+                    <button *ngIf="!isNull()" class="btn btn-secondary" type="reset">Cancelar</button>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -168,7 +170,7 @@
           removidos.</p>
         <div class="alert alert-warning" role="alert">
           <i class="bi bi-exclamation-triangle"></i>
-          <strong>Atenção:</strong> Esta ação também excluirá todos os cliente e dependentes associados a este usuário.
+          <strong> Atenção:</strong> Esta ação também excluirá todos os clientes e dependentes associados a este usuário.
         </div>
       </div>
       <div class="modal-footer">

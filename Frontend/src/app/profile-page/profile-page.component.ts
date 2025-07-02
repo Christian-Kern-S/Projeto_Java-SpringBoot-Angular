@@ -19,6 +19,7 @@ export class ProfilePageComponent implements OnInit {
   successMessage: string | null = null
   editMode: boolean = false
   formUsuario: FormGroup
+  formPass: FormGroup
   form: FormGroup
   private errorTimeout?: any;
   private successTimeout?: any;
@@ -38,6 +39,11 @@ export class ProfilePageComponent implements OnInit {
       email: new FormControl<string | null>(null, { nonNullable: true }),
       ramal: new FormControl<string | null>(null, { nonNullable: true }),
       dataCadastro: new FormControl<Date | null>(null, { nonNullable: true })
+    })
+    this.formPass = new FormGroup({
+      oldPassword: new FormControl<string | null>(null, { nonNullable: true }),
+      newPassword: new FormControl<string | null>(null, { nonNullable: true }),
+      repeatNewPassword: new FormControl<string | null>(null, { nonNullable: true })
     })
   }
 
@@ -70,6 +76,16 @@ export class ProfilePageComponent implements OnInit {
         this.showError('Usuário não encontrado');
       }
     });
+  }
+
+  isNull(): boolean {
+    const oldPassword = this.formPass.get('oldPassword')?.value as string;
+    const newPassword = this.formPass.get('newPassword')?.value as string;
+    const repeatNewPassword = this.formPass.get('repeatNewPassword')?.value as string;
+    if (!oldPassword && !newPassword && !repeatNewPassword) {
+      return true;
+    }
+    return false;
   }
 
   toggleEditMode(): void {
@@ -126,6 +142,41 @@ export class ProfilePageComponent implements OnInit {
     });
   }
 
+  changePass(): void {
+
+    const oldPassword = this.formPass.get('oldPassword')?.value as string;
+    const newPassword = this.formPass.get('newPassword')?.value as string;
+    const repeatNewPassword = this.formPass.get('repeatNewPassword')?.value as string;
+
+    if (newPassword != repeatNewPassword) {
+      this.showError('As senhas não são iguais.');
+      return;
+    }
+
+    if (!oldPassword || !newPassword || !repeatNewPassword) {
+      this.showError('Todos os campos devem ser preenchidos');
+      return;
+    }
+
+    if (/\s/.test(newPassword)) {
+      this.showError('A senha nova não pode conter espaços em branco');
+      return;
+    }
+
+    if (!this.usuario || !this.usuario.id_user) {
+      this.showError('ID do usuário não encontrado.');
+      return;
+    }
+    this.usuarioService.changePass(this.usuario.id_user, this.formPass.value).subscribe({
+      next: () => {
+        this.onSuccessPass()
+      },
+      error: () => {
+        this.onErrorPass()
+      }
+    })
+  }
+
   onDelete(): void {
     this.usuarioService.delete(this.usuario!.id_user).subscribe({
       next: (result) => {
@@ -141,14 +192,25 @@ export class ProfilePageComponent implements OnInit {
     this.showSuccess('Cliente atualizado com sucesso.');
   }
 
+  private async onSuccessPass() {
+    this.showSuccess('Cliente atualizado com sucesso.');
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    window.location.reload();
+  }
+
   private async onSuccessDelete() {
-    await this.showSuccess('Cliente excluido com sucesso.');
+    this.showSuccess('Cliente excluido com sucesso.');
+    await new Promise(resolve => setTimeout(resolve, 3000));
     this.authService.logout();
     this.router.navigate(['/login']);
   }
 
   private onError() {
     this.showError('Erro ao atualizar o cliente.');
+  }
+
+  private onErrorPass() {
+    this.showError('Erro ao atualizar a senha.');
   }
 
   private onErrorDelete() {
