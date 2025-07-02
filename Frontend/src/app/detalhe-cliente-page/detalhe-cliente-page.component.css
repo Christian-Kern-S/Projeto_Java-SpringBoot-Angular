@@ -317,7 +317,7 @@ body {
 
 .form-control {
   width: 100%;
-  padding: var(--space-md);
+  padding: var(--space-sm);
   border: 2px solid var(--medium-gray);
   border-radius: var(--border-radius-input);
   font-size: var(--font-size-base);
