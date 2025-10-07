@@ -2,6 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "SistemaDeGestaoDeClientesApplication",
+      "request": "launch",
+      "mainClass": "com.internews.gestao_clientes.SistemaDeGestaoDeClientesApplication",
+      "projectName": "gestao-clientes"
+    },
+    {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
