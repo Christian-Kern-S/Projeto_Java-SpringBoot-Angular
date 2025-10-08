@@ -49,7 +49,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --container-padding: 24px;
   --header-height: 50px;
   --border-radius-card: 12px;
-  --border-radius-button: 8px;
+  --border-radius-button: 5px;
   --border-radius-input: 6px;
   
   /* Tipografia */
