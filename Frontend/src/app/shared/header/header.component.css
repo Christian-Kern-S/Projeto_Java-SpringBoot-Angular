@@ -1,0 +1,28 @@
+.global-header {
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #004b9b;
+  color: white;
+  height: 3rem; /* 48px */
+  min-width: 100%;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+}
+
+.global-header .menu {
+  display: flex;
+  align-items: center;
+}
+
+.global-header .menu h2.title {
+  margin-left: 30px;
+  font-size: 20px;
+}
+
+.global-header .menu i {
+  margin-left: 30px;
+}

@@ -17,60 +17,26 @@
     font-family: "Inter", sans-serif;
     font-weight: 700;
     font-style: normal;
+    padding-top: 3rem; /* compensa o header fixo */
   }
 
 
-  /* HEADER */
-
-  .cabecalho {
-    position: fixed;
-    top: 0;
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #004b9b;
-    color: white;
-    height: 3rem;
-    min-width: 100%;
-    font-family: "Inter", sans-serif;
-    font-weight: 500;
-    font-style: normal;
-  }
-
-  .logout {
-    color: #fff;
-  }
-
-  .logout :hover {
-    color: #dcedff;
-    transition: .1s ease-in-out;
-  }
-
-  .menu {
-    display: flex;
-    align-items: center;
-  }
-
-  .menu h2 {
-    margin-left: 30px;
-    font-size: 20px;
-  }
-
-  .menu i {
-    margin-left: 30px;
-  }
+  /* HEADER removido (agora é global) */
 
 
   /* BODY */
 
     .container {
+      /* espaço abaixo do header fixo de 3rem */
       margin-top: 1.8rem;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: stretch;
       width: 98vw;
       max-width: 98vw;
+      /* altura flexível: ocupar 95% do viewport (descontando o header fixo) */
+      min-height: calc(95vh - 3rem);
+      /* evitar overflow horizontal quando somar padding */
       padding: 40px;
       box-sizing: border-box;
     }

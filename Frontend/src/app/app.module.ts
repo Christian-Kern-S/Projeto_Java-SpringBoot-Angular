@@ -30,6 +30,7 @@ import { LeftSidebarComponent } from '../app/shared/left-sidebar/left-sidebar.co
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { MessageService } from 'primeng/api';
+import { HeaderComponent } from './shared/header/header.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { MessageService } from 'primeng/api';
     BrowserModule,
     FormsModule,
     LeftSidebarComponent,
+    HeaderComponent,
     BrowserAnimationsModule,
     FileUploadModule,
     ButtonModule,

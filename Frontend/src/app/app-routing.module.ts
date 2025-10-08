@@ -12,26 +12,31 @@ const routes: Routes = [
   {
     path: "login",
     component: LoginPageComponent,
-    canActivate: [LoginGuard]
+    canActivate: [LoginGuard],
+    data: { title: 'Login' }
   },
   {
     path: "registration",
-    component: RegistrationPageComponent
+    component: RegistrationPageComponent,
+    data: { title: 'Cadastro' }
   },
   {
     path: "clientes",
     component: ClientesPageComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { title: 'Clientes' }
   }, 
   {
     path: "cliente/:id",
     component: DetalheClientePageComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { title: 'Detalhes do Cliente' }
   },
   {
     path: "profile/:id",
     component: ProfilePageComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { title: 'Perfil' }
   },
   {
     path: '',

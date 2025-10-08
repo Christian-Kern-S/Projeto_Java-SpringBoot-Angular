@@ -6,6 +6,10 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+body app-header + * {
+  display: block;
+}
+
 :root {
   /* Cores Primárias */
   --primary-blue: #004b9b;
