@@ -78,6 +78,9 @@ public class AuthController {
         responseBody.put("ramal", usuario.getRamal());
         responseBody.put("dataCadastro", usuario.getDataCadastro());
         responseBody.put("role", usuario.getRole());
+        if (usuario.getAvatarUrl() != null) {
+            responseBody.put("avatarUrl", usuario.getAvatarUrl());
+        }
 
         return ResponseEntity.ok(responseBody);
     }

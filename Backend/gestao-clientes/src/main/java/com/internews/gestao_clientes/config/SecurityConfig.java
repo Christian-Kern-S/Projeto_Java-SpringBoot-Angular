@@ -42,6 +42,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/cliente/{id}"   ).permitAll()
                         .requestMatchers(HttpMethod.GET, "/cliente/{id}/dependentes"   ).permitAll()
                         .requestMatchers(HttpMethod.GET, "/cliente/{id}/dependente/{id2}"   ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/uploads/**"   ).permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/*/avatar"   ).permitAll()
 
                         .requestMatchers(HttpMethod.PUT, "/cliente/{id}"   ).permitAll()
                         .requestMatchers(HttpMethod.PUT, "/cliente/{id}/dependente/{id2}"   ).permitAll()

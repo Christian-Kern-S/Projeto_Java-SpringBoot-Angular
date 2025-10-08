@@ -7,12 +7,21 @@ import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import net.coobird.thumbnailator.Thumbnails;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 @RestController
 public class UsuarioContoller {
@@ -60,8 +69,75 @@ public class UsuarioContoller {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
         }
         var usuarioModel = usuario.get();
+        // Preserve avatarUrl if not provided in DTO to avoid accidental clearing
+        String currentAvatar = usuarioModel.getAvatarUrl();
         BeanUtils.copyProperties(usuarioRecordDto, usuarioModel);
+        if (usuarioRecordDto.avatarUrl() == null || usuarioRecordDto.avatarUrl().isBlank()) {
+            usuarioModel.setAvatarUrl(currentAvatar);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuarioModel));
+    }
+
+    @PostMapping(value = "/user/{id}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploadAvatar(@PathVariable("id") UUID id,
+                                          @RequestParam("file") MultipartFile file) {
+        Optional<UsuarioModel> usuarioOpt = usuarioRepository.findById(id);
+        if (usuarioOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+        }
+        if (file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Arquivo não enviado");
+        }
+
+        try {
+            // valida tipo
+            String contentType = file.getContentType();
+            if (contentType == null || !(contentType.equals("image/png") || contentType.equals("image/jpeg") || contentType.equals("image/jpg"))) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tipo de imagem inválido. Use PNG ou JPG");
+            }
+
+            // Ensure upload directory exists
+            Path uploadDir = Paths.get("uploads", "avatars");
+            Files.createDirectories(uploadDir);
+
+            String original = file.getOriginalFilename();
+            if (original == null) original = "avatar";
+            String ext = "";
+            int dot = original.lastIndexOf('.');
+            if (dot >= 0) {
+                ext = original.substring(dot);
+            }
+            String filename = id + (ext.isBlank() ? ".png" : ext.toLowerCase());
+            Path target = uploadDir.resolve(filename);
+
+            // Processa imagem: converte para quadrada, máximo 512x512, compressão leve
+            BufferedImage inputImg = ImageIO.read(file.getInputStream());
+            if (inputImg == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não foi possível ler a imagem");
+            }
+            int w = inputImg.getWidth();
+            int h = inputImg.getHeight();
+            int size = Math.min(w, h);
+            int x = (w - size) / 2;
+            int y = (h - size) / 2;
+            BufferedImage cropped = inputImg.getSubimage(x, y, size, size);
+
+            // redimensiona para no máximo 512x512
+            Thumbnails.of(cropped)
+                    .size(512, 512)
+                    .outputQuality(0.9)
+                    .toFile(target.toFile());
+
+            String publicUrl = "/uploads/avatars/" + filename;
+
+            UsuarioModel usuarioModel = usuarioOpt.get();
+            usuarioModel.setAvatarUrl(publicUrl);
+            usuarioRepository.save(usuarioModel);
+
+            return ResponseEntity.ok(publicUrl);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao salvar arquivo");
+        }
     }
 
     @DeleteMapping("/user/{id}")

@@ -30,6 +30,7 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel> implements S
     private String cargo;
     private String ramal;
     private LocalDate dataCadastro;
+    private String avatarUrl;
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -127,5 +128,13 @@ public class UsuarioModel extends RepresentationModel<UsuarioModel> implements S
 
     public void setClientes(List<ClienteModel> clientes) {
         this.clientes = clientes;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }
