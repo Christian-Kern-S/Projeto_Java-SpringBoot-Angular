@@ -6,6 +6,7 @@ import { UsuarioService } from '../servicos/usuario/usuario.service';
 import { AuthService } from '../auth/auth.service';
 import { MessageService } from 'primeng/api';
 import { FileUploadEvent } from 'primeng/fileupload';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-profile-page',
@@ -23,6 +24,8 @@ export class ProfilePageComponent implements OnInit {
   form: FormGroup
   private errorTimeout?: any;
   private successTimeout?: any;
+  selectedFileName: string = '';
+  uploadUrl: string = '';
 
 
   constructor(private messageService: MessageService, private readonly fb: FormBuilder, private readonly route: ActivatedRoute, private readonly usuarioService: UsuarioService, private readonly authService: AuthService,
@@ -48,12 +51,82 @@ export class ProfilePageComponent implements OnInit {
   }
 
   onUpload(event: FileUploadEvent) {
-    this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode' });
+    // Ao concluir o upload via PrimeNG, recarrega a página para refletir a nova imagem
+    this.showSuccess('Foto atualizada com sucesso. Recarregando...');
+    setTimeout(() => window.location.reload(), 1200);
+  }
+
+  onAvatarSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files && input.files[0];
+    if (!file || !this.usuario?.id_user) {
+      this.showError('Selecione um arquivo válido.');
+      return;
+    }
+    this.selectedFileName = file.name;
+    this.usuarioService.uploadAvatar(this.usuario.id_user, file).subscribe({
+      next: (urlText: any) => {
+        let newUrl = typeof urlText === 'string' ? urlText : (urlText?.toString?.() ?? '');
+        if (newUrl && !newUrl.startsWith('http')) {
+          newUrl = environment.apiUrl + newUrl;
+        }
+        // Cache busting
+        const bust = newUrl.includes('?') ? `${newUrl}&t=${Date.now()}` : `${newUrl}?t=${Date.now()}`;
+        if (this.usuario) {
+          this.usuario.avatarUrl = bust;
+        }
+        // Atualiza no localStorage para refletir no sidebar
+        const stored = localStorage.getItem('userData');
+        if (stored) {
+          const parsed = JSON.parse(stored) as UsuarioModel;
+          parsed.avatarUrl = bust;
+          localStorage.setItem('userData', JSON.stringify(parsed));
+        }
+        this.showSuccess('Foto atualizada com sucesso. Recarregando...');
+        setTimeout(() => window.location.reload(), 1500);
+      },
+      error: () => {
+        this.showError('Erro ao atualizar a foto.');
+      }
+    });
+  }
+
+  onAvatarUpload(event: any): void {
+    const files: File[] = event.files as File[];
+    if (!files || files.length === 0 || !this.usuario?.id_user) {
+      this.showError('Selecione um arquivo válido.');
+      return;
+    }
+    const file = files[0];
+    this.usuarioService.uploadAvatar(this.usuario.id_user, file).subscribe({
+      next: (urlText: any) => {
+        let newUrl = typeof urlText === 'string' ? urlText : (urlText?.toString?.() ?? '');
+        if (newUrl && !newUrl.startsWith('http')) {
+          newUrl = environment.apiUrl + newUrl;
+        }
+        const bust = newUrl.includes('?') ? `${newUrl}&t=${Date.now()}` : `${newUrl}?t=${Date.now()}`;
+        if (this.usuario) {
+          this.usuario.avatarUrl = bust;
+        }
+        const stored = localStorage.getItem('userData');
+        if (stored) {
+          const parsed = JSON.parse(stored) as UsuarioModel;
+          parsed.avatarUrl = bust;
+          localStorage.setItem('userData', JSON.stringify(parsed));
+        }
+        this.showSuccess('Foto atualizada com sucesso. Recarregando...');
+        setTimeout(() => window.location.reload(), 1500);
+      },
+      error: () => {
+        this.showError('Erro ao atualizar a foto.');
+      }
+    });
   }
 
   ngOnInit(): void {
     this.id_user = this.route.snapshot.paramMap.get('id');
     if (this.id_user) {
+      this.uploadUrl = environment.apiUrl + `/user/${this.id_user}/avatar`;
       this.loadUsuario(this.id_user)
     }
   }
@@ -61,6 +134,10 @@ export class ProfilePageComponent implements OnInit {
   loadUsuario(id: string): void {
     this.usuarioService.findById(id).subscribe({
       next: (res) => {
+        // Normaliza avatarUrl para URL absoluta
+        if (res && res.avatarUrl && !res.avatarUrl.startsWith('http')) {
+          res.avatarUrl = environment.apiUrl + res.avatarUrl;
+        }
         this.usuario = res;
         this.formUsuario.patchValue({
           id_user: res.id_user,

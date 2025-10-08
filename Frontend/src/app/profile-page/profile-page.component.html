@@ -33,12 +33,16 @@
             <div class="col-md-3 pt-0">
               <div class="list-group list-group-flush account-settings-links">
                 <div class="card-body media align-items-center">
-                  <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt class="d-block ui-w-80">
+                  <img [src]="usuario && usuario.avatarUrl ? usuario.avatarUrl : 'https://bootdey.com/img/Content/avatar/avatar1.png'" alt class="d-block ui-w-80">
                   <div class="media-body ml-4">
-                    <p-fileupload #fu mode="basic" chooseLabel="Atualizar foto" chooseIcon="pi pi-upload" name="demo[]"
-                      url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" maxFileSize="1000000"
-                      (onUpload)="onUpload($event)" />
-                    <p-button label="Clique para confirmar" (onClick)="fu.upload()" severity="secondary" />
+                    <input id="avatarInput" class="visually-hidden" type="file" accept="image/*" (change)="onAvatarSelected($event)">
+                    <div class="upload-actions">
+                      <label class="btn btn-outline-primary btn-upload" for="avatarInput">
+                        <i class="bi bi-upload" aria-hidden="true"></i>
+                        <span>Atualizar foto</span>
+                      </label>
+                      <span class="file-name">{{ selectedFileName || 'Nenhum arquivo selecionado' }}</span>
+                    </div>
                   </div>
                 </div>
                 <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">

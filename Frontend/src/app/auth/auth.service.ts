@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of, tap } from "rxjs";
+import { environment } from "../../environments/environment";
 import { UsuarioModel } from "../models/usuario.model";
 
 interface LoginResponse {
@@ -13,6 +14,7 @@ interface LoginResponse {
     ramal: string
     dataCadastro: string
     role: string
+    avatarUrl?: string
 }
 
 interface SignInResponse{
@@ -40,6 +42,10 @@ export class AuthService{
             localStorage.setItem('token', response.token);
 
             // 2) salva também os dados do usuário (id_user e username)
+            let avatarUrl = response.avatarUrl;
+            if (avatarUrl && !avatarUrl.startsWith('http')) {
+                avatarUrl = environment.apiUrl + avatarUrl;
+            }
             const userData: UsuarioModel = {
             id_user: response.id_user,
             username: response.username,
@@ -48,7 +54,8 @@ export class AuthService{
             email: response.email,
             ramal: response.ramal,
             dataCadastro: response.dataCadastro,
-            role: response.role
+            role: response.role,
+            avatarUrl
         };
             localStorage.setItem('userData', JSON.stringify(userData));
 
@@ -88,7 +95,11 @@ export class AuthService{
         // 2) senão, tenta ler do localStorage
         const stored = localStorage.getItem('userData');
         if (stored) {
-        this.currentUser = JSON.parse(stored) as UsuarioModel;
+        const parsed = JSON.parse(stored) as UsuarioModel;
+        if (parsed.avatarUrl && !parsed.avatarUrl.startsWith('http')) {
+            parsed.avatarUrl = environment.apiUrl + parsed.avatarUrl;
+        }
+        this.currentUser = parsed;
         return of(this.currentUser);
         }
 

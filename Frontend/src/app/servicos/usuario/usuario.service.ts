@@ -31,4 +31,10 @@ export class UsuarioService {
         return this.http.put(url, pass)
     }
 
+    uploadAvatar(id: string, file: File): Observable<string> {
+        const formData = new FormData();
+        formData.append('file', file);
+        const url = this.baseUrl + `/user/${id}/avatar`;
+        return this.http.post(url, formData, { responseType: 'text' });
+    }
 }

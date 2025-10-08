@@ -432,6 +432,45 @@
   box-shadow: var(--shadow-md);
 }
 
+.image-upload{
+  margin-top: 15px;
+
+}
+
+/* Custom upload button and file name */
+.upload-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  flex-direction: column;
+}
+
+.btn-upload {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid var(--primary-blue);
+  color: var(--primary-blue);
+  background: var(--medium-gray);
+  padding: 6px 6px;
+  height: fit-content;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+}
+
+.btn-upload:hover {
+  background: var(--primary-blue);
+  color: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+
+.file-name {
+  font-size: 0.9rem;
+  color: var(--text-medium);
+}
+
 
 /* ===== SEÇÕES ===== */
 

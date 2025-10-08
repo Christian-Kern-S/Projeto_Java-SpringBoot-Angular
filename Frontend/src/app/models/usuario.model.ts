@@ -7,6 +7,7 @@ export interface UsuarioModel {
     email: string
     ramal: string
     dataCadastro: string
+    avatarUrl?: string
 }
 
 export interface PasswordModel{

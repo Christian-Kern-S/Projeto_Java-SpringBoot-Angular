@@ -39,7 +39,8 @@
 }
 
 :host ::ng-deep .p-menu-separator {
-  margin-bottom: 42vh;
+  flex: 1;
+  min-height: 0;
 }
 
 :host ::ng-deep .p-avatar-circle {
