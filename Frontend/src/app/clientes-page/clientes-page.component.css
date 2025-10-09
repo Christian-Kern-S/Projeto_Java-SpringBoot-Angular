@@ -8,7 +8,7 @@
     display: flex;
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
     width: 100%;
-    min-height: 100%;
+    height: calc(100vh - 0rem); /* base */
     justify-items: center;
     flex-direction: column;
     align-items: center;
@@ -17,31 +17,24 @@
     font-family: "Inter", sans-serif;
     font-weight: 700;
     font-style: normal;
-    padding-top: 3rem; /* compensa o header fixo */
+    padding-top: 3rem;
+    justify-content: center;
   }
-
-
-  /* HEADER removido (agora é global) */
-
 
   /* BODY */
 
-    .container {
-      /* espaço abaixo do header fixo de 3rem */
-      margin-top: 1.8rem;
+  .container {
       display: flex;
-      justify-content: space-between;
-      align-items: stretch;
+      flex-direction: column;
+      gap: 12px;
       width: 98vw;
       max-width: 98vw;
-      /* altura flexível: ocupar 95% do viewport (descontando o header fixo) */
-      min-height: calc(95vh - 3rem);
-      /* evitar overflow horizontal quando somar padding */
-      padding: 40px;
+      min-height: 0;
+      padding: 12px;
       box-sizing: border-box;
-    }
+  }
     
-    .add-cliente {
+  .add-cliente {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -98,17 +91,18 @@
 
   .listaCliente {
     width: 100%;
-    min-height: 100%;
+    flex: 1 1 auto;
     background-color: #f0f0f08e;
     border-radius: 8px;
     padding: 20px;
+    display: flex;
+    min-height: 89vh;
+    min-width: 95vw;
   }
 
   .listaCliente h2 {
     margin-bottom: 10px;
   }
-
-
 
   /* TABELA */
 
@@ -116,16 +110,34 @@
   :host ::ng-deep .tabela {
     background: #fff !important;
     border: none !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
     border-radius: 8px !important;
     overflow: hidden !important;
+    min-width: 100%;
   }
 
   /* Tabela de itens */
-  :host ::ng-deep .p-datatable-table-container {
-    border-radius: 7px 7px 0 0;
+
+  :host ::ng-deep .p-datatable-table-container::-webkit-scrollbar,
+  :host ::ng-deep .p-datatable-wrapper::-webkit-scrollbar {
+    width: 4px;
+
+    /* largura do scroll vertical / height: 8px; / altura do scroll horizontal */
   }
 
+  :host ::ng-deep .p-datatable-table-container::-webkit-scrollbar-thumb,
+  :host ::ng-deep .p-datatable-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--medium-gray);
+    /* cor do “thumb” (parte que arrasta) / border-radius: 8px; border: 2px solid #e9eef7; / cria “folga” e melhora o contraste */
+  }
+
+  :host ::ng-deep .p-datatable-table-container::-webkit-scrollbar-track,
+  :host ::ng-deep .p-datatable-wrapper::-webkit-scrollbar-track {
+    background: var(--light-gray);
+    /* cor da “trilha” */
+    border-radius: 8px;
+  }
+  
   /* Cabeçalho da tabela (colunas) */
   :host ::ng-deep .tabela .p-datatable-thead>tr>th {
     background-color: #fafafa !important;
@@ -221,9 +233,9 @@
   :host ::ng-deep .tabela .p-datatable-tbody>tr>td {
     border: none;
     border-bottom: 1px solid #f0f0f0;
-    padding: 0.75rem 1rem;
+    padding: 0.2rem 1rem;
     color: #303030;
-    font-size: 0.95rem;
+    font-size: var(--font-size-sm);
     line-break: anywhere;
 
   }
@@ -268,8 +280,33 @@
   }
 
 
-  :host ::ng-deep .p-datatable-header {
-    border: none;
+  :host ::ng-deep .p-datatable-header { border: none; }
+
+  /* A tabela ocupa o espaço disponível dentro da caixa e rola internamente */
+  :host ::ng-deep .tabela {
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* permite que o body role */
+  }
+
+  :host ::ng-deep .tabela .p-datatable-wrapper {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+  }
+
+  /* Scrollbar fininha na área da tabela */
+  :host ::ng-deep .tabela .p-datatable-wrapper::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  :host ::ng-deep .tabela .p-datatable-wrapper::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 6px;
+  }
+  :host ::ng-deep .tabela .p-datatable-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: #c1c1c1 transparent;
   }
 
   /* Campo de texto de pesquisa global (classe já criada no seu CSS) */
@@ -278,6 +315,7 @@
     border: 1px solid #ddd !important;
     border-radius: var(--border-radius-button);
     padding: 0.2rem 0.75rem;
+    margin-right: var(--space-md);
     font-size: var(--font-size-sm);
     color: #303030 !important;
     background-color: #fff;

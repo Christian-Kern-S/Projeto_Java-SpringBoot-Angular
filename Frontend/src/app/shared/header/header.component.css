@@ -21,6 +21,7 @@
 .global-header .menu h2.title {
   margin-left: 30px;
   font-size: 20px;
+  margin-bottom: 0;
 }
 
 .global-header .menu i {
