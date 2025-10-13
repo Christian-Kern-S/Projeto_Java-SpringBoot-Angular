@@ -110,6 +110,18 @@ public class UsuarioContoller {
             String filename = id + (ext.isBlank() ? ".png" : ext.toLowerCase());
             Path target = uploadDir.resolve(filename);
 
+            // Delete old avatar file if exists
+            UsuarioModel usuarioModel = usuarioOpt.get();
+            String oldAvatarUrl = usuarioModel.getAvatarUrl();
+            if (oldAvatarUrl != null && !oldAvatarUrl.isBlank()) {
+                try {
+                    Path oldFilePath = Paths.get("uploads", "avatars", oldAvatarUrl.substring(oldAvatarUrl.lastIndexOf('/') + 1));
+                    Files.deleteIfExists(oldFilePath);
+                } catch (IOException e) {
+                    // Log error but continue
+                }
+            }
+
             // Processa imagem: converte para quadrada, máximo 512x512, compressão leve
             BufferedImage inputImg = ImageIO.read(file.getInputStream());
             if (inputImg == null) {
@@ -130,7 +142,6 @@ public class UsuarioContoller {
 
             String publicUrl = "/uploads/avatars/" + filename;
 
-            UsuarioModel usuarioModel = usuarioOpt.get();
             usuarioModel.setAvatarUrl(publicUrl);
             usuarioRepository.save(usuarioModel);
 
@@ -149,5 +160,28 @@ public class UsuarioContoller {
 
         usuarioRepository.delete(usuario.get());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Cliente deletado com sucesso");
+    }
+
+    @DeleteMapping("/user/{id}/avatar")
+    public ResponseEntity<?> deleteAvatar(@PathVariable("id") UUID id) {
+        Optional<UsuarioModel> usuarioOpt = usuarioRepository.findById(id);
+        if (usuarioOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+        }
+
+        UsuarioModel usuarioModel = usuarioOpt.get();
+        String avatarUrl = usuarioModel.getAvatarUrl();
+        if (avatarUrl != null && !avatarUrl.isBlank()) {
+            try {
+                Path filePath = Paths.get("uploads", "avatars", avatarUrl.substring(avatarUrl.lastIndexOf('/') + 1));
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {
+                // Log error but continue
+            }
+            usuarioModel.setAvatarUrl(null);
+            usuarioRepository.save(usuarioModel);
+        }
+
+        return ResponseEntity.ok("Avatar deletado com sucesso");
     }
 }

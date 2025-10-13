@@ -45,6 +45,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/uploads/**"   ).permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/*/avatar"   ).permitAll()
 
+                        .requestMatchers(HttpMethod.DELETE, "/user/{id}/avatar").permitAll()
+
                         .requestMatchers(HttpMethod.PUT, "/cliente/{id}"   ).permitAll()
                         .requestMatchers(HttpMethod.PUT, "/cliente/{id}/dependente/{id2}"   ).permitAll()
                         .requestMatchers(HttpMethod.PUT, "/user/{id}").permitAll()
