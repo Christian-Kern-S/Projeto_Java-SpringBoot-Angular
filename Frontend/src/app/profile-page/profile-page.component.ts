@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UsuarioModel } from '../models/usuario.model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { environment } from '../../environments/environment';
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.css'
 })
-export class ProfilePageComponent implements OnInit {
+export class ProfilePageComponent implements OnInit, OnDestroy {
   usuario: UsuarioModel | null = null;
   id_user?: string | null
   errorMessage: string | null = null
@@ -26,6 +26,11 @@ export class ProfilePageComponent implements OnInit {
   private successTimeout?: any;
   selectedFileName: string = '';
   uploadUrl: string = '';
+  isPhotoModalOpen = false;
+  pendingAvatarFile: File | null = null;
+  previewUrl: string | null = null;
+  isUploadingAvatar = false;
+  private objectUrlToRevoke: string | null = null;
 
 
   constructor(private messageService: MessageService, private readonly fb: FormBuilder, private readonly route: ActivatedRoute, private readonly usuarioService: UsuarioService, private readonly authService: AuthService,
@@ -50,6 +55,10 @@ export class ProfilePageComponent implements OnInit {
     })
   }
 
+  ngOnDestroy(): void {
+    this.destroyObjectUrl();
+  }
+
   onUpload(event: FileUploadEvent) {
     // Ao concluir o upload via PrimeNG, recarrega a página para refletir a nova imagem
     this.showSuccess('Foto atualizada com sucesso. Recarregando...');
@@ -64,31 +73,7 @@ export class ProfilePageComponent implements OnInit {
       return;
     }
     this.selectedFileName = file.name;
-    this.usuarioService.uploadAvatar(this.usuario.id_user, file).subscribe({
-      next: (urlText: any) => {
-        let newUrl = typeof urlText === 'string' ? urlText : (urlText?.toString?.() ?? '');
-        if (newUrl && !newUrl.startsWith('http')) {
-          newUrl = environment.apiUrl + newUrl;
-        }
-        // Cache busting
-        const bust = newUrl.includes('?') ? `${newUrl}&t=${Date.now()}` : `${newUrl}?t=${Date.now()}`;
-        if (this.usuario) {
-          this.usuario.avatarUrl = bust;
-        }
-        // Atualiza no localStorage para refletir no sidebar
-        const stored = localStorage.getItem('userData');
-        if (stored) {
-          const parsed = JSON.parse(stored) as UsuarioModel;
-          parsed.avatarUrl = bust;
-          localStorage.setItem('userData', JSON.stringify(parsed));
-        }
-        this.showSuccess('Foto atualizada com sucesso. Recarregando...');
-        setTimeout(() => window.location.reload(), 1500);
-      },
-      error: () => {
-        this.showError('Erro ao atualizar a foto.');
-      }
-    });
+    this.uploadAvatarFile(file);
   }
 
   onAvatarUpload(event: any): void {
@@ -98,29 +83,7 @@ export class ProfilePageComponent implements OnInit {
       return;
     }
     const file = files[0];
-    this.usuarioService.uploadAvatar(this.usuario.id_user, file).subscribe({
-      next: (urlText: any) => {
-        let newUrl = typeof urlText === 'string' ? urlText : (urlText?.toString?.() ?? '');
-        if (newUrl && !newUrl.startsWith('http')) {
-          newUrl = environment.apiUrl + newUrl;
-        }
-        const bust = newUrl.includes('?') ? `${newUrl}&t=${Date.now()}` : `${newUrl}?t=${Date.now()}`;
-        if (this.usuario) {
-          this.usuario.avatarUrl = bust;
-        }
-        const stored = localStorage.getItem('userData');
-        if (stored) {
-          const parsed = JSON.parse(stored) as UsuarioModel;
-          parsed.avatarUrl = bust;
-          localStorage.setItem('userData', JSON.stringify(parsed));
-        }
-        this.showSuccess('Foto atualizada com sucesso. Recarregando...');
-        setTimeout(() => window.location.reload(), 1500);
-      },
-      error: () => {
-        this.showError('Erro ao atualizar a foto.');
-      }
-    });
+    this.uploadAvatarFile(file);
   }
 
   ngOnInit(): void {
@@ -129,6 +92,57 @@ export class ProfilePageComponent implements OnInit {
       this.uploadUrl = environment.apiUrl + `/user/${this.id_user}/avatar`;
       this.loadUsuario(this.id_user)
     }
+  }
+
+  openPhotoModal(): void {
+    this.resetPhotoModalState();
+    this.isPhotoModalOpen = true;
+  }
+
+  closePhotoModal(): void {
+    this.isPhotoModalOpen = false;
+    this.resetPhotoModalState();
+  }
+
+  triggerFileInput(fileInput: HTMLInputElement): void {
+    if (this.isUploadingAvatar) {
+      return;
+    }
+    fileInput.click();
+  }
+
+  onModalFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files && input.files[0];
+    if (!file) {
+      return;
+    }
+    this.pendingAvatarFile = file;
+    this.selectedFileName = file.name;
+    this.applyPreviewFromFile(file);
+  }
+
+  confirmAvatarUpload(): void {
+    if (!this.pendingAvatarFile) {
+      this.showError('Selecione uma imagem para continuar.');
+      return;
+    }
+    this.isUploadingAvatar = true;
+    this.uploadAvatarFile(this.pendingAvatarFile, true);
+  }
+
+  clearPendingAvatar(fileInput?: HTMLInputElement): void {
+    if (fileInput) {
+      fileInput.value = '';
+    }
+    this.pendingAvatarFile = null;
+    this.selectedFileName = '';
+    this.resetPreviewToCurrentAvatar();
+  }
+
+  getUserInitial(): string {
+    const source = this.usuario?.fullname || this.usuario?.username || '';
+    return source.trim().charAt(0).toUpperCase();
   }
 
   loadUsuario(id: string): void {
@@ -265,6 +279,34 @@ export class ProfilePageComponent implements OnInit {
     });
   }
 
+  deleteAvatar(): void {
+    if (!this.usuario?.id_user) {
+      this.showError('Usuário não encontrado.');
+      return;
+    }
+    this.usuarioService.deleteAvatar(this.usuario.id_user).subscribe({
+      next: () => {
+        if (this.usuario) {
+          this.usuario.avatarUrl = undefined;
+        }
+        // Update localStorage
+        const stored = localStorage.getItem('userData');
+        if (stored) {
+          const parsed = JSON.parse(stored) as UsuarioModel;
+          parsed.avatarUrl = undefined;
+          localStorage.setItem('userData', JSON.stringify(parsed));
+        }
+        if (this.isPhotoModalOpen) {
+          this.closePhotoModal();
+        }
+        this.showSuccess('Foto excluída com sucesso.');
+      },
+      error: () => {
+        this.showError('Erro ao excluir a foto.');
+      }
+    });
+  }
+
   private onSuccess() {
     this.showSuccess('Cliente atualizado com sucesso.');
   }
@@ -316,5 +358,65 @@ export class ProfilePageComponent implements OnInit {
       this.successMessage = null;
       this.successTimeout = undefined;
     }, 5000);
+  }
+
+  private uploadAvatarFile(file: File, closeModalAfterUpload: boolean = false): void {
+    if (!this.usuario?.id_user) {
+      this.showError('Usuário não encontrado.');
+      this.isUploadingAvatar = false;
+      return;
+    }
+    this.usuarioService.uploadAvatar(this.usuario.id_user, file).subscribe({
+      next: (urlText: any) => {
+        let newUrl = typeof urlText === 'string' ? urlText : (urlText?.toString?.() ?? '');
+        if (newUrl && !newUrl.startsWith('http')) {
+          newUrl = environment.apiUrl + newUrl;
+        }
+        const bust = newUrl.includes('?') ? `${newUrl}&t=${Date.now()}` : `${newUrl}?t=${Date.now()}`;
+        if (this.usuario) {
+          this.usuario.avatarUrl = bust;
+        }
+        const stored = localStorage.getItem('userData');
+        if (stored) {
+          const parsed = JSON.parse(stored) as UsuarioModel;
+          parsed.avatarUrl = bust;
+          localStorage.setItem('userData', JSON.stringify(parsed));
+        }
+        this.showSuccess('Foto atualizada com sucesso.');
+        this.isUploadingAvatar = false;
+        if (closeModalAfterUpload || this.isPhotoModalOpen) {
+          this.closePhotoModal();
+        }
+      },
+      error: () => {
+        this.showError('Erro ao atualizar a foto.');
+        this.isUploadingAvatar = false;
+      }
+    });
+  }
+
+  private resetPhotoModalState(): void {
+    this.isUploadingAvatar = false;
+    this.pendingAvatarFile = null;
+    this.selectedFileName = '';
+    this.resetPreviewToCurrentAvatar();
+  }
+
+  private resetPreviewToCurrentAvatar(): void {
+    this.destroyObjectUrl();
+    this.previewUrl = this.usuario?.avatarUrl ?? null;
+  }
+
+  private applyPreviewFromFile(file: File): void {
+    this.destroyObjectUrl();
+    this.objectUrlToRevoke = URL.createObjectURL(file);
+    this.previewUrl = this.objectUrlToRevoke;
+  }
+
+  private destroyObjectUrl(): void {
+    if (this.objectUrlToRevoke) {
+      URL.revokeObjectURL(this.objectUrlToRevoke);
+      this.objectUrlToRevoke = null;
+    }
   }
 }

@@ -26,8 +26,10 @@
           <button pRipple
             class="relative overflow-hidden w-full border-0 bg-transparent flex items-start p-2 pl-4 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-none cursor-pointer transition-colors duration-200"
             (click)="navigate()">
-            <p-avatar [image]="usuario && usuario.avatarUrl ? usuario.avatarUrl : 'https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png'" class="mr-2"
-              shape="circle"></p-avatar>
+            <div class="avatar-sidebar mr-2">
+              <img *ngIf="usuario && usuario.avatarUrl" [src]="usuario.avatarUrl" alt="Avatar" class="avatar-image">
+              <i *ngIf="!usuario || !usuario.avatarUrl" class="bi bi-person-circle avatar-sidebar-icon"></i>
+            </div>
             <span class="inline-flex flex-col">
               <span class="font-bold">{{usuario?.username}}</span>
               <span class="text-sm">{{verifyUserRole()}}</span>

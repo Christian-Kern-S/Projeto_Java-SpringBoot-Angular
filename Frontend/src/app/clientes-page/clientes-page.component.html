@@ -34,7 +34,7 @@
         <img src="undraw_search-engines_k649.svg" alt="Sem dados">
       </div>
 
-            <p-table #dt2 *ngIf="!hasNoData && !loading" class="tabela" [value]="clientes" dataKey="id" [rows]="5"
+      <p-table #dt2 *ngIf="!hasNoData && !loading" class="tabela" [value]="clientes" dataKey="id" [rows]="5"
         [rowsPerPageOptions]="[5, 10, 25, 50]" [loading]="loading" [paginator]="true"
         [globalFilterFields]="['idCliente','nome', 'cpf', 'email']" [tableStyle]="{ 'min-width': '75rem'}"
         [scrollable]="true" [scrollHeight]="'flex'">
@@ -101,7 +101,9 @@
               </div>
             </td>
             <td style="width:15%">
-              <button (click)="verMais(customer)" class="btn btn-primary">Ver Mais</button>
+              <button (click)="verMais(customer)" class="btn gear-btn" title="Ver mais detalhes">
+                <i class="fa-solid fa-gear"></i>
+              </button>
             </td>
           </tr>
         </ng-template>

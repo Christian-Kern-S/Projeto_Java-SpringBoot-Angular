@@ -21,15 +21,15 @@
             <div class="col-md-3 pt-0">
               <div class="list-group list-group-flush account-settings-links">
                 <div class="card-body media align-items-center">
-                  <img [src]="usuario && usuario.avatarUrl ? usuario.avatarUrl : 'https://bootdey.com/img/Content/avatar/avatar1.png'" alt class="d-block ui-w-80">
+                  <div class="avatar-container">
+                    <img *ngIf="usuario && usuario.avatarUrl" [src]="usuario.avatarUrl" alt="Avatar" class="d-block ui-w-80">
+                    <i *ngIf="!usuario || !usuario.avatarUrl" class="bi bi-person-circle avatar-icon"></i>
+                  </div>
                   <div class="media-body ml-4">
-                    <input id="avatarInput" class="visually-hidden" type="file" accept="image/*" (change)="onAvatarSelected($event)">
-                    <div class="upload-actions">
-                      <label class="btn btn-outline-primary btn-upload" for="avatarInput">
-                        <i class="bi bi-upload" aria-hidden="true"></i>
-                        <span>Atualizar foto</span>
-                      </label>
-                      <span class="file-name">{{ selectedFileName || 'Nenhum arquivo selecionado' }}</span>
+                    <div class="avatar-actions">
+                      <button type="button" class="avatar-edit-button" (click)="openPhotoModal()" aria-label="Alterar foto do perfil">
+                        <i class="fa-solid fa-camera"></i>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -141,6 +141,43 @@
       </div>
     </div>
   </ng-container>
+</div>
+
+<div class="photo-modal-backdrop" *ngIf="isPhotoModalOpen" (click)="closePhotoModal()">
+  <div class="photo-modal" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+    <button type="button" class="photo-modal-close" aria-label="Fechar" (click)="closePhotoModal()">
+      <i class="bi bi-x"></i>
+    </button>
+    <div class="photo-modal-header">
+      <h2>Foto do perfil</h2>
+      <p>Uma foto ajuda as pessoas a reconhecerem você e permite que você saiba quando a conta está conectada.</p>
+    </div>
+    <div class="photo-modal-body">
+      <div class="photo-preview" [class.photo-preview-empty]="!previewUrl">
+        <img *ngIf="previewUrl" [src]="previewUrl" alt="Pré-visualização do avatar">
+        <span *ngIf="!previewUrl" class="photo-initial">{{ getUserInitial() }}</span>
+      </div>
+      <div class="photo-modal-file-name" *ngIf="selectedFileName">
+        {{ selectedFileName }}
+      </div>
+      <input #modalFileInput class="visually-hidden" type="file" accept="image/*" (change)="onModalFileSelected($event)">
+      <div class="photo-modal-action-row">
+        <button type="button" class="modal-primary-button" (click)="triggerFileInput(modalFileInput)" [disabled]="isUploadingAvatar">
+          <i class="fa-solid fa-camera"></i>
+          <span>{{ pendingAvatarFile ? 'Escolher outra foto' : 'Adicionar foto do perfil' }}</span>
+        </button>
+        <button *ngIf="pendingAvatarFile" type="button" class="modal-secondary-button" (click)="clearPendingAvatar(modalFileInput)" [disabled]="isUploadingAvatar">
+          Cancelar seleção
+        </button>
+        <button *ngIf="usuario?.avatarUrl && !pendingAvatarFile" type="button" class="modal-secondary-button" (click)="deleteAvatar()" [disabled]="isUploadingAvatar">
+          Remover foto atual
+        </button>
+      </div>
+      <button *ngIf="pendingAvatarFile || isUploadingAvatar" type="button" class="modal-confirm-button" (click)="confirmAvatarUpload()" [disabled]="isUploadingAvatar">
+        {{ isUploadingAvatar ? 'Salvando...' : 'Salvar foto' }}
+      </button>
+    </div>
+  </div>
 </div>
 
 <!-- MODAL PARA EXCLUIR CLIENTE -->

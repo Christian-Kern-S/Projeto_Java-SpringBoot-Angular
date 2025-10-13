@@ -37,4 +37,9 @@ export class UsuarioService {
         const url = this.baseUrl + `/user/${id}/avatar`;
         return this.http.post(url, formData, { responseType: 'text' });
     }
+
+    deleteAvatar(id: string): Observable<string> {
+        const url = this.baseUrl + `/user/${id}/avatar`;
+        return this.http.delete(url, { responseType: 'text' });
+    }
 }

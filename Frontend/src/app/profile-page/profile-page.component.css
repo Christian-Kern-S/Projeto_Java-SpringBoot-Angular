@@ -910,3 +910,239 @@ p-button {
 }
 
 /* ===== FIM DO CSS REFATORADO ===== */
+
+/* ===== AVATAR ===== */
+.avatar-container {
+  position: relative;
+  min-width: 80px;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-icon {
+  font-size: 80px;
+  color: var(--text-light);
+}
+
+.btn-delete {
+  margin-left: var(--space-sm);
+}
+
+.avatar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+  align-self: center;
+}
+
+.avatar-edit-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--medium-gray);
+  color: var(--primary-blue);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base);
+  box-shadow: var(--shadow-sm);
+}
+
+.avatar-edit-button:hover {
+  background: var(--primary-blue);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.photo-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(32, 33, 36, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.photo-modal {
+  position: relative;
+  width: min(420px, calc(100% - 32px));
+  background: var(--white);
+  border-radius: 24px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.18);
+  padding: 32px 32px 28px;
+  color: #1f1f1f;
+  animation: scaleIn 0.25s ease-out;
+}
+
+.photo-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: #3c4043;
+  cursor: pointer;
+  transition: background var(--transition-base), color var(--transition-base);
+}
+
+.photo-modal-close:hover {
+  background: rgba(60, 64, 67, 0.1);
+  color: #202124;
+}
+
+.photo-modal-header h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+  color: #202124;
+}
+
+.photo-modal-header p {
+  font-size: 0.95rem;
+  color: #5f6368;
+  margin: 0 0 24px;
+}
+
+.photo-modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.photo-preview {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: #f1f3f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 8px solid #e8eaed;
+}
+
+.photo-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-preview-empty {
+  background: #c3cedd;
+  border-color: #d7dfe9;
+}
+
+.photo-initial {
+  font-size: 5rem;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.photo-modal-file-name {
+  font-size: 0.9rem;
+  color: #5f6368;
+  text-align: center;
+}
+
+.photo-modal-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.modal-primary-button,
+.modal-secondary-button,
+.modal-confirm-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 10px 20px;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base), color var(--transition-base);
+}
+
+.modal-primary-button {
+  background: #1a73e8;
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.modal-primary-button:hover:not(:disabled) {
+  background: #1765c1;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.modal-secondary-button {
+  background: #f1f3f4;
+  color: #1f1f1f;
+}
+
+.modal-secondary-button:hover:not(:disabled) {
+  background: #e8eaed;
+}
+
+.modal-confirm-button {
+  background: transparent;
+  color: var(--success-green);
+  margin-top: 8px;
+  min-width: 160px;
+  justify-content: center;
+}
+
+.modal-confirm-button:hover:not(:disabled) {
+  background: transparent;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.modal-primary-button:disabled,
+.modal-secondary-button:disabled,
+.modal-confirm-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+@media (max-width: 480px) {
+  .photo-modal {
+    padding: 24px 20px 20px;
+    border-radius: 20px;
+  }
+
+  .photo-preview {
+    width: 150px;
+    height: 150px;
+  }
+
+  .modal-primary-button,
+  .modal-secondary-button,
+  .modal-confirm-button {
+    width: 100%;
+    justify-content: center;
+  }
+}

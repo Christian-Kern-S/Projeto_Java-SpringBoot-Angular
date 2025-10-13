@@ -115,3 +115,25 @@
   background: #e7e7e7 !important;
   border-radius: 7px !important;
 }
+
+.avatar-sidebar {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.avatar-sidebar-icon {
+  font-size: 40px;
+  color: var(--text-light);
+}

@@ -1,4 +1,4 @@
-  * {
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -24,14 +24,14 @@
   /* BODY */
 
   .container {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 98vw;
-      max-width: 98vw;
-      min-height: 0;
-      padding: 12px;
-      box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 98vw;
+    max-width: 98vw;
+    min-height: 0;
+    padding: 12px;
+    box-sizing: border-box;
   }
     
   .add-cliente {
@@ -92,7 +92,6 @@
   .listaCliente {
     width: 100%;
     flex: 1 1 auto;
-    background-color: #f0f0f08e;
     border-radius: 8px;
     padding: 20px;
     display: flex;
@@ -139,6 +138,10 @@
   }
   
   /* Cabeçalho da tabela (colunas) */
+  :host ::ng-deep .tabela .p-datatable-thead {
+    z-index: 0 !important;
+  }
+  
   :host ::ng-deep .tabela .p-datatable-thead>tr>th {
     background-color: #fafafa !important;
     color: #333 !important;
@@ -225,7 +228,7 @@
 
   /* Hover dos itens da lista */
   :host ::ng-deep .tabela .p-datatable-tbody>tr:hover {
-    background-color: #eeeeee;
+    background-color: var(--light-gray);
     transition: .3s;
   }
 
@@ -395,7 +398,7 @@
 
   /* Hover para a quantidade de itens por pagina */
   :host ::ng-deep .tabela .p-paginator .p-select p-selectitem:hover {
-    background: #eeeeee;
+    background: var(--light-gray);
     color: #004b9b;
   }
 
@@ -477,6 +480,7 @@
     background: #fff;
     width: 35vw !important;
     height: 70vh !important;
+    z-index: 1000001 !important;
   }
 
   /* HEADER */
@@ -614,15 +618,35 @@
     background-color: #004b9b !important;
   }
 
+  .gear-btn {
+    background-color: transparent !important;
+    box-shadow: var(--shadow-base) !important;  
+    margin-right: var(--space-xl) !important;
+    border-radius: 20px !important;
+    width: fit-content !important;
+    height: fit-content !important;
+  }
+
+  .gear-btn:hover {
+    background-color: var(--medium-gray) !important;
+    box-shadow: var(--shadow-base) !important;  
+  }
+
+  .gear-btn i{
+    color: var(--dark-gray);
+    width: fit-content;
+    transition: transform 0.8s ease-in-out;
+  }
+
+  .gear-btn:hover i{
+    color: var(--primary-blue);
+    transform: rotate(180deg);
+  }
+
   /* Background preto opaco */
   :host ::ng-deep .custom-backdrop.p-dialog-mask {
     background-color: rgba(0, 0, 0, 0.2) !important;
   }
-
-
-
-
-
 
   /* Mensagem de erro */
   .error-message {
