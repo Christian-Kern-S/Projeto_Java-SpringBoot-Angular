@@ -129,8 +129,10 @@
                       <label class="form-label">Repita a senha nova</label>
                       <input type="password" class="form-control" formControlName="repeatNewPassword" placeholder="Repita a senha nova">
                     </div>
-                    <button *ngIf="!isNull()" class="btn btn-primary" type="submit">Salvar</button>
-                    <button *ngIf="!isNull()" class="btn btn-secondary" type="reset">Cancelar</button>
+                    <div class="botoes-acao">
+                      <button *ngIf="!isNull()" class="btn btn-primary" type="submit">Salvar</button>
+                      <button *ngIf="!isNull()" class="btn btn-secondary" type="reset">Cancelar</button>
+                    </div>
                     </form>
                   </div>
                 </div>

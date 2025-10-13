@@ -274,7 +274,7 @@
   justify-content: center;
   padding: var(--space-md) var(--space-xl);
   border: none;
-  border-radius: var(--border-radius-button);
+  border-radius: 20px;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   cursor: pointer;
@@ -282,9 +282,13 @@
   text-decoration: none;
   min-width: 120px;
   max-width: fit-content;
-  height: 44px;
+  height: 40px;
   position: relative;
   overflow: hidden;
+}
+
+.btn i{
+  font-size: 18px;
 }
 
 .btn-primary {
@@ -301,13 +305,11 @@
 .btn-secondary {
   background: var(--white);
   color: var(--primary-blue);
-  border: 2px solid var(--primary-blue);
   box-shadow: var(--shadow-sm);
 }
 
 .btn-secondary:hover {
-  background: var(--primary-blue);
-  color: var(--white);
+
   box-shadow: var(--shadow-md);
 }
 
@@ -764,6 +766,14 @@ p-button {
     padding: var(--space-lg) var(--space-md);
   }
 
+  .tab-content{
+    padding: 0;
+  }
+
+  .card-body{
+    padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
+  }
+
   .cabecalho {
     padding: 0 var(--space-md);
   }
@@ -800,7 +810,6 @@ p-button {
   }
 
   .botoes-acao {
-    flex-direction: column;
     gap: var(--space-sm);
   }
 

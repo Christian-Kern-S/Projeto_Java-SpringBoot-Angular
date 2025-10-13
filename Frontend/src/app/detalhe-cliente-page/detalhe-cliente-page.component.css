@@ -394,7 +394,7 @@ body {
   justify-content: center;
   padding: var(--space-md) var(--space-xl);
   border: none;
-  border-radius: var(--border-radius-button);
+  border-radius: 20px;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   cursor: pointer;
@@ -420,15 +420,12 @@ body {
 }
 
 .btn-secondary {
-  background: var(--white);
+  background: transparent;
   color: var(--primary-blue);
-  border: 2px solid var(--primary-blue);
   box-shadow: var(--shadow-sm);
 }
 
 .btn-secondary:hover {
-  background: var(--primary-blue);
-  color: var(--white);
   box-shadow: var(--shadow-md);
 }
 
@@ -1140,6 +1137,14 @@ body {
     padding: var(--space-lg) var(--space-md);
   }
 
+  .tab-content{
+    padding: 0;
+  }
+
+  .card-body{
+    padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
+  }
+
   .cabecalho {
     padding: 0 var(--space-md);
   }
@@ -1176,7 +1181,6 @@ body {
   }
 
   .botoes-acao {
-    flex-direction: column;
     gap: var(--space-sm);
   }
 
