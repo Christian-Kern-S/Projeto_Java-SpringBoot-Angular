@@ -31,32 +31,32 @@ public class SecurityConfig {
 
                 // 2.3) Define as regras de autorização
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/login"   ).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/user/{id_user}/cliente"   ).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/cliente/{id}/dependente"   ).permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/register")                 .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login")                    .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/{id_user}/cliente")            .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/cliente/{id}/dependente")           .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/*/avatar")                     .permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/users").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/user/{id}").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/user/{id_user}/clientes"   ).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/cliente/{id}"   ).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/cliente/{id}/dependentes"   ).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/cliente/{id}/dependente/{id2}"   ).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/uploads/**"   ).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/user/*/avatar"   ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/users")                              .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/user/{id}")                          .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/user/{id_user}/clientes")            .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/cliente/{id}")                       .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/cliente/{id}/dependentes")           .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/cliente/{id}/dependente/{id2}")      .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/uploads/**")                         .permitAll()
 
-                        .requestMatchers(HttpMethod.DELETE, "/user/{id}/avatar").permitAll()
+                        
+                        .requestMatchers(HttpMethod.PUT, "/cliente/{id}")                       .permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/cliente/{id}/dependente/{id2}")      .permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/user/{id}")                          .permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/auth/changepass/{id}")           .permitAll()
+                        
+                        .requestMatchers(HttpMethod.DELETE, "/cliente/{id}/dependente/{id2}")   .permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/cliente/{id}"   )                 .permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/user/{id}")                       .permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/user/{id}/avatar")                .permitAll()
 
-                        .requestMatchers(HttpMethod.PUT, "/cliente/{id}"   ).permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/cliente/{id}/dependente/{id2}"   ).permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/user/{id}").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/api/auth/changepass/{id}").permitAll()
-
-                        .requestMatchers(HttpMethod.DELETE, "cliente/{id}/dependente/{id2}"   ).permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "cliente/{id}"   ).permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/user/{id}").permitAll()
-
-                        .requestMatchers("/h2-console/**"                    ).permitAll()
+                        .requestMatchers("/h2-console/**")                                      .permitAll()
                         .anyRequest().authenticated()
                 )
 
