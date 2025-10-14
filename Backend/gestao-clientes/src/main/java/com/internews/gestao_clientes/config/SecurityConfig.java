@@ -56,6 +56,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/user/{id}")                       .permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/user/{id}/avatar")                .permitAll()
 
+                        .requestMatchers("/ws/**")                                              .permitAll()
                         .requestMatchers("/h2-console/**")                                      .permitAll()
                         .anyRequest().authenticated()
                 )
