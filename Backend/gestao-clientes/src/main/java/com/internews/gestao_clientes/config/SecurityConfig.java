@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/user/{id_user}/cliente")            .permitAll()
                         .requestMatchers(HttpMethod.POST, "/cliente/{id}/dependente")           .permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/*/avatar")                     .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/chat/**")                      .permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/users")                              .permitAll()
                         .requestMatchers(HttpMethod.GET, "/user/{id}")                          .permitAll()
@@ -44,17 +45,20 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/cliente/{id}/dependentes")           .permitAll()
                         .requestMatchers(HttpMethod.GET, "/cliente/{id}/dependente/{id2}")      .permitAll()
                         .requestMatchers(HttpMethod.GET, "/uploads/**")                         .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/chat/**")                        .permitAll()
 
                         
                         .requestMatchers(HttpMethod.PUT, "/cliente/{id}")                       .permitAll()
                         .requestMatchers(HttpMethod.PUT, "/cliente/{id}/dependente/{id2}")      .permitAll()
                         .requestMatchers(HttpMethod.PUT, "/user/{id}")                          .permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/auth/changepass/{id}")           .permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/chat/**")                        .permitAll()
                         
                         .requestMatchers(HttpMethod.DELETE, "/cliente/{id}/dependente/{id2}")   .permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/cliente/{id}"   )                 .permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/user/{id}")                       .permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/user/{id}/avatar")                .permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/chat/**")                    .permitAll()
 
                         .requestMatchers("/ws/**")                                              .permitAll()
                         .requestMatchers("/h2-console/**")                                      .permitAll()
