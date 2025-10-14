@@ -39,7 +39,7 @@ export class LeftSidebarComponent {
           { label: 'Dashboard', icon: 'fa-solid fa-house', command: () => this.router.navigate(['/dashboard']) },
           { label: 'Clientes', icon: 'fa-regular fa-address-book', command: () => this.router.navigate(['/clientes']) },
           { label: 'Helpdesk', icon: 'fa-solid fa-headset', command: () => this.router.navigate(['/helpdesk']) },
-          { label: 'Mensagens', icon: 'fa-solid fa-comment', badge: '2', command: () => this.router.navigate(['/mensagens']) },
+          { label: 'Mensagens', icon: 'fa-solid fa-comment', badge: '2', command: () => this.router.navigate(['/chat']) },
         ]
       },
       { separator: true },

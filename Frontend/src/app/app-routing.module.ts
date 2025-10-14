@@ -7,6 +7,7 @@ import { LoginGuard } from './login-page/login-page.guard';
 import { AuthGuard } from './auth/auth.guard';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { ChatPageComponent } from './chat-page/chat-page.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,12 @@ const routes: Routes = [
     component: ProfilePageComponent,
     canActivate: [AuthGuard],
     data: { title: 'Perfil' }
+  },
+  {
+    path: "chat",
+    component: ChatPageComponent,
+    canActivate: [AuthGuard],
+    data: { title: 'Chat' }
   },
   {
     path: '',

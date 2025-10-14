@@ -31,6 +31,7 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { MessageService } from 'primeng/api';
 import { HeaderComponent } from './shared/header/header.component';
+import { ChatPageComponent } from './chat-page/chat-page.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { HeaderComponent } from './shared/header/header.component';
     LoginPageComponent,
     RegistrationPageComponent,
     ProfilePageComponent,
+    ChatPageComponent,
   ],
   imports: [
     BrowserModule,
