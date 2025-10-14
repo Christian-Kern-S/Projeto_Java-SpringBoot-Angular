@@ -1,4 +1,132 @@
 <app-left-sidebar></app-left-sidebar>
 
 <app-header></app-header>
-<p>chat-page works!</p>
+
+<div class="chat-layout">
+    <aside class="sidebar">
+        <header class="sidebar__header">
+            <h2>All Chats <span>Messages (29)</span></h2>
+            <button class="sidebar__add">+</button>
+        </header>
+
+        <section class="sidebar__section">
+            <h3>Pinned</h3>
+            <ul>
+                <li *ngFor="let contact of contacts | slice:0:3" [class.active]="contact.id === activeContact.id"
+                    (click)="selectContact(contact)">
+                    <img [src]="contact.avatar" alt="contatct.name" />
+                    <div class="contact-info">
+                        <div class="contact-title">
+                            <span>{{ contact.name }}</span>
+                            <span class="contact-time">02:32</span>
+                        </div>
+                        <p>{{ contact.lastMessage }}</p>
+                    </div>
+                    <span *ngIf="contact.unread" class="badge">{{contact.unread}}</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="sidebar__section">
+            <h3>All Messages</h3>
+            <ul>
+                <li *ngFor="let contact of contacts | slice:3" [class.active]="contact.id === activeContact.id"
+                    (click)="selectContact(contact)">
+                    <img [src]="contact.avatar" alt="contatct.name" />
+                    <div class="contact-info">
+                        <div class="contact-title">
+                            <span>{{ contact.name }}</span>
+                            <span class="contact-time">02:32</span>
+                        </div>
+                        <p>{{ contact.lastMessage }}</p>
+                    </div>
+                    <span *ngIf="contact.unread" class="badge">{{contact.unread}}</span>
+                </li>
+            </ul>
+        </section>
+    </aside>
+
+    <main class="chat-content">
+        <header class="chat-header" (click)="toggleDetails()">
+            <div class="chat-header__info">
+                <img [src]="activeContact.avatar" [alt]="activeContact.name" />
+                <div>
+                    <h2>{{ activeContact.name }}</h2>
+                    <p>{{ activeContact.status }}</p>
+                </div>
+            </div>
+            <div class="chat-header__actions">
+                <button title="Invite Designers">+ Invite Designers</button>
+                <div class="chat-header__avatars">
+                    <img src="assets/avatars/member1.png" alt="Member" />
+                    <img src="assets/avatars/member2.png" alt="Member" />
+                    <img src="assets/avatars/member3.png" alt="Member" />
+                </div>
+            </div>
+        </header>
+
+        <section class="messages">
+            <article *ngFor="let message of messages" [class.me]="message.author === 'me'" class="message">
+                <div class="message__bubble">
+                    <p>{{ message.text }}</p>
+                    <div *ngIf="message.poll" class="message__poll">
+                        <h4>{{ message.poll.question }}</h4>
+                        <div class="poll-option" *ngFor="let option of message.poll.options">
+                            <span>{{ option.label }}</span>
+                            <div class="poll-bar">
+                                <div class="poll-fill" [style.width.%]="option.percentage"
+                                    [class.selected]="option.selected"></div>
+                            </div>
+                            <span class="percentage">{{ option.percentage }}%</span>
+                        </div>
+                    </div>
+                    <span class="message__time">{{ message.time }}</span>
+                </div>
+            </article>
+        </section>
+        <footer class="chat-input">
+            <input type="text" placeholder="Fantastici" />
+            <div class="chat-input__actions">
+                <button title="Emoji">😊</button>
+                <button title="Attachment">📎</button>
+                <button class="send">➤</button>
+            </div>
+        </footer>
+    </main>
+
+    <aside class="details" [class.hidden]="!showDetails">
+        <section class="details__header">
+            <img [src]="activeContact.avatar" [alt]="activeContact.name" />
+            <h3>{{ activeContact.name }}</h3>
+            <p>{{ activeContact.status }}</p>
+            <div class="details__buttons">
+                <button>Voice chat</button>
+                <button>Video chat</button>
+            </div>
+        </section>
+
+        <section class="details__search">
+            <button>Search in conversation</button>
+            <button>Change Color</button>
+            <button>Change Emoji</button>
+        </section>
+
+        <section class="details__links">
+            <h4>Links</h4>
+            <ul>
+                <li><a href="#">Project brief.pdf</a></li>
+                <li><a href="#">Wireframes.fig</a></li>
+            </ul>
+        </section>
+
+        <section class="details__shared">
+            <header>
+                <h4>Shared photo</h4>
+                <a href="#">View more</a>
+            </header>
+            <div class="details__gallery">
+                <img src="assets/shared/1.jpg" alt="Shared" *ngFor="let i of [1, 2, 3, 4, 5, 6]" />
+            </div>
+        </section>
+    </aside>
+</div>
