@@ -11,5 +11,6 @@ public record ChatSocketEnvelopeDto(
         String content,
         String mediaUrl,
         String type,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        String eventType
 ) {}

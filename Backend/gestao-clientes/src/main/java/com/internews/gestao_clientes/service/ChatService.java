@@ -110,6 +110,57 @@ public class ChatService {
                 .map(this::mapMessage);
     }
 
+    public List<UUID> listParticipantIds(UUID conversationId) {
+    ChatConversationModel conversation = conversationRepository.findById(conversationId)
+        .orElseThrow(() -> new IllegalArgumentException("Conversa não encontrada"));
+
+    return conversation.getParticipants()
+        .stream()
+        .map(participant -> participant.getUser().getId())
+        .toList();
+    }
+
+    public ChatMessageResponseDto deleteMessage(UUID requesterId, UUID messageId) {
+    UsuarioModel requester = getUserOrThrow(requesterId);
+    ChatMessageModel message = messageRepository.findById(messageId)
+        .orElseThrow(() -> new IllegalArgumentException("Mensagem não encontrada"));
+
+    if (!message.getSender().getId().equals(requesterId)) {
+        throw new IllegalStateException("Apenas o remetente pode excluir esta mensagem");
+    }
+
+    ChatConversationModel conversation = message.getConversation();
+    participantRepository.findByConversationAndUser(conversation, requester)
+        .orElseThrow(() -> new IllegalStateException("Usuário não participa desta conversa"));
+
+    ChatMessageResponseDto dto = mapMessage(message);
+
+    messageRepository.delete(message);
+
+    conversation.setUpdatedAt(LocalDateTime.now());
+    conversationRepository.save(conversation);
+
+    return dto;
+    }
+
+    public List<UUID> deleteConversation(UUID requesterId, UUID conversationId) {
+    UsuarioModel requester = getUserOrThrow(requesterId);
+    ChatConversationModel conversation = conversationRepository.findById(conversationId)
+        .orElseThrow(() -> new IllegalArgumentException("Conversa não encontrada"));
+
+    participantRepository.findByConversationAndUser(conversation, requester)
+        .orElseThrow(() -> new IllegalStateException("Usuário não participa desta conversa"));
+
+    List<UUID> participantIds = conversation.getParticipants()
+        .stream()
+        .map(participant -> participant.getUser().getId())
+        .toList();
+
+    conversationRepository.delete(conversation);
+
+    return participantIds;
+    }
+
     private UsuarioModel getUserOrThrow(UUID userId) {
         return usuarioRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
