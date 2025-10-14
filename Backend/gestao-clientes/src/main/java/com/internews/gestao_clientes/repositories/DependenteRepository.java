@@ -1,6 +1,5 @@
 package com.internews.gestao_clientes.repositories;
 
-import com.internews.gestao_clientes.models.ClienteModel;
 import com.internews.gestao_clientes.models.DependenteModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 

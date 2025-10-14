@@ -4,7 +4,6 @@ import com.internews.gestao_clientes.dtos.ChangePasswordDto;
 import com.internews.gestao_clientes.dtos.LoginDto;
 import com.internews.gestao_clientes.models.UsuarioModel;
 import com.internews.gestao_clientes.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +19,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @Autowired
     public AuthController(AuthService authService) {
         this.authService = authService;
     }

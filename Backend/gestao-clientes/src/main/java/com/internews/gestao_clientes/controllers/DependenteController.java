@@ -1,6 +1,5 @@
 package com.internews.gestao_clientes.controllers;
 
-import com.internews.gestao_clientes.dtos.ClienteRecordDto;
 import com.internews.gestao_clientes.dtos.DependenteRecordDto;
 import com.internews.gestao_clientes.models.ClienteModel;
 import com.internews.gestao_clientes.models.DependenteModel;
