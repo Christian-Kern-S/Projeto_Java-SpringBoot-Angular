@@ -6,12 +6,14 @@ import com.internews.gestao_clientes.dtos.ChatSocketEnvelopeDto;
 import com.internews.gestao_clientes.dtos.ChatSocketMessageDto;
 import com.internews.gestao_clientes.service.ChatService;
 import jakarta.validation.Valid;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -27,8 +29,8 @@ public class ChatSocketController {
 
     @MessageMapping("/chat.send.{senderId}")
     @SendTo("/topic/chat")
-    public void sendMessage(@Payload @Valid ChatSocketMessageDto payload,
-                            UUID senderId) {
+        public void sendMessage(@Payload @Valid ChatSocketMessageDto payload,
+                                                        @DestinationVariable UUID senderId) {
 
         ChatMessageResponseDto saved = chatService.sendMessage(senderId,
                 new ChatMessageRequestDto(
@@ -45,7 +47,8 @@ public class ChatSocketController {
                 saved.content(),
                 saved.mediaUrl(),
                 saved.type().name(),
-                saved.createdAt()
+                saved.createdAt(),
+                "MESSAGE_CREATED"
         );
 
         messagingTemplate.convertAndSend(
@@ -53,9 +56,12 @@ public class ChatSocketController {
                 envelope
         );
 
-        messagingTemplate.convertAndSend(
-                "/queue/users." + saved.senderId(),
-                envelope
+        List<UUID> participantIds = chatService.listParticipantIds(saved.conversationId());
+        participantIds.forEach(participantId ->
+                messagingTemplate.convertAndSend(
+                        "/queue/users." + participantId,
+                        envelope
+                )
         );
     }
 }
