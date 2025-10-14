@@ -1,132 +1,173 @@
 <app-left-sidebar></app-left-sidebar>
 
 <app-header></app-header>
+<div class="chat-page" *ngIf="currentUserId; else noUser">
+  <aside class="chat-sidebar">
+    <header class="chat-sidebar__header">
+      <div>
+        <h2>Mensagens</h2>
+        <span>{{ conversations.length }} conversa(s)</span>
+      </div>
+      <button type="button" class="chat-sidebar__new" (click)="openNewConversationDialog()">
+        Nova conversa
+      </button>
+    </header>
 
-<div class="chat-layout">
-    <aside class="sidebar">
-        <header class="sidebar__header">
-            <h2>All Chats <span>Messages (29)</span></h2>
-            <button class="sidebar__add">+</button>
-        </header>
+    <section class="chat-sidebar__body" [class.chat-sidebar__body--loading]="loadingConversations">
+      <div class="chat-sidebar__hint" *ngIf="loadingConversations">Carregando conversas...</div>
+      <div class="chat-sidebar__empty" *ngIf="!loadingConversations && !conversations.length">
+        <p>Nenhuma conversa iniciada.</p>
+        <p>Use o botão acima para procurar alguém e começar um chat.</p>
+      </div>
 
-        <section class="sidebar__section">
-            <h3>Pinned</h3>
-            <ul>
-                <li *ngFor="let contact of contacts | slice:0:3" [class.active]="contact.id === activeContact.id"
-                    (click)="selectContact(contact)">
-                    <img [src]="contact.avatar" alt="contatct.name" />
-                    <div class="contact-info">
-                        <div class="contact-title">
-                            <span>{{ contact.name }}</span>
-                            <span class="contact-time">02:32</span>
-                        </div>
-                        <p>{{ contact.lastMessage }}</p>
-                    </div>
-                    <span *ngIf="contact.unread" class="badge">{{contact.unread}}</span>
-                </li>
-            </ul>
-        </section>
+      <ul class="chat-sidebar__list" *ngIf="conversations.length">
+        <li>
+          <button
+            type="button"
+            class="chat-sidebar__search-trigger"
+            (click)="openNewConversationDialog()"
+          >
+            <span>Procurar usuários</span>
+          </button>
+        </li>
 
-        <section class="sidebar__section">
-            <h3>All Messages</h3>
-            <ul>
-                <li *ngFor="let contact of contacts | slice:3" [class.active]="contact.id === activeContact.id"
-                    (click)="selectContact(contact)">
-                    <img [src]="contact.avatar" alt="contatct.name" />
-                    <div class="contact-info">
-                        <div class="contact-title">
-                            <span>{{ contact.name }}</span>
-                            <span class="contact-time">02:32</span>
-                        </div>
-                        <p>{{ contact.lastMessage }}</p>
-                    </div>
-                    <span *ngIf="contact.unread" class="badge">{{contact.unread}}</span>
-                </li>
-            </ul>
-        </section>
-    </aside>
-
-    <main class="chat-content">
-        <header class="chat-header" (click)="toggleDetails()">
-            <div class="chat-header__info">
-                <img [src]="activeContact.avatar" [alt]="activeContact.name" />
-                <div>
-                    <h2>{{ activeContact.name }}</h2>
-                    <p>{{ activeContact.status }}</p>
-                </div>
+        <li *ngFor="let conversation of conversations" [class.is-active]="conversation.id === activeConversation?.id">
+          <button type="button" (click)="selectConversation(conversation)">
+            <img
+              [src]="avatarSrc(getFirstParticipant(conversation)?.avatarUrl)"
+              [alt]="getFirstParticipant(conversation)?.fullname || conversation.title || 'Contato'"
+              (error)="onAvatarError($event)"
+            />
+            <div class="chat-sidebar__contact">
+              <strong>
+                {{
+                  conversation.groupChat
+                    ? conversation.title
+                    : getFirstParticipant(conversation)?.fullname ||
+                      getFirstParticipant(conversation)?.username
+                }}
+              </strong>
+              <span>{{ conversation.updatedAt | date: 'shortTime' }}</span>
             </div>
-            <div class="chat-header__actions">
-                <button title="Invite Designers">+ Invite Designers</button>
-                <div class="chat-header__avatars">
-                    <img src="assets/avatars/member1.png" alt="Member" />
-                    <img src="assets/avatars/member2.png" alt="Member" />
-                    <img src="assets/avatars/member3.png" alt="Member" />
-                </div>
+          </button>
+        </li>
+      </ul>
+    </section>
+  </aside>
+
+  <main class="chat-main" *ngIf="activeConversation; else emptyConversation">
+    <header class="chat-main__header">
+      <div class="chat-main__recipient" *ngIf="activeRecipient; else anonymousRecipient">
+        <img
+          [src]="avatarSrc(activeRecipient.avatarUrl)"
+          [alt]="activeRecipient.fullname || activeRecipient.username || 'Contato'"
+          (error)="onAvatarError($event)"
+        />
+        <div>
+          <h3>{{ activeRecipient.fullname || activeRecipient.username }}</h3>
+          <span>Conversa privada</span>
+        </div>
+      </div>
+      <ng-template #anonymousRecipient>
+        <div class="chat-main__recipient">
+          <img [src]="defaultAvatar" alt="Contato" (error)="onAvatarError($event)" />
+          <div>
+            <h3>{{ activeConversation.title || 'Contato' }}</h3>
+            <span>Conversa privada</span>
+          </div>
+        </div>
+      </ng-template>
+      <button type="button" class="chat-main__delete" (click)="deleteActiveConversation()">
+        Excluir chat
+      </button>
+    </header>
+
+    <section class="chat-main__messages" [class.chat-main__messages--loading]="loadingMessages">
+      <div class="chat-main__hint" *ngIf="loadingMessages">Carregando mensagens...</div>
+
+      <ng-container *ngIf="!loadingMessages">
+        <article
+          *ngFor="let message of messages"
+          class="chat-message"
+          [class.chat-message--me]="message.senderId === currentUserId"
+        >
+          <div class="chat-message__bubble">
+            <div class="chat-message__head">
+              <span class="chat-message__author" *ngIf="message.senderId !== currentUserId">
+                {{ message.senderName }}
+              </span>
+              <button
+                type="button"
+                class="chat-message__delete"
+                *ngIf="message.senderId === currentUserId"
+                (click)="deleteMessage(message)"
+              >
+                Excluir
+              </button>
             </div>
-        </header>
+            <p>{{ message.content }}</p>
+            <time>{{ message.createdAt | date: 'shortTime' }}</time>
+          </div>
+        </article>
 
-        <section class="messages">
-            <article *ngFor="let message of messages" [class.me]="message.author === 'me'" class="message">
-                <div class="message__bubble">
-                    <p>{{ message.text }}</p>
-                    <div *ngIf="message.poll" class="message__poll">
-                        <h4>{{ message.poll.question }}</h4>
-                        <div class="poll-option" *ngFor="let option of message.poll.options">
-                            <span>{{ option.label }}</span>
-                            <div class="poll-bar">
-                                <div class="poll-fill" [style.width.%]="option.percentage"
-                                    [class.selected]="option.selected"></div>
-                            </div>
-                            <span class="percentage">{{ option.percentage }}%</span>
-                        </div>
-                    </div>
-                    <span class="message__time">{{ message.time }}</span>
-                </div>
-            </article>
-        </section>
-        <footer class="chat-input">
-            <input type="text" placeholder="Fantastici" />
-            <div class="chat-input__actions">
-                <button title="Emoji">😊</button>
-                <button title="Attachment">📎</button>
-                <button class="send">➤</button>
-            </div>
-        </footer>
-    </main>
+        <div class="chat-main__placeholder" *ngIf="!messages.length">
+          <p>Envie a primeira mensagem para começar a conversa.</p>
+        </div>
+      </ng-container>
+    </section>
 
-    <aside class="details" [class.hidden]="!showDetails">
-        <section class="details__header">
-            <img [src]="activeContact.avatar" [alt]="activeContact.name" />
-            <h3>{{ activeContact.name }}</h3>
-            <p>{{ activeContact.status }}</p>
-            <div class="details__buttons">
-                <button>Voice chat</button>
-                <button>Video chat</button>
-            </div>
-        </section>
+    <footer class="chat-main__input">
+      <form [formGroup]="chatForm" (ngSubmit)="onSubmit()">
+        <input formControlName="message" type="text" placeholder="Escreva uma mensagem" />
+        <button type="submit" [disabled]="chatForm.invalid">Enviar</button>
+      </form>
+    </footer>
+  </main>
 
-        <section class="details__search">
-            <button>Search in conversation</button>
-            <button>Change Color</button>
-            <button>Change Emoji</button>
-        </section>
+  <div class="chat-search" *ngIf="showSearchDialog">
+    <div class="chat-search__content">
+      <header>
+        <h3>Encontrar usuários</h3>
+        <button type="button" (click)="closeNewConversationDialog()">Fechar</button>
+      </header>
 
-        <section class="details__links">
-            <h4>Links</h4>
-            <ul>
-                <li><a href="#">Project brief.pdf</a></li>
-                <li><a href="#">Wireframes.fig</a></li>
-            </ul>
-        </section>
+      <div class="chat-search__form">
+        <input
+          type="text"
+          placeholder="Digite um nome ou e-mail"
+          [(ngModel)]="searchTerm"
+          (keyup.enter)="searchUsers()"
+        />
+        <button type="button" (click)="searchUsers()" [disabled]="searchLoading">Pesquisar</button>
+      </div>
 
-        <section class="details__shared">
-            <header>
-                <h4>Shared photo</h4>
-                <a href="#">View more</a>
-            </header>
-            <div class="details__gallery">
-                <img src="assets/shared/1.jpg" alt="Shared" *ngFor="let i of [1, 2, 3, 4, 5, 6]" />
-            </div>
-        </section>
-    </aside>
+      <p class="chat-search__hint" *ngIf="searchLoading">Procurando...</p>
+      <p class="chat-search__hint" *ngIf="searchExecuted && !searchLoading && !searchResults.length">
+        Nenhum usuário encontrado com esse termo.
+      </p>
+
+      <ul *ngIf="searchResults.length">
+        <li *ngFor="let user of searchResults" (click)="selectSearchResult(user)">
+          <img
+            [src]="avatarSrc(user.avatarUrl)"
+            [alt]="user.fullname || user.username"
+            (error)="onAvatarError($event)"
+          />
+          <span>{{ user.fullname || user.username }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
+
+<ng-template #noUser>
+  <div class="chat-empty">
+    <p>Faça login para acessar o chat.</p>
+  </div>
+</ng-template>
+
+<ng-template #emptyConversation>
+  <section class="chat-main chat-main--empty">
+    <p>Selecione uma conversa na lista ao lado ou inicie um novo chat.</p>
+  </section>
+</ng-template>
