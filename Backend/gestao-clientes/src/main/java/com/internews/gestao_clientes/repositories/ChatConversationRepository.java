@@ -12,14 +12,19 @@ import java.util.UUID;
 public interface ChatConversationRepository extends JpaRepository<ChatConversationModel, UUID> {
 
   @Query("""
-        select distinct c
-        from ChatConversationModel c
-        join fetch c.participants p
-        join fetch p.user
-        where p.user = :user
-        order by c.updatedAt desc
-    """)
-    List<ChatConversationModel> findAllByParticipant(UsuarioModel user);
+    select distinct c
+    from ChatConversationModel c
+    left join fetch c.participants participants
+    left join fetch participants.user
+    where c.id in (
+      select c2.id
+      from ChatConversationModel c2
+      join c2.participants p2
+      where p2.user = :user
+    )
+    order by c.updatedAt desc
+  """)
+  List<ChatConversationModel> findAllByParticipant(UsuarioModel user);
 
     @Query("""
         select c

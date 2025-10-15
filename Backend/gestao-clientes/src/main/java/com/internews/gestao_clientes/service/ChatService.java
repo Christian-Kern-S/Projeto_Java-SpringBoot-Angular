@@ -167,35 +167,38 @@ public class ChatService {
     }
 
     private ChatConversationResponseDto mapConversation(ChatConversationModel conversation, UUID currentUserId) {
-        return new ChatConversationResponseDto(
-                conversation.getId(),
-                conversation.isGroupChat(),
-                resolveTitle(conversation, currentUserId),
-                conversation.getUpdatedAt(),
-                conversation.getParticipants()
-                        .stream()
-                        .map(participant -> new ChatConversationResponseDto.ParticipantDto(
-                                participant.getUser().getId(),
-                                participant.getUser().getUsername(),
-                                participant.getUser().getFullname(),
-                                participant.getUser().getAvatarUrl(),
-                                participant.isAdminParticipant()
-                        ))
-                        .toList()
-        );
+    return new ChatConversationResponseDto(
+        conversation.getId(),
+        conversation.isGroupChat(),
+        resolveTitle(conversation, currentUserId),
+        conversation.getUpdatedAt(),
+        conversation.getParticipants()
+            .stream()
+            .map(participant -> {
+                UsuarioModel user = participant.getUser();
+                return new ChatConversationResponseDto.ParticipantDto(
+                    user.getId(),
+                    user.getUsername(),
+                    resolveDisplayName(user),
+                    resolveAvatarPath(user.getAvatarUrl()),
+                    participant.isAdminParticipant()
+                );
+            })
+            .toList()
+    );
     }
 
     private String resolveTitle(ChatConversationModel conversation, UUID currentUserId) {
         if (conversation.isGroupChat()) {
             return conversation.getTitle();
         }
-        return conversation.getParticipants()
-                .stream()
-                .map(ChatParticipantModel::getUser)
-                .filter(user -> !user.getId().equals(currentUserId))
-                .findFirst()
-                .map(user -> user.getFullname() != null ? user.getFullname() : user.getUsername())
-                .orElse("Conversa");
+    return conversation.getParticipants()
+        .stream()
+        .map(ChatParticipantModel::getUser)
+        .filter(user -> !user.getId().equals(currentUserId))
+        .findFirst()
+        .map(this::resolveDisplayName)
+        .orElse("Conversa");
     }
 
     private ChatMessageResponseDto mapMessage(ChatMessageModel message) {
@@ -214,5 +217,32 @@ public class ChatService {
                 message.getMediaUrl(),
                 message.getCreatedAt()
         );
+    }
+
+    private String resolveDisplayName(UsuarioModel user) {
+        if (user == null) {
+            return "Usuário";
+        }
+
+        String fullname = user.getFullname();
+        if (fullname != null && !fullname.isBlank()) {
+            return fullname.trim();
+        }
+
+        String username = user.getUsername();
+        return username != null ? username.trim() : "Usuário";
+    }
+
+    private String resolveAvatarPath(String avatarUrl) {
+        if (avatarUrl == null || avatarUrl.isBlank()) {
+            return null;
+        }
+
+        String trimmed = avatarUrl.trim();
+        if (trimmed.startsWith("http")) {
+            return trimmed;
+        }
+
+        return trimmed.startsWith("/") ? trimmed : "/" + trimmed;
     }
 }

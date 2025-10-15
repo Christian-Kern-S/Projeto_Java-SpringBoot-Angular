@@ -59,7 +59,7 @@ public class UsuarioContoller {
         if (usuario.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(usuario);
+        return ResponseEntity.status(HttpStatus.OK).body(usuario.get());
     }
 
     @PutMapping("/user/{id}")
