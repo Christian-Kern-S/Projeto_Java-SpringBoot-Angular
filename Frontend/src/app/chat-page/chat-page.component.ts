@@ -14,16 +14,28 @@ import { ChatSocketService } from '../servicos/chat/chat-socket.service';
 import { Subscription, firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+interface ParticipantView extends ChatParticipant {
+  displayName: string;
+  displayAvatar: string | null;
+  needsLookup: boolean;
+}
+
+interface ConversationView extends ChatConversation {
+  participants: ParticipantView[];
+  displayName: string;
+  displayAvatar: string | null;
+}
+
 @Component({
   selector: 'app-chat-page',
   templateUrl: './chat-page.component.html',
   styleUrl: './chat-page.component.css',
 })
 export class ChatPageComponent implements OnInit, OnDestroy {
-  conversations: ChatConversation[] = [];
-  activeConversation?: ChatConversation;
+  conversations: ConversationView[] = [];
+  activeConversation?: ConversationView;
   messages: ChatMessage[] = [];
-  activeRecipient?: ChatParticipant;
+  activeRecipient?: ParticipantView;
   chatForm!: FormGroup;
   loadingConversations = true;
   loadingMessages = false;
@@ -99,7 +111,7 @@ export class ChatPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  async selectConversation(conversation: ChatConversation): Promise<void> {
+  async selectConversation(conversation: ConversationView): Promise<void> {
     if (this.activeConversation?.id === conversation.id) {
       return;
     }
@@ -115,13 +127,14 @@ export class ChatPageComponent implements OnInit, OnDestroy {
         this.chatHttp.listMessages(conversation.id)
       );
       this.messages = [...page.content].reverse();
+      this.refreshMessageSenderNames(conversation.id);
     } finally {
       this.loadingMessages = false;
     }
 
     this.activeConversationSub = this.chatSocket
       .subscribeToConversation(conversation.id)
-      .subscribe(envelope => this.handleConversationEnvelope(envelope));
+      .subscribe((envelope: ChatSocketEnvelope) => this.handleConversationEnvelope(envelope));
   }
 
   async onSubmit(): Promise<void> {
@@ -145,12 +158,12 @@ export class ChatPageComponent implements OnInit, OnDestroy {
     this.chatSocket.sendMessage(this.currentUserId, payload);
   }
 
-  extractParticipants(conversation: ChatConversation): ChatParticipant[] {
+  extractParticipants(conversation: ConversationView): ParticipantView[] {
     return conversation.participants.filter(p => p.id !== this.currentUserId);
   }
 
-  getFirstParticipant(conversation: ChatConversation): ChatParticipant | undefined {
-    const participants = this.extractParticipants(conversation);
+  getFirstParticipant(conversation: ConversationView): ParticipantView | undefined {
+    const participants = conversation.participants.filter(participant => participant.id !== this.currentUserId);
     return participants.length ? participants[0] : undefined;
   }
 
@@ -285,7 +298,7 @@ export class ChatPageComponent implements OnInit, OnDestroy {
     try {
       const sub = this.chatSocket
         .subscribeToUserQueue(this.currentUserId)
-        .subscribe(envelope => this.handleIncomingEnvelope(envelope));
+        .subscribe((envelope: ChatSocketEnvelope) => this.handleIncomingEnvelope(envelope));
       this.subscriptions.push(sub);
     } catch (error) {
       console.error('Não foi possível assinar a fila do usuário', error);
@@ -320,6 +333,7 @@ export class ChatPageComponent implements OnInit, OnDestroy {
         updatedList.unshift(updatedConversation);
         this.conversations = updatedList;
         this.ensureConversationAvatars(updatedConversation);
+        this.refreshMessageSenderNames(updatedConversation.id);
 
         if (this.activeConversation?.id === updatedConversation.id) {
           this.activeConversation = updatedConversation;
@@ -338,6 +352,7 @@ export class ChatPageComponent implements OnInit, OnDestroy {
         updatedList[existingIndex] = updatedConversation;
         this.conversations = updatedList;
         this.ensureConversationAvatars(updatedConversation);
+        this.refreshMessageSenderNames(updatedConversation.id);
         return;
       }
 
@@ -383,7 +398,7 @@ export class ChatPageComponent implements OnInit, OnDestroy {
 
     const participant = this.activeConversation.participants.find(item => item.id === envelope.senderId);
     const senderDisplayName =
-      envelope.senderName ?? participant?.fullname ?? participant?.username ?? 'Usuário';
+      envelope.senderName ?? participant?.displayName ?? participant?.username ?? 'Usuário';
 
     const message: ChatMessage = {
       id: envelope.messageId,
@@ -438,13 +453,13 @@ export class ChatPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  private ensureConversationAvatars(conversation?: ChatConversation): void {
+  private ensureConversationAvatars(conversation?: ConversationView): void {
     if (!conversation) {
       return;
     }
 
     conversation.participants
-      .filter(participant => participant.id !== this.currentUserId && (!participant.avatarUrl || !participant.fullname))
+      .filter(participant => participant.id !== this.currentUserId && participant.needsLookup)
       .forEach(participant => this.fetchAndApplyParticipantDetails(conversation.id, participant.id));
   }
 
@@ -488,20 +503,30 @@ export class ChatPageComponent implements OnInit, OnDestroy {
         return conversation;
       }
 
-      const participants = conversation.participants.map(participant =>
-        participant.id === participantId
-          ? {
-              ...participant,
-              avatarUrl: details.avatarUrl ?? participant.avatarUrl ?? null,
-              fullname: details.fullname ?? participant.fullname ?? null,
-              username: details.username ?? participant.username,
-            }
-          : participant
-      );
+      const participants = conversation.participants.map(participant => {
+        if (participant.id !== participantId) {
+          return participant;
+        }
 
-      const normalizedConversation: ChatConversation = {
+        const mergedRaw: ChatParticipant = {
+          id: participant.id,
+          username: details.username ?? participant.username,
+          fullname: details.fullname ?? participant.fullname ?? null,
+          avatarUrl: details.avatarUrl ?? participant.avatarUrl ?? null,
+          admin: participant.admin,
+        };
+
+        return this.normalizeParticipant(mergedRaw);
+      });
+
+      const computedTitle = this.computeDirectConversationTitle(participants, conversation.title);
+      const trimmedTitle = computedTitle?.trim() || null;
+      const normalizedConversation: ConversationView = {
         ...conversation,
         participants,
+        title: conversation.groupChat ? conversation.title : trimmedTitle,
+        displayName: trimmedTitle || 'Contato',
+        displayAvatar: this.computeConversationAvatar(participants),
       };
 
       if (this.activeConversation?.id === conversationId) {
@@ -526,30 +551,89 @@ export class ChatPageComponent implements OnInit, OnDestroy {
         message.senderId === participantId
           ? {
               ...message,
-              senderName: details.fullname ?? details.username ?? message.senderName,
+              senderName:
+                details.fullname ??
+                details.username ??
+                this.resolveParticipantName(
+                  this.conversations
+                    .find(conv => conv.id === conversationId)
+                    ?.participants.find(part => part.id === participantId)
+                ) ??
+                message.senderName,
             }
           : message
       );
     }
+
+    this.refreshMessageSenderNames(conversationId);
   }
 
-  private normalizeConversations(conversations: ChatConversation[]): ChatConversation[] {
+  private refreshMessageSenderNames(conversationId: string): void {
+    const conversation = this.conversations.find(item => item.id === conversationId);
+    if (!conversation) {
+      return;
+    }
+
+    this.messages = this.messages.map(message => {
+      if (message.conversationId !== conversationId) {
+        return message;
+      }
+
+      const participant = conversation.participants.find(item => item.id === message.senderId);
+      if (!participant) {
+        return message;
+      }
+
+      const displayName = participant.displayName.trim() || participant.username;
+      if (displayName === message.senderName) {
+        return message;
+      }
+
+      return {
+        ...message,
+        senderName: displayName,
+      };
+    });
+  }
+
+  private normalizeConversations(conversations: ChatConversation[]): ConversationView[] {
     return conversations.map(conversation => this.normalizeConversation(conversation));
   }
 
-  private normalizeConversation(conversation: ChatConversation): ChatConversation {
+  private normalizeConversation(conversation: ChatConversation): ConversationView {
+    const participants = conversation.participants.map(participant =>
+      this.normalizeParticipant(participant)
+    );
+
+    const displayName = this.computeDirectConversationTitle(participants, conversation.title)?.trim() || 'Contato';
+    const displayAvatar = this.computeConversationAvatar(participants);
+
     return {
       ...conversation,
-      participants: conversation.participants.map(participant => this.normalizeParticipant(participant)),
+      participants,
+      title: conversation.groupChat ? conversation.title : displayName,
+      displayName,
+      displayAvatar,
     };
   }
 
-  private normalizeParticipant(participant: ChatParticipant): ChatParticipant {
+  private normalizeParticipant(participant: ChatParticipant): ParticipantView {
     const normalizedAvatar = this.normalizeAvatarUrl(participant.avatarUrl);
+    const username = participant.username?.trim() ?? participant.username;
+    const fullname = participant.fullname?.trim() ?? null;
+    const displayName = this.resolveParticipantName({ ...participant, username, fullname } as ChatParticipant) ??
+      username ??
+      'Contato';
+    const hasName = !!fullname;
+    const hasAvatar = !!normalizedAvatar;
+
     return {
       ...participant,
-      avatarUrl: normalizedAvatar ?? null,
-      fullname: participant.fullname ?? participant.username,
+      username,
+      fullname,
+      displayName,
+      displayAvatar: normalizedAvatar ?? null,
+      needsLookup: !hasName || !hasAvatar,
     };
   }
 
@@ -582,5 +666,61 @@ export class ChatPageComponent implements OnInit, OnDestroy {
     }
 
     return '';
+  }
+
+  private computeDirectConversationTitle(
+    participants: ParticipantView[],
+    fallback?: string | null
+  ): string | null {
+    const preset = fallback?.trim();
+    if (preset) {
+      return preset;
+    }
+
+    const peer = participants.find(participant => participant.id !== this.currentUserId);
+    return this.resolveParticipantName(peer);
+  }
+
+  private computeConversationAvatar(participants: ParticipantView[]): string | null {
+    const peer = participants.find(participant => participant.id !== this.currentUserId);
+    return peer?.displayAvatar ?? null;
+  }
+
+  conversationLabel(conversation?: ConversationView | null): string {
+    if (!conversation) {
+      return 'Contato';
+    }
+
+    return conversation.displayName?.trim() || 'Contato';
+  }
+
+  activeRecipientName(): string {
+    if (this.activeRecipient) {
+      return this.activeRecipient.displayName.trim() || 'Contato';
+    }
+
+    if (this.activeConversation) {
+      return this.activeConversation.displayName?.trim() || 'Contato';
+    }
+
+    return 'Contato';
+  }
+
+  private resolveParticipantName(participant?: ChatParticipant | null): string | null {
+    if (!participant) {
+      return null;
+    }
+
+    const fullname = participant.fullname?.trim();
+    if (fullname) {
+      return fullname;
+    }
+
+    const username = participant.username?.trim();
+    if (username) {
+      return username;
+    }
+
+    return null;
   }
 }

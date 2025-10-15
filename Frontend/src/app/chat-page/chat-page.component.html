@@ -34,19 +34,12 @@
         <li *ngFor="let conversation of conversations" [class.is-active]="conversation.id === activeConversation?.id">
           <button type="button" (click)="selectConversation(conversation)">
             <img
-              [src]="avatarSrc(getFirstParticipant(conversation)?.avatarUrl)"
-              [alt]="getFirstParticipant(conversation)?.fullname || conversation.title || 'Contato'"
+              [src]="avatarSrc(conversation.displayAvatar)"
+              [alt]="conversationLabel(conversation)"
               (error)="onAvatarError($event)"
             />
             <div class="chat-sidebar__contact">
-              <strong>
-                {{
-                  conversation.groupChat
-                    ? conversation.title
-                    : getFirstParticipant(conversation)?.fullname ||
-                      getFirstParticipant(conversation)?.username
-                }}
-              </strong>
+              <strong>{{ conversationLabel(conversation) }}</strong>
               <span>{{ conversation.updatedAt | date: 'shortTime' }}</span>
             </div>
           </button>
@@ -59,12 +52,12 @@
     <header class="chat-main__header">
       <div class="chat-main__recipient" *ngIf="activeRecipient; else anonymousRecipient">
         <img
-          [src]="avatarSrc(activeRecipient.avatarUrl)"
-          [alt]="activeRecipient.fullname || activeRecipient.username || 'Contato'"
+          [src]="avatarSrc(activeRecipient.displayAvatar)"
+          [alt]="activeRecipientName()"
           (error)="onAvatarError($event)"
         />
         <div>
-          <h3>{{ activeRecipient.fullname || activeRecipient.username }}</h3>
+          <h3>{{ activeRecipientName() }}</h3>
           <span>Conversa privada</span>
         </div>
       </div>
@@ -72,7 +65,7 @@
         <div class="chat-main__recipient">
           <img [src]="defaultAvatar" alt="Contato" (error)="onAvatarError($event)" />
           <div>
-            <h3>{{ activeConversation.title || 'Contato' }}</h3>
+            <h3>{{ conversationLabel(activeConversation) }}</h3>
             <span>Conversa privada</span>
           </div>
         </div>
