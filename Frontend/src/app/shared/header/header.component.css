@@ -1,14 +1,14 @@
 .global-header {
-  position: fixed;
+  position: sticky;
   top: 0;
   z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #004b9b;
-  color: white;
+  background-color: transparent;
+  color: var(--primary-blue);
   height: 3rem; /* 48px */
-  min-width: 100%;
+  width: 100%;
   font-family: "Inter", sans-serif;
   font-weight: 500;
 }
@@ -20,8 +20,9 @@
 
 .global-header .menu h2.title {
   margin-left: 30px;
-  font-size: 20px;
+  font-size: 17px;
   margin-bottom: 0;
+  font-weight: var(--font-weight-semibold);
 }
 
 .global-header .menu i {
