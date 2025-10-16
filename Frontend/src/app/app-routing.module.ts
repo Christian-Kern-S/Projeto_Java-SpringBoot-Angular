@@ -25,25 +25,25 @@ const routes: Routes = [
     path: "clientes",
     component: ClientesPageComponent,
     canActivate: [AuthGuard],
-    data: { title: 'Clientes' }
+    data: { title: 'CLIENTES' }
   }, 
   {
     path: "cliente/:id",
     component: DetalheClientePageComponent,
     canActivate: [AuthGuard],
-    data: { title: 'Detalhes do Cliente' }
+    data: { title: 'DETALHES DO CLIENTE' }
   },
   {
     path: "profile/:id",
     component: ProfilePageComponent,
     canActivate: [AuthGuard],
-    data: { title: 'Perfil' }
+    data: { title: 'PERFIL' }
   },
   {
     path: "chat",
     component: ChatPageComponent,
     canActivate: [AuthGuard],
-    data: { title: 'Chat' }
+    data: { title: 'CHAT' }
   },
   {
     path: '',
