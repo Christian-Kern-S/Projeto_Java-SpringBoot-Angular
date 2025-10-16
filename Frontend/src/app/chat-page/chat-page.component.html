@@ -85,10 +85,7 @@
           [class.chat-message--me]="message.senderId === currentUserId"
         >
           <div class="chat-message__bubble">
-            <div class="chat-message__head">
-              <span class="chat-message__author" *ngIf="message.senderId !== currentUserId">
-                {{ message.senderName }}
-              </span>
+            <div class="chat-message__head" *ngIf="message.senderId === currentUserId">
               <button
                 type="button"
                 class="chat-message__delete"
