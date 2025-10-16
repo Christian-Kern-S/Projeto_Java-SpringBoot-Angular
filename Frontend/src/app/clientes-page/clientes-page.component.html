@@ -2,7 +2,7 @@
 <app-left-sidebar></app-left-sidebar>
 
 <app-header></app-header>
-<div class="home-page">
+<div class="clientes-page">
   <div class="container">
     <!-- MENSAGEM DE ERRO OU SUCESSO  -->
     <div *ngIf="errorMessage" class="error-message">
@@ -36,7 +36,7 @@
 
       <p-table #dt2 *ngIf="!hasNoData && !loading" class="tabela" [value]="clientes" dataKey="id" [rows]="5"
         [rowsPerPageOptions]="[5, 10, 25, 50]" [loading]="loading" [paginator]="true"
-        [globalFilterFields]="['idCliente','nome', 'cpf', 'email']" [tableStyle]="{ 'min-width': '75rem'}"
+        [globalFilterFields]="['idCliente','nome', 'cpf', 'email']" [tableStyle]="{ 'min-width': '100%' }"
         [scrollable]="true" [scrollHeight]="'flex'">
         <ng-template #caption>
           <div class="flex">
