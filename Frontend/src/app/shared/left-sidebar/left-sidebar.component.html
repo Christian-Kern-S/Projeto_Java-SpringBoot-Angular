@@ -11,7 +11,7 @@
           <span class="text-primary font-bold">{{ item.label }}</span>
         </ng-template>
         <ng-template #item let-item>
-          <a pRipple class="flex items-center p-menu-item-link">
+          <a pRipple class="flex items-center p-menu-item-link" [routerLink]="item.routerLink" routerLinkActive="selected">
             <span [class]="item.icon"></span>
             <span class="ml-2">{{ item.label }}</span>
             <p-badge *ngIf="item.badge" class="ml-auto" [value]="item.badge"></p-badge>
@@ -25,6 +25,7 @@
           <div class="line"></div>
           <button pRipple
             class="relative overflow-hidden w-full border-0 bg-transparent flex items-start p-2 pl-4 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-none cursor-pointer transition-colors duration-200"
+            [class.selected]="isProfileSelected"
             (click)="navigate()">
             <div class="avatar-sidebar mr-2">
               <img *ngIf="usuario && usuario.avatarUrl" [src]="usuario.avatarUrl" alt="Avatar" class="avatar-image">

@@ -24,7 +24,7 @@
   overflow: hidden;
   position: relative;
   color: inherit;
-  padding: var(--p-menu-item-padding);
+  padding: var(--space-sm) var(--space-md);
   gap: var(--p-menu-item-gap);
   user-select: none;
   outline: 0 none;
@@ -106,14 +106,68 @@
 }
 
 :host ::ng-deep .p-menu-item {
-  padding: 6px;
-  padding-inline: 12px;
+  padding: 0;
   margin: 2px;
 }
 
 :host ::ng-deep .p-menu-item:hover {
-  background: #e7e7e7 !important;
+  background: var(--light-gray) !important;
   border-radius: 7px !important;
+}
+
+:host ::ng-deep .p-menu-item-link.selected {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--light-gray) !important;
+  color: var(--primary-blue) !important;
+  border-left: none !important;
+  border-radius: 7px !important;
+  position: relative;
+}
+
+:host ::ng-deep .selected {
+  background: #e7e7e7 !important;
+  color: var(--primary-blue) !important;
+  border-radius: 7px !important;
+}
+
+:host ::ng-deep .p-menu-item-link.selected::before{
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  bottom: 6px;
+  width: 4px;
+  background: var(--primary-blue);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+:host ::ng-deep .items-start.selected::after{
+  content: "";
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  bottom: 6px;
+  width: 4px;
+  background: var(--primary-blue);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+:host ::ng-deep .inner-border-left {
+  position: relative;
+}
+
+:host ::ng-deep .inner-border-left::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  bottom: 6px;
+  width: 4px;
+  background: var(--primary-blue);
+  border-radius: 3px;
+  pointer-events: none;
 }
 
 .avatar-sidebar {

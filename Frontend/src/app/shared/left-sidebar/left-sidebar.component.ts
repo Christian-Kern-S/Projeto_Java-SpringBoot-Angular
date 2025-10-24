@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { MenuModule } from 'primeng/menu';
 import { BadgeModule } from 'primeng/badge';
 import { RippleModule } from 'primeng/ripple';
@@ -23,9 +23,10 @@ import { AuthService } from '../../auth/auth.service';
   templateUrl: './left-sidebar.component.html',
   styleUrls: ['./left-sidebar.component.css']
 })
-export class LeftSidebarComponent {
+export class LeftSidebarComponent implements OnInit {
   items: MenuItem[] = [];
   usuario: UsuarioModel | null = null;
+  isProfileSelected = false;
 
   constructor(
     private readonly authService: AuthService,
@@ -36,10 +37,10 @@ export class LeftSidebarComponent {
     this.items = [
       {
         items: [
-          { label: 'Dashboard', icon: 'fa-solid fa-house', command: () => this.router.navigate(['/dashboard']) },
-          { label: 'Clientes', icon: 'fa-regular fa-address-book', command: () => this.router.navigate(['/clientes']) },
-          { label: 'Helpdesk', icon: 'fa-solid fa-headset', command: () => this.router.navigate(['/helpdesk']) },
-          { label: 'Mensagens', icon: 'fa-solid fa-comment', badge: '2', command: () => this.router.navigate(['/chat']) },
+          { label: 'Dashboard', icon: 'fa-solid fa-house', routerLink: '/dashboard' },
+          { label: 'Clientes', icon: 'fa-regular fa-address-book', routerLink: '/clientes' },
+          { label: 'Helpdesk', icon: 'fa-solid fa-headset', routerLink: '/helpdesk' },
+          { label: 'Mensagens', icon: 'fa-solid fa-comment', badge: '2', routerLink: '/chat' },
         ]
       },
       { separator: true },
@@ -58,6 +59,15 @@ export class LeftSidebarComponent {
       error: (err) => {
         console.error('Não foi possível obter o usuário logado', err);
         this.router.navigate(['/login']);
+      }
+    });
+
+    this.isProfileSelected = this.router.url ? this.router.url.includes('/profile') : false;
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        const currentUrl = (event as NavigationEnd).urlAfterRedirects || (event as NavigationEnd).url;
+        this.isProfileSelected = currentUrl.includes('/profile');
       }
     });
   }
