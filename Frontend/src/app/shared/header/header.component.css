@@ -6,11 +6,12 @@
   justify-content: space-between;
   align-items: center;
   background-color: transparent;
-  color: var(--primary-blue);
+  color: var(--white);
   height: 3rem; /* 48px */
   width: 100%;
   font-family: "Inter", sans-serif;
   font-weight: 500;
+  background-color: var(--primary-blue);
 }
 
 .global-header .menu {
