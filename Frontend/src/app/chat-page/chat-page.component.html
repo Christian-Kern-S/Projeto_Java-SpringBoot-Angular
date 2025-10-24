@@ -21,16 +21,6 @@
       </div>
 
       <ul class="chat-sidebar__list" *ngIf="conversations.length">
-        <li>
-          <button
-            type="button"
-            class="chat-sidebar__search-trigger"
-            (click)="openNewConversationDialog()"
-          >
-            <span>Procurar usuários</span>
-          </button>
-        </li>
-
         <li *ngFor="let conversation of conversations" [class.is-active]="conversation.id === activeConversation?.id">
           <button type="button" (click)="selectConversation(conversation)">
             <img

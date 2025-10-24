@@ -411,7 +411,7 @@
 .chat-search__content header button {
   border: none;
   background: transparent;
-  color: #2b5c4f;
+  color: var(--primary-blue);
   font-weight: 600;
   cursor: pointer;
 }
@@ -423,17 +423,17 @@
 
 .chat-search__form input {
   flex: 1;
-  padding: 12px 14px;
+  padding: 0 14px;
   border-radius: 14px;
   border: 1px solid #d6dce4;
   font-size: 14px;
 }
 
 .chat-search__form button {
-  padding: 12px 20px;
+  padding: 6px 16px;
   border-radius: 14px;
   border: none;
-  background: #2b5c4f;
+  background: var(--primary-blue);
   color: #ffffff;
   font-weight: 600;
   cursor: pointer;
