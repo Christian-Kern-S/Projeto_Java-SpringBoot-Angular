@@ -1,8 +1,7 @@
 /* ===== LAYOUT PRINCIPAL ===== */
 .profile-page {
-  min-height: 100vh;
+  min-height: calc(100vh - 3rem);
   background: var(--bg-primary);
-  padding-top: var(--header-height);
 }
 
 /* ===== CONTAINER PRINCIPAL TIPO "ILHA" ===== */
@@ -140,7 +139,6 @@
 /* ===== CONTEÚDO DAS ABAS ===== */
 .tab-content {
   background: var(--white);
-  min-height: 600px;
   padding-inline: 30px;
 }
 
@@ -270,31 +268,34 @@
 /* ===== BOTÕES ===== */
 .btn {
   display: inline-flex;
-  align-items: center;
   justify-content: center;
-  padding: var(--space-md) var(--space-xl);
+  align-items: center;
   border: none;
   border-radius: 20px;
+  padding: var(--space-xs) var(--space-lg);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   cursor: pointer;
   transition: all var(--transition-base);
   text-decoration: none;
-  min-width: 120px;
+  min-width: fit-content;
   max-width: fit-content;
+  min-height: fit-content;
+  max-height: fit-content;
   height: 40px;
   position: relative;
   overflow: hidden;
 }
 
 .btn i{
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .btn-primary {
   background: var(--primary-blue);
   color: var(--white);
   box-shadow: var(--shadow-sm);
+  align-items: center;
 }
 
 .btn-primary:hover {
@@ -306,6 +307,7 @@
   background: var(--white);
   color: var(--primary-blue);
   box-shadow: var(--shadow-sm);
+  align-items: center;
 }
 
 .btn-secondary:hover {
@@ -318,6 +320,7 @@
   color: var(--white);
   border: none;
   box-shadow: var(--shadow-sm);
+  align-items: center;
 }
 
 .btn-success:hover {
@@ -343,6 +346,7 @@
 .btn.edit {
   border-radius: 20px !important;
   height: 40px !important;
+  align-items: flex-start !important;
 }
 
 .btn-danger,
@@ -350,8 +354,6 @@
   background: var(--danger-red) !important;
   color: var(--white);
   border-radius: 20px !important;
-  width: 20px !important;
-  height: 40px !important;
 }
 
 .btn-danger:hover,
@@ -463,10 +465,10 @@
 
 /* ======CARD PRINCIPAL ======*/
 
-.ui-w-80 {
+.ui-w-120 {
   width: 120px !important;
   height: auto;
-  border-radius: 20px;
+  border-radius: 200px;
 }
 
 :host ::ng-deep .p-fileupload-choose-button {

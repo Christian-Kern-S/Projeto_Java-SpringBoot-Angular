@@ -22,7 +22,7 @@
               <div class="list-group list-group-flush account-settings-links">
                 <div class="card-body media align-items-center">
                   <div class="avatar-container">
-                    <img *ngIf="usuario && usuario.avatarUrl" [src]="usuario.avatarUrl" alt="Avatar" class="d-block ui-w-80">
+                    <img *ngIf="usuario && usuario.avatarUrl" [src]="usuario.avatarUrl" alt="Avatar" class="d-block ui-w-120">
                     <i *ngIf="!usuario || !usuario.avatarUrl" class="bi bi-person-circle avatar-icon"></i>
                   </div>
                   <div class="media-body ml-4">
@@ -182,7 +182,7 @@
   </div>
 </div>
 
-<!-- MODAL PARA EXCLUIR CLIENTE -->
+<!-- MODAL PARA EXCLUIR USUÁRIO -->
 <div class="modal fade" id="ExcluirUsuarioModal" tabindex="-1" role="dialog" aria-labelledby="ExcluirUsuarioModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
